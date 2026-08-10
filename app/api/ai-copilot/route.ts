@@ -29,12 +29,20 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Message cannot be empty' }, { status: 400 })
       }
 
-      // Fetch active catalog slice from Supabase
-      const { data: products } = await supabaseAdmin
-        .from('products')
-        .select('id, name, slug, base_price, description, is_active, category_id, image_url')
-        .eq('is_active', true)
-        .limit(20)
+      // Fetch active catalog slice from Supabase safely
+      let products: any[] = []
+      try {
+        const prodRes = await supabaseAdmin
+          .from('products')
+          .select('id, name, slug, base_price, description, is_active, category_id, image_url')
+          .eq('is_active', true)
+          .limit(20)
+        if (prodRes.data) {
+          products = prodRes.data
+        }
+      } catch (dbErr) {
+        console.warn('[AI COPILOT] Supabase fetch fallback warning:', dbErr)
+      }
 
       const catalogSummary = (products || []).map(p => 
         `ID: ${p.id} | Name: ${p.name} | Price: ₹${p.base_price} | Image: ${p.image_url || 'N/A'} | Desc: ${p.description?.slice(0, 100) || 'N/A'}`

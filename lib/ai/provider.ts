@@ -28,7 +28,7 @@ async function callGemini(options: AIOptions): Promise<string> {
     throw new Error('GEMINI_API_KEY is not set')
   }
 
-  const modelName = options.model || process.env.GEMINI_MODEL || 'gemini-1.5-flash'
+  const modelName = options.model || process.env.GEMINI_MODEL || 'gemini-2.0-flash'
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`
 
   const userParts: any[] = []
@@ -145,34 +145,50 @@ async function callOpenRouter(options: AIOptions): Promise<string> {
     messagesToSend.push({ role: 'user', content: userContent })
   }
 
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-      'X-Title': 'Alpona Merch Studio',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: options.model || 'openrouter/free',
-      messages: messagesToSend,
-      max_tokens: options.maxTokens || 2500,
-      temperature: options.temperature ?? 0.7
-    })
-  })
+  // Model fallback candidate list for 100% resilience
+  const candidateModels = (options.model && options.model !== 'openrouter/free') 
+    ? [options.model, 'openrouter/auto', 'deepseek/deepseek-chat', 'meta-llama/llama-3.3-70b-instruct']
+    : ['openrouter/auto', 'deepseek/deepseek-chat', 'meta-llama/llama-3.3-70b-instruct']
 
-  if (!response.ok) {
-    const errorBody = await response.text()
-    throw new Error(`OpenRouter API HTTP ${response.status}: ${errorBody}`)
+  let lastError: Error | null = null
+
+  for (const modelCandidate of candidateModels) {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+          'X-Title': 'Alpona Merch Studio',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: modelCandidate,
+          messages: messagesToSend,
+          max_tokens: options.maxTokens || 2500,
+          temperature: options.temperature ?? 0.7
+        })
+      })
+
+      if (!response.ok) {
+        const errorBody = await response.text()
+        throw new Error(`OpenRouter API [${modelCandidate}] HTTP ${response.status}: ${errorBody}`)
+      }
+
+      const data = await response.json()
+      const text = data.choices?.[0]?.message?.content
+      if (!text) {
+        throw new Error(`OpenRouter API [${modelCandidate}] returned empty choices`)
+      }
+
+      return text
+    } catch (err: any) {
+      console.warn(`[OPENROUTER MODEL FAILOVER] Model ${modelCandidate} failed (${err.message}). Retrying next model...`)
+      lastError = err
+    }
   }
 
-  const data = await response.json()
-  const text = data.choices?.[0]?.message?.content
-  if (!text) {
-    throw new Error('OpenRouter API returned empty choices')
-  }
-
-  return text
+  throw lastError || new Error('All OpenRouter candidate models failed')
 }
 
 /**
