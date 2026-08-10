@@ -157,9 +157,9 @@ export function Footer() {
           {/* ── 1. BRAND COLUMN ── */}
           <motion.div variants={fadeUpVariant} className="flex flex-col items-start">
             <Link href="/" className="group inline-flex items-center gap-3 mb-4">
-              <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 transition-transform duration-500 group-hover:scale-105">
+              <div className="relative w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 transition-transform duration-500 group-hover:scale-105">
                 <Image
-                  src="/logo.png?v=7"
+                  src="/logo-light.png?v=10"
                   alt="Alpona"
                   fill
                   sizes="40px"

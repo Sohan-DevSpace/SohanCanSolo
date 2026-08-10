@@ -182,7 +182,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="h-16 px-5 flex items-center gap-3 border-b border-white/[0.06] shrink-0">
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0">
-            <Image src="/logo.png?v=7" alt="Alpona Logo" fill sizes="32px" className="object-contain" />
+            <Image src="/logo-light.png?v=10" alt="Alpona Logo" fill sizes="32px" className="object-contain" />
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-tight text-white leading-none">Alpona</h1>
