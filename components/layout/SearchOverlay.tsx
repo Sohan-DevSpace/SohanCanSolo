@@ -7,22 +7,21 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { 
   Search, X, ShoppingBag, Sparkles, Palette, PackageCheck, 
-  Heart, Info, MessageSquare, HelpCircle, Shirt, Flame, 
-  Smile, Star, Zap, ArrowRight, CornerDownLeft, Clock, Trash2, Command
+  Heart, Info, MessageSquare, HelpCircle, Shirt, Layers, 
+  Star, Zap, ArrowRight, CornerDownLeft, Clock, Trash2, Command
 } from 'lucide-react'
 import { CURRENCY_SYMBOL } from '@/constants/config'
 
 interface SearchResultItem {
   id: string
   title: string
-  description?: string
+  subtitle?: string
   href: string
-  category?: string
-  image?: string
+  type: 'product' | 'page' | 'category' | 'action'
+  iconName?: string
+  imageUrl?: string
   price?: number
-  compare_at_price?: number
-  icon?: string
-  type?: string
+  badge?: string
 }
 
 interface UniversalSearchResults {
@@ -43,8 +42,7 @@ const ICON_MAP: Record<string, any> = {
   MessageSquare,
   HelpCircle,
   Shirt,
-  Flame,
-  Smile,
+  Layers,
   Star,
   Zap
 }

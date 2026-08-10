@@ -36,7 +36,7 @@ import {
   SheetClose,
 } from '@/components/ui/sheet'
 
-import { Dna, Sparkles, Star, Shirt, ShoppingBag, Smile, Flame } from 'lucide-react'
+import { Dna, Zap, Crown, Layers, Shirt, ShoppingBag, Heart } from 'lucide-react'
 import { JsonLd } from '@/components/shared/JsonLd'
 import { SITE_URL } from '@/constants/config'
 
@@ -47,8 +47,8 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const
 const categoriesConfig = [
   { slug: 't-shirts', title: 'T-Shirts', description: 'Classic, oversized and everyday essentials', icon: Shirt },
   { slug: 'bags', title: 'Bags', description: 'Premium tote bags and drawstring bags', icon: ShoppingBag },
-  { slug: 'kids', title: 'Kids', description: 'Comfortable clothing for young creators', icon: Smile },
-  { slug: 'hoodies-sweatshirts', title: 'Hoodies & Sweatshirts', description: 'Premium custom cozy street drops', icon: Flame }
+  { slug: 'kids', title: 'Kids', description: 'Comfortable clothing for young creators', icon: Heart },
+  { slug: 'hoodies-sweatshirts', title: 'Hoodies & Sweatshirts', description: 'Premium custom cozy street drops', icon: Layers }
 ]
 
 const mobileMenuContainerVariants = {
@@ -173,25 +173,25 @@ export function Navbar() {
       title: 'Style Match AI', 
       description: 'Personalized AI style finder', 
       href: '/style-match', 
-      icon: Sparkles,
-      badgeStyle: 'bg-[#B8763C]/10 border-[#B8763C]/25 text-[#B8763C]',
-      hoverBg: 'group-hover:bg-[#B8763C] group-hover:text-white'
+      icon: Dna,
+      badgeStyle: 'bg-[#FAF7F4] border-[#E8E2DB] text-[#B8763C]',
+      hoverBg: 'group-hover:bg-[#B8763C] group-hover:text-white group-hover:border-[#B8763C]'
     },
     { 
       title: 'New Arrivals', 
       description: 'Latest premium drops', 
       href: '/shop?sort=newest', 
-      icon: Sparkles,
-      badgeStyle: 'bg-amber-500/10 border-amber-500/25 text-amber-600',
-      hoverBg: 'group-hover:bg-amber-600 group-hover:text-white'
+      icon: Zap,
+      badgeStyle: 'bg-[#FAF7F4] border-[#E8E2DB] text-[#B8763C]',
+      hoverBg: 'group-hover:bg-[#B8763C] group-hover:text-white group-hover:border-[#B8763C]'
     },
     { 
       title: 'Best Sellers', 
       description: 'Most loved products', 
       href: '/shop?sort=best-selling', 
-      icon: Star,
-      badgeStyle: 'bg-emerald-500/10 border-emerald-500/25 text-emerald-600',
-      hoverBg: 'group-hover:bg-emerald-600 group-hover:text-white'
+      icon: Crown,
+      badgeStyle: 'bg-[#FAF7F4] border-[#E8E2DB] text-[#B8763C]',
+      hoverBg: 'group-hover:bg-[#B8763C] group-hover:text-white group-hover:border-[#B8763C]'
     },
   ]
 
@@ -665,7 +665,7 @@ export function Navbar() {
                                 }`}
                               >
                                 {CatIcon && (
-                                  <div className="w-8 h-8 rounded-xl bg-[#B8763C]/10 border border-[#B8763C]/20 text-[#B8763C] group-hover:bg-[#B8763C] group-hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 mt-0.5 shadow-matte-xs">
+                                  <div className="w-8 h-8 rounded-xl bg-[#FAF7F4] border border-[#E8E2DB] text-[#B8763C] group-hover:bg-[#B8763C] group-hover:text-white group-hover:border-[#B8763C] flex items-center justify-center transition-all duration-300 shrink-0 mt-0.5 shadow-matte-xs">
                                     <CatIcon className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                                   </div>
                                 )}
