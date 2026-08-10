@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { 
   ShoppingCart, X, ChevronRight, Plus, Minus, 
-  Trash2, Truck, CheckCircle2, ArrowRight, Sparkles 
+  Trash2, Truck, CheckCircle2, ArrowRight, Sparkles, PartyPopper 
 } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useCartStore } from '@/store/cartStore'
@@ -118,7 +118,8 @@ export function FloatingCartBar() {
                           <Truck size={14} className="text-[#B8763C]" />
                           {isFreeShippingUnlocked ? (
                             <span className="text-emerald-700 font-bold flex items-center gap-1">
-                              <span>🎉 You&apos;ve unlocked</span>
+                              <PartyPopper className="w-4 h-4 text-emerald-600 inline" aria-hidden="true" />
+                              <span>You&apos;ve unlocked</span>
                               <strong className="underline">FREE Delivery</strong>
                             </span>
                           ) : (

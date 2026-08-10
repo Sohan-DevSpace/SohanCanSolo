@@ -23,10 +23,10 @@ interface Message {
 const MAX_SESSION_MESSAGES = 10
 
 const QUICK_ACTIONS = [
-  { label: '👕 Find My Size', prompt: 'What size should I choose for oversized graphic tees?' },
-  { label: '🚚 Track Order', prompt: 'How do I track my order status?' },
-  { label: '🎨 Print Guide', prompt: 'What is the difference between DTF and Embroidery?' },
-  { label: '🎁 Gift Ideas', prompt: 'Suggest popular apparel gift items under ₹1000' },
+  { label: 'Find My Size', prompt: 'What size should I choose for oversized graphic tees?' },
+  { label: 'Track Order', prompt: 'How do I track my order status?' },
+  { label: 'Print Guide', prompt: 'What is the difference between DTF and Embroidery?' },
+  { label: 'Gift Ideas', prompt: 'Suggest popular apparel gift items under ₹1000' },
 ]
 
 export function ShoppingCopilotWidget() {
@@ -38,7 +38,7 @@ export function ShoppingCopilotWidget() {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: "👋 Hi! I'm Alpona AI Assistant. Ask me for gift recommendations, apparel sizing tips, print guide advice, or custom order help!",
+      text: "Hi! I'm Alpona AI Assistant. Ask me for gift recommendations, apparel sizing tips, print guide advice, or custom order help!",
     }
   ])
 

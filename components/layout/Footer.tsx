@@ -20,6 +20,7 @@ import {
   IconRefresh,
   IconStar,
 } from '@/components/shared/PremiumIcons'
+import { MessageSquare } from 'lucide-react'
 
 const EASE: [number, number, number, number] = [0.23, 1, 0.32, 1]
 
@@ -199,7 +200,8 @@ export function Footer() {
                 Salt Lake Sector V, Kolkata, WB 700091
               </p>
               <div className="flex items-center gap-2 text-[11px] text-[#C87533] font-semibold mt-1">
-                <span>💬 WhatsApp: +91 98765 43210</span>
+                <MessageSquare className="w-3.5 h-3.5 text-[#C87533] inline" aria-hidden="true" />
+                <span>WhatsApp: +91 98765 43210</span>
               </div>
             </div>
           </motion.div>

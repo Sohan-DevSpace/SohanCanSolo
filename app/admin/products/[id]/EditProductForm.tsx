@@ -140,7 +140,7 @@ export function EditProductForm({ product, categories, subcategories, productTyp
     }
 
     setIsGeneratingAI(true)
-    const toastId = toast.loading('✨ AI is analyzing product visually & drafting descriptions...')
+    const toastId = toast.loading('AI is analyzing product visually & drafting descriptions...')
 
     try {
       const selectedCategory = categories.find(c => c.id === categoryId)?.name
@@ -184,7 +184,7 @@ export function EditProductForm({ product, categories, subcategories, productTyp
           if (typeof d.suggested_badges.is_trending === 'boolean') setIsTrending(d.suggested_badges.is_trending)
         }
 
-        toast.success(`✨ Product content & badges generated via AI!`, { id: toastId })
+        toast.success(`Product content & badges generated via AI!`, { id: toastId })
       } else {
         toast.error(json.error || 'Failed to generate product details.', { id: toastId })
       }
@@ -992,7 +992,7 @@ export function EditProductForm({ product, categories, subcategories, productTyp
                       toast.error('Add an image or product title first for AI badge analysis.')
                       return
                     }
-                    const tid = toast.loading('✨ AI analyzing product positioning for optimal badges...')
+                    const tid = toast.loading('AI analyzing product positioning for optimal badges...')
                     try {
                       const selectedCategory = categories.find(c => c.id === categoryId)?.name
                       const res = await fetch('/api/ai/describe-product', {
@@ -1010,7 +1010,7 @@ export function EditProductForm({ product, categories, subcategories, productTyp
                         if (typeof sb.is_new_arrival === 'boolean') setIsNewArrival(sb.is_new_arrival)
                         if (typeof sb.is_bestseller === 'boolean') setIsBestseller(sb.is_bestseller)
                         if (typeof sb.is_trending === 'boolean') setIsTrending(sb.is_trending)
-                        toast.success(`✨ AI Badges Applied: ${sb.badge_reason || 'Badges optimized!'}`, { id: tid, duration: 4000 })
+                        toast.success(`AI Badges Applied: ${sb.badge_reason || 'Badges optimized!'}`, { id: tid, duration: 4000 })
                       } else {
                         toast.error('Could not determine AI badges. Defaulting enabled.', { id: tid })
                       }

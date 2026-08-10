@@ -26,7 +26,7 @@ export function SmartAssistant() {
     {
       id: 'init-1',
       role: 'assistant',
-      content: "Welcome to Alpona Studio Support! 👋 How can I assist you with custom printing, streetwear sizing, or order tracking today?",
+      content: "Welcome to Alpona Studio Support! How can I assist you with custom printing, streetwear sizing, or order tracking today?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ])

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Sparkles, TrendingUp, AlertTriangle, Package, RefreshCw, Download, ArrowUpRight, BarChart3, ShieldAlert } from 'lucide-react'
+import { Sparkles, TrendingUp, AlertTriangle, Package, RefreshCw, Download, ArrowUpRight, BarChart3, ShieldAlert, Palette } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface ForecastData {
@@ -163,7 +163,7 @@ export default function AIInsightsPage() {
                 <div className="flex flex-wrap gap-2">
                   {data.bestSellers.map((bs, i) => (
                     <span key={i} className="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-bold text-zinc-200">
-                      🔥 {bs}
+                      <TrendingUp className="w-3.5 h-3.5 text-[#B8763C] inline" aria-hidden="true" /> {bs}
                     </span>
                   ))}
                 </div>
@@ -177,7 +177,7 @@ export default function AIInsightsPage() {
                 <div className="flex flex-wrap gap-2">
                   {data.trendingColors.map((col, i) => (
                     <span key={i} className="px-3.5 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-bold text-zinc-300">
-                      🎨 {col}
+                      <Palette className="w-3.5 h-3.5 text-[#B8763C] inline" aria-hidden="true" /> {col}
                     </span>
                   ))}
                 </div>

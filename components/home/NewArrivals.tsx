@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Sparkles, X as XIcon } from 'lucide-react'
 import { useReveal } from '@/hooks/useReveal'
 import { IconHeart } from '@/components/shared/PremiumIcons'
 import { useCartStore } from '@/store/cartStore'
@@ -135,16 +136,17 @@ export function NewArrivals({ products }: NewArrivalsProps) {
   return (
     <section
       ref={sectionRef as React.RefObject<HTMLElement>}
-      className="reveal py-12 lg:py-16 bg-[#FAF7F4] overflow-hidden select-none relative"
+      className="reveal py-8 lg:py-12 bg-[#FAF7F4] overflow-hidden select-none relative"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-white/40 blur-[120px] pointer-events-none mix-blend-overlay" />
       <div className="px-6 lg:px-12 max-w-[1440px] mx-auto">
         
         {/* Section header */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 lg:mb-14 text-left gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-6 lg:mb-8 text-left gap-4">
           <div>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary tracking-tight leading-[1.1] flex items-center gap-3 text-balance">
-              <span>✨</span> New Arrivals
+            <h2 className="font-display text-2xl md:text-3xl font-semibold text-primary tracking-tight leading-[1.1] flex items-center gap-2 text-balance">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#B8763C] shrink-0" />
+              New Arrivals
             </h2>
             <p className="font-body text-sm text-[#8A8580] mt-3 uppercase tracking-widest font-semibold">
               Fresh Drops This Week
@@ -289,7 +291,7 @@ export function NewArrivals({ products }: NewArrivalsProps) {
                 onClick={() => setPreviewProduct(null)}
                 className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#FAF7F4] hover:bg-[#E8E2DB] text-primary flex items-center justify-center transition-all duration-200 active:scale-95 z-20"
               >
-                ✕
+                <XIcon className="w-4 h-4" />
               </button>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="relative aspect-[3/4] rounded-[16px] overflow-hidden bg-[#F5F1EC]">

@@ -97,7 +97,7 @@ export function FilterChips({
   }
 
   if (filters.minRating > 0) {
-    chips.push({ label: `${filters.minRating}★ & up`, onRemove: onRemoveRating })
+    chips.push({ label: `${filters.minRating}+ Stars`, onRemove: onRemoveRating })
   }
 
   if (filters.minDiscount > 0) {

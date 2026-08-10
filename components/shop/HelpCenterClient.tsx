@@ -49,7 +49,7 @@ export function HelpCenterClient() {
         return
       }
       setAttachedFile(file)
-      toast.success(`📎 Attached: ${file.name}`)
+      toast.success(`Attached: ${file.name}`)
     }
   }
 
@@ -82,7 +82,7 @@ export function HelpCenterClient() {
 
       if (json.success) {
         setSubmittedSuccess(true)
-        toast.success('✨ Message dispatched to Alpona Admin Support! Check your inbox for updates.')
+        toast.success('Message dispatched to Alpona Admin Support! Check your inbox for updates.')
       } else {
         toast.error(json.error || 'Failed to dispatch ticket. Please try again.')
       }

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useReveal } from '@/hooks/useReveal'
 import { IconMail } from '@/components/shared/PremiumIcons'
+import { Lock, Star } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export function NewsletterCommunity() {
@@ -92,10 +93,10 @@ export function NewsletterCommunity() {
 
                 <div className="flex items-center justify-between px-4 pt-0.5 font-body text-xs text-[#9C948C]">
                   <span className="flex items-center gap-1.5">
-                    <span>🔒</span> No spam. Unsubscribe anytime.
+                    <Lock className="w-3.5 h-3.5" aria-hidden="true" /> No spam. Unsubscribe anytime.
                   </span>
                   <span className="flex items-center gap-1 text-[#E8A36E]">
-                    <span>★</span> 10% off 1st order
+                    <Star className="w-3.5 h-3.5 fill-current" aria-hidden="true" /> 10% off 1st order
                   </span>
                 </div>
               </form>

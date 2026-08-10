@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 
 const messages = [
-  "🚚  Free Shipping on all orders above ₹999",
-  "↩  7 Days Easy Returns — No questions asked",
-  "🇮🇳  Proudly Made in India",
-  "✨  New designs added every week",
+  "Free Shipping on all orders above ₹999",
+  "7 Days Easy Returns — No questions asked",
+  "Proudly Made in India",
+  "New designs added every week",
 ]
 
 export function AnnouncementBar() {

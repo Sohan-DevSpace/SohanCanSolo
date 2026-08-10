@@ -58,13 +58,13 @@ export function WishlistClient({ products }: WishlistClientProps) {
       })
       addedCount++
     })
-    toast.success(`✨ Moved ${addedCount} saved item(s) to your shopping cart!`)
+    toast.success(`Moved ${addedCount} saved item(s) to your shopping cart!`)
   }
 
   const handleShareWishlist = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href)
-      toast.success('📋 Wishlist link copied to clipboard!')
+      toast.success('Wishlist link copied to clipboard!')
     }
   }
 

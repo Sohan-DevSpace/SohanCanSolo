@@ -753,7 +753,7 @@ export function DesignStudio() {
   const handlePlaceOrder = async () => {
     const { data: { user: currentUser } } = await supabase.auth.getUser()
     if (!currentUser) {
-      toast('Please log in to place an order.', { icon: '🔒' })
+      toast('Please log in to place an order.')
       router.push('/auth/login')
       return
     }

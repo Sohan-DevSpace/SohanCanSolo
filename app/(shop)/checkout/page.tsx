@@ -383,7 +383,7 @@ export default function CheckoutPage() {
           discountType: data.coupon.discountType,
           discountValue: data.coupon.discountValue
         })
-        toast.success(`⚡ Promo code "${data.coupon.code}" applied!`)
+        toast.success(`Promo code "${data.coupon.code}" applied!`)
         setCouponCodeInput('')
         setCouponError('')
       } else {

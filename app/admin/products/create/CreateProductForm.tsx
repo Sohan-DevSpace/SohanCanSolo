@@ -6,7 +6,7 @@ import { saveProduct } from '../actions'
 import { 
   ArrowLeft, Plus, Trash2, Loader2, Cpu, Package, Sparkles, Wand2, 
   Check, Copy, Eye, Tag, DollarSign, Layers, ShieldCheck, Image as ImageIcon,
-  Palette, Grid, AlertCircle, RefreshCw
+  Palette, Grid, AlertCircle, RefreshCw, CheckCircle2, Circle
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -116,7 +116,7 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
     }
 
     setIsGeneratingAI(true)
-    const toastId = toast.loading('✨ AI is analyzing product visually & drafting descriptions...')
+    const toastId = toast.loading('AI is analyzing product visually & drafting descriptions...')
 
     try {
       const selectedCategory = categories.find(c => c.id === categoryId)?.name
@@ -160,7 +160,7 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
           if (typeof d.suggested_badges.is_trending === 'boolean') setIsTrending(d.suggested_badges.is_trending)
         }
 
-        toast.success(`✨ Product content & badges generated via AI!`, { id: toastId })
+        toast.success(`Product content & badges generated via AI!`, { id: toastId })
       } else {
         toast.error(json.error || 'Failed to generate product details.', { id: toastId })
       }
@@ -979,7 +979,7 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
                         toast.error('Please enter a Base Cost first.')
                         return
                       }
-                      const tid = toast.loading('✨ AI is analyzing market benchmarks...')
+                      const tid = toast.loading('AI is analyzing market benchmarks...')
                       try {
                         const selectedCategory = categories.find(c => c.id === categoryId)?.name
                         const res = await fetch('/api/ai/dynamic-pricing', {
@@ -996,7 +996,7 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
                         if (json.success && json.data) {
                           setSellingPrice(json.data.recommendedPrice.toString())
                           setCompareAtPrice(json.data.recommendedCompareAtPrice.toString())
-                          toast.success(`✨ AI Price Set: ₹${json.data.recommendedPrice} (${json.data.projectedMarginPct}% margin)`, { id: tid })
+                          toast.success(`AI Price Set: ₹${json.data.recommendedPrice} (${json.data.projectedMarginPct}% margin)`, { id: tid })
                         } else {
                           toast.error('AI Pricing failed', { id: tid })
                         }
@@ -1006,7 +1006,7 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
                     }}
                     className="text-[9px] font-black uppercase tracking-wider text-[#B8763C] hover:text-amber-300 bg-[#B8763C]/10 border border-[#B8763C]/30 px-2 py-0.5 rounded transition-all cursor-pointer"
                   >
-                    ✨ AI Price
+                    <Sparkles className="w-3.5 h-3.5" /> AI Price
                   </button>
                 </div>
               </h4>
@@ -1062,7 +1062,7 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
                       toast.error('Add an image or product title first for AI badge analysis.')
                       return
                     }
-                    const tid = toast.loading('✨ AI analyzing product positioning for optimal badges...')
+                    const tid = toast.loading('AI analyzing product positioning for optimal badges...')
                     try {
                       const selectedCategory = categories.find(c => c.id === categoryId)?.name
                       const res = await fetch('/api/ai/describe-product', {
@@ -1080,7 +1080,7 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
                         if (typeof sb.is_new_arrival === 'boolean') setIsNewArrival(sb.is_new_arrival)
                         if (typeof sb.is_bestseller === 'boolean') setIsBestseller(sb.is_bestseller)
                         if (typeof sb.is_trending === 'boolean') setIsTrending(sb.is_trending)
-                        toast.success(`✨ AI Badges Applied: ${sb.badge_reason || 'Badges optimized!'}`, { id: tid, duration: 4000 })
+                        toast.success(`AI Badges Applied: ${sb.badge_reason || 'Badges optimized!'}`, { id: tid, duration: 4000 })
                       } else {
                         toast.error('Could not determine AI badges. Defaulting enabled.', { id: tid })
                       }
@@ -1131,16 +1131,16 @@ export function CreateProductForm({ categories, subcategories, productTypes, ava
               <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">Readiness Summary</span>
               <div className="space-y-1 text-[11px]">
                 <div className={`flex items-center gap-2 ${name ? 'text-emerald-400' : 'text-zinc-500'}`}>
-                  <span>{name ? '✓' : '○'}</span> Title provided
+                  {name ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> : <Circle className="w-3.5 h-3.5 text-zinc-500" />} Title provided
                 </div>
                 <div className={`flex items-center gap-2 ${sellingPrice ? 'text-emerald-400' : 'text-zinc-500'}`}>
-                  <span>{sellingPrice ? '✓' : '○'}</span> Selling price configured
+                  {sellingPrice ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> : <Circle className="w-3.5 h-3.5 text-zinc-500" />} Selling price configured
                 </div>
                 <div className={`flex items-center gap-2 ${images.length > 0 ? 'text-emerald-400' : 'text-zinc-500'}`}>
-                  <span>{images.length > 0 ? '✓' : '○'}</span> {images.length} Product photo(s)
+                  {images.length > 0 ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> : <Circle className="w-3.5 h-3.5 text-zinc-500" />} {images.length} Product photo(s)
                 </div>
                 <div className={`flex items-center gap-2 ${variants.length > 0 ? 'text-emerald-400' : 'text-zinc-500'}`}>
-                  <span>{variants.length > 0 ? '✓' : '○'}</span> {variants.length} Variant combination(s)
+                  {variants.length > 0 ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> : <Circle className="w-3.5 h-3.5 text-zinc-500" />} {variants.length} Variant combination(s)
                 </div>
               </div>
             </div>

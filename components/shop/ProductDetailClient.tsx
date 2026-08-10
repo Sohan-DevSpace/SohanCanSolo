@@ -13,7 +13,7 @@ import { useWishlistStore } from '@/store/wishlistStore'
 import { createClient } from '@/lib/supabase/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Sparkles, Layers, Printer, Truck, RotateCcw, HelpCircle, 
+  Sparkles, Flame, Layers, Printer, Truck, RotateCcw, HelpCircle, 
   CheckCircle2, ShieldCheck, Share2
 } from 'lucide-react'
 import { AnimatedHeart, AnimatedStar, AnimatedStarFilled, AnimatedCheck, AnimatedClose, AnimatedCart, AnimatedTshirt } from '@/components/shared/AnimatedIcons'
@@ -545,7 +545,7 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                         navigator.share({ title: product.name, url: window.location.href }).catch(() => {})
                       } else if (typeof navigator !== 'undefined') {
                         navigator.clipboard.writeText(window.location.href)
-                        toast.success('🔗 Product link copied to clipboard!')
+                        toast.success('Product link copied to clipboard!')
                       }
                     }}
                     whileTap={{ scale: 0.88 }}
@@ -741,8 +741,8 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                   </span>
                 </button>
 
-                <span className="text-xs text-emerald-700 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-lg">
-                  🔥 Popular Item
+                <span className="text-xs text-emerald-700 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-lg flex items-center gap-1">
+                  <Flame className="w-3.5 h-3.5 text-emerald-600 animate-pulse" /> Popular Item
                 </span>
               </div>
 
@@ -816,7 +816,7 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                         className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-white bg-[#1A1A1A] hover:bg-[#B8763C] px-3 py-1.5 rounded-full transition-all cursor-pointer shadow-xs active:scale-95"
                       >
                         <Sparkles size={13} className="text-[#B8763C]" />
-                        <span>✨ Find My Perfect Size</span>
+                        <span>Find My Perfect Size</span>
                       </button>
                       <button onClick={() => setShowSizeGuide(true)} className="text-[11px] font-bold text-neutral-500 hover:text-[#1A1A1A] underline decoration-dotted cursor-pointer">
                         Guide

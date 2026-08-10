@@ -21,14 +21,14 @@ interface Product {
 }
 
 const CATEGORY_OPTIONS = [
-  { id: 'T-Shirts', label: '👕 T-Shirts' },
-  { id: 'Hoodies', label: '🧥 Hoodies & Sweatshirts' },
-  { id: 'Bags', label: '🎒 Tote Bags' },
-  { id: 'Bengali Typography', label: '🎨 Bangla Typography' },
-  { id: 'Minimalist', label: '⚡ Minimalist' },
-  { id: 'Dark Aesthetic', label: '🖤 Dark Aesthetics' },
-  { id: 'Anime', label: '🐉 Anime & Pop' },
-  { id: 'Floral', label: '🌸 Floral Art' },
+  { id: 'T-Shirts', label: 'T-Shirts' },
+  { id: 'Hoodies', label: 'Hoodies & Sweatshirts' },
+  { id: 'Bags', label: 'Tote Bags' },
+  { id: 'Bengali Typography', label: 'Bangla Typography' },
+  { id: 'Minimalist', label: 'Minimalist' },
+  { id: 'Dark Aesthetic', label: 'Dark Aesthetics' },
+  { id: 'Anime', label: 'Anime & Pop' },
+  { id: 'Floral', label: 'Floral Art' },
 ]
 
 const COLOR_OPTIONS = [

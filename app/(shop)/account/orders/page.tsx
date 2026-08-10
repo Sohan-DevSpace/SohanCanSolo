@@ -105,7 +105,7 @@ export default function MyOrdersPage() {
   const activeOrdersList = activeTab === 'current' ? currentOrders : pastOrders
 
   const handleDownloadInvoice = (orderNumber: string) => {
-    toast.success(`Invoice invoice_${orderNumber}.pdf downloaded!`, { icon: '📄' })
+    toast.success(`Invoice invoice_${orderNumber}.pdf downloaded!`)
   }
 
   const toggleTracking = (orderId: string) => {

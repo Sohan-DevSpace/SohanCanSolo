@@ -29,7 +29,7 @@ export function GlobalChatbot() {
     {
       id: 'init-1',
       role: 'assistant',
-      content: "Hello! 👋 I'm your **Alpona Smart Assistant**. How can I help you with apparel, custom designs, or orders today?",
+      content: "Hello! I'm your **Alpona Smart Assistant**. How can I help you with apparel, custom designs, or orders today?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ])

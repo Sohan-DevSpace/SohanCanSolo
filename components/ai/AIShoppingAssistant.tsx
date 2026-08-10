@@ -43,7 +43,7 @@ export function AIShoppingAssistant() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: "👋 Welcome to **Alpona AI Studio**! How can I assist your style search today?\n\nTry asking me in natural language:\n• *'Oversized black graphic tee under ₹1000'*\n• *'Track my order status (e.g. ALP-102)'*\n• *'What are your shipping & return policies?'*"
+      content: "Welcome to **Alpona AI Studio**! How can I assist your style search today?\n\nTry asking me in natural language:\n• *'Oversized black graphic tee under ₹1000'*\n• *'Track my order status (e.g. ALP-102)'*\n• *'What are your shipping & return policies?'*"
     }
   ])
 

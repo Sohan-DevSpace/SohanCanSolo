@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Flame, ChevronLeft, ChevronRight, Star, X } from 'lucide-react'
 import { useReveal } from '@/hooks/useReveal'
 import { IconArrowRight, IconSparkles, IconHeart } from '@/components/shared/PremiumIcons'
 import { useCartStore } from '@/store/cartStore'
@@ -161,16 +162,17 @@ export function PopularDesigns({ products }: PopularDesignsProps) {
   return (
     <section
       ref={sectionRef as React.RefObject<HTMLElement>}
-      className="reveal py-12 lg:py-16 bg-[#FAF7F4] overflow-hidden select-none relative"
+      className="reveal py-8 lg:py-12 bg-[#FAF7F4] overflow-hidden select-none relative"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-white/40 blur-[120px] pointer-events-none mix-blend-overlay" />
       <div className="px-6 lg:px-12 max-w-[1440px] mx-auto">
         
         {/* Section header */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 lg:mb-14 text-left gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-6 lg:mb-8 text-left gap-4">
           <div>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary tracking-tight leading-[1.1] flex items-center gap-3 text-balance">
-              <span>🔥</span> Trending Now
+            <h2 className="font-display text-2xl md:text-3xl font-semibold text-primary tracking-tight leading-[1.1] flex items-center gap-2 text-balance">
+              <Flame className="w-5 h-5 sm:w-6 sm:h-6 text-[#B8763C] shrink-0" />
+              Trending Now
             </h2>
             <p className="font-body text-sm text-[#8A8580] mt-3 uppercase tracking-widest font-semibold">
               Designs everyone loves
@@ -193,7 +195,7 @@ export function PopularDesigns({ products }: PopularDesignsProps) {
             className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white border border-[#E8E2DB] shadow-md flex items-center justify-center opacity-100 md:opacity-0 md:group-hover/carousel:opacity-100 transition-opacity duration-300 active:scale-95 cursor-pointer text-[#8A8580] hover:text-primary hover:bg-[#FAF7F4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8763C]"
             aria-label="Previous slide"
           >
-            ❮
+            <ChevronLeft className="w-5 h-5" />
           </button>
 
           {/* Right Arrow Navigation */}
@@ -202,7 +204,7 @@ export function PopularDesigns({ products }: PopularDesignsProps) {
             className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white border border-[#E8E2DB] shadow-md flex items-center justify-center opacity-100 md:opacity-0 md:group-hover/carousel:opacity-100 transition-opacity duration-300 active:scale-95 cursor-pointer text-[#8A8580] hover:text-primary hover:bg-[#FAF7F4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8763C]"
             aria-label="Next slide"
           >
-            ❯
+            <ChevronRight className="w-5 h-5" />
           </button>
 
           <div
@@ -320,7 +322,7 @@ export function PopularDesigns({ products }: PopularDesignsProps) {
                     
                     {/* Rating stars & review counts */}
                     <div className="flex items-center gap-1.5 mt-1.5 text-xs font-semibold text-[#6B6560]">
-                      <span className="text-[#B8763C]">★ {ext.rating}</span>
+                      <span className="text-[#B8763C] flex items-center gap-0.5"><Star className="w-3 h-3 fill-current" aria-hidden="true" /> {ext.rating}</span>
                       <span className="opacity-40">•</span>
                       <span>({ext.reviews})</span>
                     </div>
@@ -382,7 +384,7 @@ export function PopularDesigns({ products }: PopularDesignsProps) {
                 onClick={() => setPreviewProduct(null)}
                 className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FAF7F4] hover:bg-[#E8E2DB]/40 text-primary flex items-center justify-center cursor-pointer transition-all duration-200 active:scale-[0.97]"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

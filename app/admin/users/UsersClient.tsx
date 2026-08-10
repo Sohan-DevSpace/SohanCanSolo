@@ -4,7 +4,8 @@ import { useState, useMemo } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { 
   Users, Search, Shield, UserCog, Loader2, Mail, Calendar, 
-  Download, UserCheck, ShieldCheck, Copy, Check, ArrowUpDown, Eye
+  Download, UserCheck, ShieldCheck, Copy, Check, ArrowUpDown, Eye,
+  AlertTriangle, ShoppingBag
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -378,9 +379,9 @@ export function UsersClient({ users: initialUsers }: UsersClientProps) {
 
             <p className="text-[11px] text-zinc-500 bg-[#09090b]/50 p-3 rounded-xl border border-white/[0.04]">
               {newRole === 'admin' 
-                ? '⚠️ Admin access grants full permissions to manage products, orders, coupons, and store settings.'
+                ? <span className="flex items-start gap-2"><AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" aria-hidden="true" /> Admin access grants full permissions to manage products, orders, coupons, and store settings.</span>
                 : newRole === 'seller'
-                ? '🛍️ Seller role grants access to the Seller Portal to upload and manage products.'
+                ? <span className="flex items-start gap-2"><ShoppingBag className="w-3.5 h-3.5 text-[#B8763C] shrink-0 mt-0.5" aria-hidden="true" /> Seller role grants access to the Seller Portal to upload and manage products.</span>
                 : 'Customer role grants standard storefront shopping access.'}
             </p>
           </div>
