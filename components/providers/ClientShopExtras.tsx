@@ -7,10 +7,16 @@ const FloatingCartBar = dynamic(
   { ssr: false }
 )
 
+const ShoppingCopilotWidget = dynamic(
+  () => import('@/components/ai/ShoppingCopilotWidget').then((mod) => mod.ShoppingCopilotWidget),
+  { ssr: false }
+)
+
 export function ClientShopExtras() {
   return (
     <>
       <FloatingCartBar />
+      <ShoppingCopilotWidget />
     </>
   )
 }

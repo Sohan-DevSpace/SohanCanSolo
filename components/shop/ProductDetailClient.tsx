@@ -20,6 +20,7 @@ import { AnimatedHeart, AnimatedStar, AnimatedStarFilled, AnimatedCheck, Animate
 import { IconTruck, IconRefresh, IconShieldLock, IconUser, IconUpload } from '@/components/shared/PremiumIcons'
 import { AISizeRecommender } from '@/components/product/AISizeRecommender'
 import { AIReviewSummary } from '@/components/shop/AIReviewSummary'
+import { AIRecommendations } from '@/components/shop/AIRecommendations'
 
 type Product = Database['public']['Tables']['products']['Row']
 type Variant = Database['public']['Tables']['product_variants']['Row']
@@ -1316,6 +1317,9 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
             </div>
           </div>
         )}
+
+        {/* ═══════════ AI SMART RECOMMENDATIONS ═══════════ */}
+        <AIRecommendations productId={product.id} categoryId={product.category_id || undefined} title="AI Smart Pairings" />
 
         {/* ═══════════ NEWSLETTER / PRE-FOOTER ═══════════ */}
         <div className="py-12 lg:py-16 my-12 bg-[#1A1A1A] text-white rounded-[2.5rem] p-8 sm:p-12 shadow-xl border border-white/10 relative overflow-hidden">

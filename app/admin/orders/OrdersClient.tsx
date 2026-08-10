@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { FraudRiskBadge } from '@/components/admin/FraudRiskBadge'
 import toast from 'react-hot-toast'
 
 interface OrdersClientProps {
@@ -212,6 +213,7 @@ export function OrdersClient({ initialOrders }: OrdersClientProps) {
                   <th className="px-5 py-4 font-bold uppercase tracking-widest text-[10px]">Customer</th>
                   <th className="px-5 py-4 font-bold uppercase tracking-widest text-[10px]">Total</th>
                   <th className="px-5 py-4 font-bold uppercase tracking-widest text-[10px]">Payment</th>
+                  <th className="px-5 py-4 font-bold uppercase tracking-widest text-[10px]">AI Risk</th>
                   <th className="px-5 py-4 font-bold uppercase tracking-widest text-[10px]">Type</th>
                   <th className="px-5 py-4 font-bold uppercase tracking-widest text-[10px]">Status</th>
                   <th className="px-5 py-4 font-bold uppercase tracking-widest text-[10px] text-right">Actions</th>
@@ -244,6 +246,9 @@ export function OrdersClient({ initialOrders }: OrdersClientProps) {
                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-semibold capitalize transition-all ${paymentColors[order.payment_status] || paymentColors.pending}`}>
                           <CreditCard className="w-3 h-3 opacity-70" /> {order.payment_status}
                         </span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <FraudRiskBadge orderId={order.id} orderData={order} />
                       </td>
                       <td className="px-5 py-4">
                         <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all ${

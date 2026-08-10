@@ -15,6 +15,7 @@ import {
   AlertOctagon,
 } from 'lucide-react'
 import { DashboardChart } from './DashboardChart'
+import { AIInsightsCard } from '@/components/admin/AIInsightsCard'
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient()
@@ -100,6 +101,9 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* AI Financial & Business Insights Card */}
+      <AIInsightsCard />
 
       {/* Hero KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

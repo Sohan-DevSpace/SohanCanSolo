@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-// import crypto from 'crypto'
+import crypto from 'crypto'
 
 export async function POST(req: Request) {
   try {
@@ -24,16 +24,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No items in order' }, { status: 400 })
     }
 
-    // 1. Verify Razorpay signature (mocked for this prototype, usually done with crypto)
-    /*
-    const expectedSignature = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
-      .update(razorpayOrderId + '|' + razorpayPaymentId)
-      .digest('hex')
-    if (expectedSignature !== razorpaySignature) {
-      return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 })
+    // 1. Verify Razorpay signature
+    if (razorpayOrderId && razorpayPaymentId && razorpaySignature) {
+      const expectedSignature = crypto
+        .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
+        .update(razorpayOrderId + '|' + razorpayPaymentId)
+        .digest('hex')
+
+      if (expectedSignature !== razorpaySignature) {
+        return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 })
+      }
     }
-    */
 
     // 2. Calculate totals securely
     let grandTotal = 0

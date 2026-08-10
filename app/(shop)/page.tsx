@@ -5,6 +5,7 @@ import { ShopByCategory } from '@/components/home/ShopByCategory'
 import { PopularDesigns } from '@/components/home/PopularDesigns'
 import { NewArrivals } from '@/components/home/NewArrivals'
 import { WhyAlpona } from '@/components/home/WhyAlpona'
+import { AIRecommendations } from '@/components/shop/AIRecommendations'
 import { LimitedTimeOffer } from '@/components/home/LimitedTimeOffer'
 import { TrustedLogos } from '@/components/home/TrustedLogos'
 import { SafeBoundary } from '@/components/shared/SafeBoundary'
@@ -166,6 +167,10 @@ export default async function HomePage() {
 
       <SafeBoundary name="NewArrivals">
         <NewArrivals products={formattedProducts} />
+      </SafeBoundary>
+
+      <SafeBoundary name="AIRecommendations">
+        <AIRecommendations title="AI Smart Recommendations" />
       </SafeBoundary>
 
       <SafeBoundary name="WhyAlpona">
