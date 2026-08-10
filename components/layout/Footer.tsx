@@ -156,16 +156,19 @@ export function Footer() {
         >
           {/* ── 1. BRAND COLUMN ── */}
           <motion.div variants={fadeUpVariant} className="flex flex-col items-start">
-            <Link href="/" className="group inline-flex items-center mb-4">
-              <div className="relative w-56 h-16 sm:w-72 sm:h-20 flex-shrink-0 transition-transform duration-500 group-hover:scale-105">
+            <Link href="/" className="group inline-flex items-center gap-3 mb-4">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 transition-transform duration-500 group-hover:scale-105">
                 <Image
-                  src="/logo.png?v=6"
+                  src="/logo.png?v=7"
                   alt="Alpona"
                   fill
-                  sizes="288px"
-                  className="object-contain object-left"
+                  sizes="40px"
+                  className="object-contain"
                 />
               </div>
+              <span className="font-display text-2xl font-bold tracking-tight text-white">
+                Alpona
+              </span>
             </Link>
 
             <p className="font-body text-xs text-[#9A938C] leading-relaxed max-w-[240px] mb-6">

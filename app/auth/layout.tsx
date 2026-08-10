@@ -11,16 +11,19 @@ export default function AuthLayout({
       
       {/* Premium Minimal Auth Header */}
       <header className="absolute top-0 left-0 right-0 h-20 px-6 lg:px-12 flex items-center justify-between z-20 pointer-events-auto">
-        <Link href="/" className="flex items-center group select-none transition-transform duration-150 active:scale-[0.97]">
-          <div className="w-52 h-14 sm:w-64 sm:h-16 relative flex-shrink-0 group-hover:scale-105 transition-transform">
+        <Link href="/" className="flex items-center gap-2.5 group select-none transition-transform duration-150 active:scale-[0.97]">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 relative flex-shrink-0 group-hover:scale-105 transition-transform">
             <Image
-              src="/logo.png?v=6"
+              src="/logo.png?v=7"
               alt="Alpona Logo"
               fill
               priority
-              className="object-contain object-left"
+              className="object-contain"
             />
           </div>
+          <span className="font-display text-xl font-bold text-primary tracking-tight group-hover:text-ring transition-colors">
+            Alpona
+          </span>
         </Link>
         <Link 
           href="/shop" 
