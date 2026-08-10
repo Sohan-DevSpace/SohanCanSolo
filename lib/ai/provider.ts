@@ -250,10 +250,9 @@ export function parseAIJsonResponse<T = any>(text: string, defaultFallback: T): 
   try {
     let cleaned = text.trim()
 
-    // 1. Remove Markdown Code Block wrappers (```json ... ```)
+    // 1. Remove Markdown Code Block wrappers (```json ... ``` or ``` ...)
     if (cleaned.includes('```')) {
-      const match = cleaned.match(/```(?:json)?([\s\S]*?)```/i)
-      if (match && match[1]) cleaned = match[1].trim()
+      cleaned = cleaned.replace(/```(?:json)?/gi, '').replace(/```/g, '').trim()
     }
 
     // 2. Extract first valid JSON object ({...}) or array ([...]) if preamble text exists
@@ -268,7 +267,7 @@ export function parseAIJsonResponse<T = any>(text: string, defaultFallback: T): 
 
     return JSON.parse(cleaned) as T
   } catch (err) {
-    console.warn('[AI PARSER] JSON parse failed, returning fallback. Error:', err, 'Raw Text:', text.slice(0, 150))
+    console.warn('[AI PARSER] JSON parse failed, returning fallback. Raw Text:', text.slice(0, 100))
     return defaultFallback
   }
 }

@@ -49,8 +49,8 @@ export function Hero() {
           {/* Eyebrow kicker */}
           <motion.p
             variants={{
-              hidden: { opacity: 0, y: 15, filter: 'blur(8px)' },
-              show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              hidden: { opacity: 0, y: 15 },
+              show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
             }}
             className="font-body text-[10px] font-bold tracking-[0.25em] uppercase text-[#B8763C] mb-6 flex items-center gap-3"
           >
@@ -71,8 +71,8 @@ export function Hero() {
           >
             <motion.span
               variants={{
-                hidden: { opacity: 0, y: 40, filter: 'blur(12px)' },
-                show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                hidden: { opacity: 0, y: 30 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
               }}
               className="block text-[clamp(40px,7vw,80px)] font-light text-[#1A1A1A]"
             >
@@ -80,8 +80,8 @@ export function Hero() {
             </motion.span>
             <motion.span
               variants={{
-                hidden: { opacity: 0, y: 40, filter: 'blur(12px)' },
-                show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                hidden: { opacity: 0, y: 30 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
               }}
               className="block text-[clamp(40px,7vw,80px)] font-light italic text-[#B8763C] pr-4 drop-shadow-[0_10px_20px_rgba(184,118,60,0.15)]"
             >
@@ -91,8 +91,8 @@ export function Hero() {
 
           <motion.p
             variants={{
-              hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
-              show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } }
+              hidden: { opacity: 0, y: 15 },
+              show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
             }}
             className="font-sans text-sm md:text-base leading-relaxed text-[#555555] max-w-[460px] mb-12 text-pretty"
           >
@@ -102,8 +102,8 @@ export function Hero() {
           {/* Rating & Social Trust Badge */}
           <motion.div
             variants={{
-              hidden: { opacity: 0, y: 15, filter: 'blur(8px)' },
-              show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              hidden: { opacity: 0, y: 15 },
+              show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
             }}
             className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md border border-[#E8E2DB] shadow-sm mb-6 w-fit"
           >
