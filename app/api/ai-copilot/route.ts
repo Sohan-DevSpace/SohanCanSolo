@@ -79,11 +79,11 @@ Provide your recommendation text and select up to 3 matching product IDs from th
       })
 
       // Hydrate recommended product cards
-      const matchedIds = parsed.recommendedProductIds || []
+      const matchedIds = (parsed.recommendedProductIds || []) as string[]
       let recommendedProducts: any[] = []
       
       if (matchedIds.length > 0) {
-        recommendedProducts = (products || []).filter(p => matchedIds.includes(p.id))
+        recommendedProducts = (products || []).filter((p: any) => matchedIds.includes(p.id))
       }
       if (recommendedProducts.length === 0 && (products || []).length > 0) {
         recommendedProducts = (products || []).slice(0, 2)
@@ -145,7 +145,8 @@ Select the top 4 products and provide a short 1-line personalized recommendation
         const parsed = parseAIJsonResponse(aiResponse.text, { recommendations: [] })
         if (parsed.recommendations && parsed.recommendations.length > 0) {
           const items = parsed.recommendations.map((rec: any) => {
-            const prod = candidates.find(c => c.id === rec.productId) || candidates[0]
+            const prod = candidates.find((c: any) => c.id === rec.productId) || candidates[0]
+            if (!prod) return null
             return {
               id: prod.id,
               name: prod.name,
