@@ -244,7 +244,7 @@ export function Navbar() {
           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1, duration: 0.4 }}>
             <Link href="/" className="flex items-center gap-3 group select-none active:scale-[0.97] transition-transform duration-150">
               <div className="w-9 h-9 sm:w-10 sm:h-10 relative flex-shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.06]">
-                <Image src="/images/icons/logo.png" alt="Alpona Logo" fill sizes="(max-width: 640px) 36px, 40px" priority className="object-contain" />
+                <Image src="/logo.png?v=3" alt="Alpona Logo" fill sizes="(max-width: 640px) 36px, 40px" priority className="object-contain" />
               </div>
               <span className="font-display text-xl lg:text-2xl font-bold text-primary tracking-[-0.02em] transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:text-ring">
                 Alpona
@@ -474,7 +474,7 @@ export function Navbar() {
                     <SheetTitle className="flex items-center gap-2">
                       <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
                         <div className="w-9 h-9 relative shrink-0">
-                          <Image src="/images/icons/logo.png" alt="Alpona" fill sizes="36px" className="object-contain" />
+                          <Image src="/logo.png?v=3" alt="Alpona" fill sizes="36px" className="object-contain" />
                         </div>
                         <span className="font-display text-xl font-bold text-primary">Alpona</span>
                       </Link>

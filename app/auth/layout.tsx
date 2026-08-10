@@ -14,7 +14,7 @@ export default function AuthLayout({
         <Link href="/" className="flex items-center gap-2.5 group select-none transition-transform duration-150 active:scale-[0.97]">
           <div className="w-8 h-8 relative flex-shrink-0 group-hover:scale-105 transition-transform">
             <Image
-              src="/images/icons/logo.png"
+              src="/logo.png?v=3"
               alt="Alpona Logo"
               fill
               priority

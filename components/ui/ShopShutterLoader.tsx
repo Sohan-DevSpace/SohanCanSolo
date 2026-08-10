@@ -480,7 +480,7 @@ export function ShopShutterLoader({ onComplete }: ShopShutterLoaderProps) {
               {/* Slow continuous rotation */}
               <div className="w-12 h-12 sm:w-14 sm:h-14 relative z-10 mx-auto">
                 <Image
-                  src="/images/icons/logo.png"
+                  src="/logo.png?v=3"
                   alt="Alpona Logo"
                   fill
                   priority
