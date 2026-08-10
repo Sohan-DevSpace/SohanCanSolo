@@ -180,13 +180,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex flex-col h-full">
       {/* Brand */}
       <div className="h-16 px-5 flex items-center gap-3 border-b border-white/[0.06] shrink-0">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0">
-            <Image src="/logo.png?v=3" alt="Alpona Logo" fill sizes="32px" className="object-contain" />
-          </div>
-          <div>
-            <h1 className="text-sm font-bold tracking-tight text-white  leading-none">Alpona</h1>
-            <p className="text-xs scale-75 origin-left text-zinc-500 uppercase tracking-[0.2em] font-semibold mt-0.5">Admin Panel</p>
+        <Link href="/" className="flex items-center group">
+          <div className="relative w-36 h-10 overflow-hidden shrink-0">
+            <Image src="/logo.png?v=4" alt="Alpona Logo" fill sizes="144px" className="object-contain object-left" />
           </div>
         </Link>
       </div>
