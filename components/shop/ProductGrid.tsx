@@ -41,36 +41,26 @@ export function ProductGrid({
 
   if (isLoading) {
     return (
-      <motion.div
-        variants={prefersReducedMotion ? undefined : shimmerContainer}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 stagger"
-      >
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
         {Array.from({ length: 8 }).map((_, i) => (
-          <motion.div
-            key={`skeleton-${i}`}
-            variants={prefersReducedMotion ? undefined : shimmerCard}
-            className="flex flex-col bg-secondary/25 border border-border/35 rounded-2xl sm:rounded-3xl p-[5px] sm:p-[6px]"
-          >
-            <div className="bg-white rounded-[14px] sm:rounded-[18px] overflow-hidden border border-border/15">
-              <div className="aspect-[4/5] sm:aspect-square bg-secondary relative overflow-hidden">
-                <div className="absolute inset-0 shimmer-wave" />
-              </div>
-              <div className="p-3 sm:p-4 space-y-2 sm:space-y-2.5">
-                <div className="h-1.5 bg-secondary rounded w-1/3 shimmer-wave" />
-                <div className="h-3 bg-secondary rounded w-2/3 shimmer-wave" />
-                <div className="flex gap-1.5 pt-1">
-                  {[1, 2, 3].map(s => (
-                    <div key={s} className="w-3 h-3 rounded-full bg-secondary shimmer-wave" />
-                  ))}
+          <div key={`skeleton-${i}`} className="bg-white dark:bg-[#121214] border border-[#E8E2DB] dark:border-white/[0.08] rounded-[1.75rem] p-3 sm:p-4 space-y-3 shadow-xs">
+            <div className="relative aspect-[3/4] sm:aspect-square w-full rounded-2xl overflow-hidden bg-[#F5F1EC] dark:bg-white/[0.04]">
+              <div className="absolute inset-0 shimmer-wave opacity-75" />
+              <div className="absolute top-3 left-3 w-14 h-4 rounded-full bg-white/70 backdrop-blur-md" />
+            </div>
+            <div className="space-y-2 pt-1 px-1">
+              <div className="h-3.5 bg-[#E8E2DB]/70 dark:bg-white/10 rounded-md w-3/4 shimmer-wave" />
+              <div className="flex items-center justify-between pt-1">
+                <div className="h-4 bg-[#E8E2DB]/70 dark:bg-white/10 rounded-md w-1/3 shimmer-wave" />
+                <div className="flex gap-1">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#E8E2DB]/70 dark:bg-white/10" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#E8E2DB]/70 dark:bg-white/10" />
                 </div>
-                <div className="h-3.5 bg-secondary rounded w-1/2 shimmer-wave mt-2 pt-0.5 border-t border-border/20" />
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     )
   }
 
