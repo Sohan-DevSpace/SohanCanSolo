@@ -16,10 +16,14 @@ interface SearchResultItem {
   id: string
   title: string
   subtitle?: string
+  description?: string
   href: string
   type: 'product' | 'page' | 'category' | 'action'
   iconName?: string
+  icon?: string
   imageUrl?: string
+  image?: string
+  category?: string
   price?: number
   badge?: string
 }
