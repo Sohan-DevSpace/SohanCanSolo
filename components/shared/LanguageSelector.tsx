@@ -50,7 +50,6 @@ export function LanguageSelector({ variant = 'default' }: { variant?: 'default' 
                   selected === lang.code ? 'bg-[#FAF7F4] font-bold text-[#B8763C]' : 'text-[#1A1A1A] hover:bg-[#FAF7F4]'
                 }`}
               >
-                <span>{lang.flag}</span>
                 <span>{lang.label}</span>
               </button>
             ))}
@@ -86,7 +85,6 @@ export function LanguageSelector({ variant = 'default' }: { variant?: 'default' 
                 selected === lang.code ? 'bg-[#FCF7F2] font-bold text-[#B8763C]' : 'text-[#1A1A1A] hover:bg-[#FAF7F4]'
               }`}
             >
-              <span>{lang.flag}</span>
               <span>{lang.label}</span>
             </button>
           ))}
