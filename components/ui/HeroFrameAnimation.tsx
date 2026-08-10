@@ -6,7 +6,7 @@ const FRAME_STEP = 5
 const TOTAL_FRAMES = 48
 const FRAME_PREFIX = '/hero_section/ezgif-frame-'
 const FRAME_SUFFIX = '.png'
-const FPS = 30
+const FPS = 15
 const FRAME_TIME = 1000 / FPS
 
 // Helper to pad frame numbers with step (e.g. 1 -> '001', 2 -> '006')

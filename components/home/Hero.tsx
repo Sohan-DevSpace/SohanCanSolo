@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { HeroFrameAnimation } from '@/components/ui/HeroFrameAnimation'
+import { Star, Truck } from 'lucide-react'
 import {
   IconArrowRight,
   IconShieldLock,
@@ -107,7 +108,11 @@ export function Hero() {
             className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/80 backdrop-blur-md border border-[#E8E2DB] shadow-sm mb-6 w-fit"
           >
             <div className="flex items-center gap-1 text-amber-500 text-xs font-bold">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              <Star className="w-3.5 h-3.5 fill-current text-amber-500" />
+              <Star className="w-3.5 h-3.5 fill-current text-amber-500" />
+              <Star className="w-3.5 h-3.5 fill-current text-amber-500" />
+              <Star className="w-3.5 h-3.5 fill-current text-amber-500" />
+              <Star className="w-3.5 h-3.5 fill-current text-amber-500" />
               <span className="text-stone-900 ml-1">4.9/5</span>
             </div>
             <span className="w-1 h-1 rounded-full bg-stone-300" />
@@ -153,11 +158,8 @@ export function Hero() {
             className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mt-6 p-2.5 px-4 rounded-2xl bg-white/80 backdrop-blur-md border border-[#E8E2DB] shadow-sm max-w-full"
           >
             <div className="flex items-center gap-2 text-xs text-stone-700 font-medium whitespace-nowrap">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span>🚚 Order in next <strong className="text-stone-900 font-bold">2h 15m</strong> for Dispatch Tomorrow</span>
+              <Truck className="w-4 h-4 text-[#B8763C]" />
+              <span>Order in next <strong className="text-stone-900 font-bold">2h 15m</strong> for Dispatch Tomorrow</span>
             </div>
             <div className="hidden sm:block w-px h-4 bg-stone-300 shrink-0" />
             <div className="flex items-center gap-2 text-[10px] font-extrabold text-stone-500 uppercase tracking-wider whitespace-nowrap">

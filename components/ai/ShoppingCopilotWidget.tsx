@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Sparkles, MessageSquare, X, Send, Loader2, ShoppingBag, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Sparkles, X, Send, Loader2, ShoppingBag, ArrowRight, Shirt, Truck, Palette, Gift } from 'lucide-react'
 
 interface ProductCard {
   id: string
@@ -23,6 +22,13 @@ interface Message {
 
 const MAX_SESSION_MESSAGES = 10
 
+const QUICK_ACTIONS = [
+  { label: '👕 Find My Size', prompt: 'What size should I choose for oversized graphic tees?' },
+  { label: '🚚 Track Order', prompt: 'How do I track my order status?' },
+  { label: '🎨 Print Guide', prompt: 'What is the difference between DTF and Embroidery?' },
+  { label: '🎁 Gift Ideas', prompt: 'Suggest popular apparel gift items under ₹1000' },
+]
+
 export function ShoppingCopilotWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
@@ -32,7 +38,7 @@ export function ShoppingCopilotWidget() {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: "👋 Hi! I'm Alpona AI Copilot. Ask me for gift ideas, apparel styling tips, or recommendations for custom hoodies & tees!",
+      text: "👋 Hi! I'm Alpona AI Assistant. Ask me for gift recommendations, apparel sizing tips, print guide advice, or custom order help!",
     }
   ])
 
@@ -44,9 +50,8 @@ export function ShoppingCopilotWidget() {
     }
   }, [messages, isOpen, loading])
 
-  const handleSend = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault()
-    const trimmed = input.trim()
+  const executePrompt = async (queryText: string) => {
+    const trimmed = queryText.trim()
     if (!trimmed || loading || messageCount >= MAX_SESSION_MESSAGES) return
 
     const userMsgId = Date.now().toString()
@@ -96,19 +101,24 @@ export function ShoppingCopilotWidget() {
     }
   }
 
+  const handleSend = (e?: React.FormEvent) => {
+    if (e) e.preventDefault()
+    executePrompt(input)
+  }
+
   return (
     <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 antialiased">
       {/* Floating Trigger Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 bg-[#B8763C] hover:bg-[#a66833] text-white px-4 py-3 rounded-full shadow-[0_8px_30px_rgba(184,118,60,0.35)] transition-all duration-300 active:scale-95"
-          aria-label="Open AI Shopping Copilot"
+          className="group relative flex items-center gap-2.5 bg-[#B8763C] hover:bg-[#a66833] text-white px-4 py-3 rounded-full shadow-[0_8px_30px_rgba(184,118,60,0.35)] transition-all duration-300 active:scale-95 cursor-pointer"
+          aria-label="Open AI Assistant"
         >
           <div className="relative flex items-center justify-center">
             <Sparkles className="w-5 h-5 animate-pulse text-amber-200" />
           </div>
-          <span className="text-xs font-semibold tracking-wide pr-1">AI Copilot</span>
+          <span className="text-xs font-semibold tracking-wide pr-1">AI Assistant</span>
           <span className="absolute -top-1 -right-1 flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400" />
@@ -118,7 +128,7 @@ export function ShoppingCopilotWidget() {
 
       {/* Floating Chat Modal */}
       {isOpen && (
-        <div className="w-[92vw] sm:w-[380px] h-[520px] bg-[#FAF7F4] dark:bg-[#121214] border border-[#E8E2DB] dark:border-white/[0.08] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="w-[92vw] sm:w-[380px] h-[530px] bg-[#FAF7F4] dark:bg-[#121214] border border-[#E8E2DB] dark:border-white/[0.08] rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
           
           {/* Header */}
           <div className="bg-[#1A1A1A] dark:bg-[#09090b] text-white px-4 py-3.5 flex items-center justify-between border-b border-white/10 shrink-0">
@@ -128,15 +138,17 @@ export function ShoppingCopilotWidget() {
               </div>
               <div>
                 <h3 className="text-xs font-bold tracking-tight text-white flex items-center gap-1.5">
-                  Alpona AI Copilot
-                  <span className="text-[9px] font-medium bg-[#B8763C]/30 text-amber-300 px-1.5 py-0.2 rounded border border-[#B8763C]/40">Gemini</span>
+                  Alpona AI Assistant
+                  <span className="text-[8px] font-bold bg-[#B8763C]/40 text-amber-200 px-1.5 py-0.5 rounded-full border border-[#B8763C]/60 uppercase tracking-widest">
+                    Gemini + OpenRouter
+                  </span>
                 </h3>
-                <p className="text-[10px] text-zinc-400">Shopping & Design Advisor</p>
+                <p className="text-[10px] text-zinc-400">Shopping, Sizing & Design Advisor</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-zinc-400 hover:text-white p-1 rounded-lg transition-colors"
+              className="text-zinc-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
               aria-label="Close Chat"
             >
               <X className="w-4 h-4" />
@@ -153,7 +165,7 @@ export function ShoppingCopilotWidget() {
                 <div
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed shadow-sm ${
                     msg.sender === 'user'
-                      ? 'bg-[#B8763C] text-white rounded-br-none'
+                      ? 'bg-[#B8763C] text-white rounded-br-none font-medium'
                       : 'bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 border border-[#E8E2DB] dark:border-white/10 rounded-bl-none'
                   }`}
                 >
@@ -164,7 +176,7 @@ export function ShoppingCopilotWidget() {
                 {msg.products && msg.products.length > 0 && (
                   <div className="mt-2.5 w-full space-y-2">
                     <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500 flex items-center gap-1">
-                      <ShoppingBag className="w-3 h-3 text-[#B8763C]" /> Suggested Products
+                      <ShoppingBag className="w-3 h-3 text-[#B8763C]" /> Recommended Apparel
                     </p>
                     <div className="grid grid-cols-1 gap-2">
                       {msg.products.map((prod) => (
@@ -201,67 +213,57 @@ export function ShoppingCopilotWidget() {
               </div>
             ))}
 
-            {/* Skeleton Loading State */}
             {loading && (
-              <div className="flex items-start gap-2">
-                <div className="bg-white dark:bg-zinc-800 border border-[#E8E2DB] dark:border-white/10 rounded-2xl rounded-bl-none px-4 py-3 flex items-center gap-2 text-zinc-500">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#B8763C]" />
-                  <span className="text-[11px] font-medium">Gemini AI thinking...</span>
-                </div>
+              <div className="flex items-center gap-2 text-zinc-500 text-xs italic bg-white dark:bg-zinc-800 p-2.5 rounded-xl border border-[#E8E2DB] dark:border-white/10 w-fit">
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#B8763C]" />
+                <span>Alpona AI Assistant is searching catalog & style rules...</span>
               </div>
             )}
+
             <div ref={chatEndRef} />
           </div>
 
-          {/* Quick Prompts */}
-          {messages.length === 1 && (
-            <div className="px-4 pb-2 flex flex-wrap gap-1.5">
-              {[
-                'Minimalist Hoodie for gifting',
-                'Trending oversized tees',
-                'Custom print design ideas'
-              ].map((prompt) => (
-                <button
-                  key={prompt}
-                  onClick={() => {
-                    setInput(prompt)
-                  }}
-                  className="text-[10px] bg-white dark:bg-zinc-800 hover:bg-[#B8763C]/10 text-zinc-600 dark:text-zinc-300 border border-[#E8E2DB] dark:border-white/10 rounded-full px-2.5 py-1 transition-colors"
-                >
-                  {prompt}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Quick Feature Action Chips */}
+          <div className="px-3 pt-2 pb-1 border-t border-[#E8E2DB] dark:border-white/10 bg-white/50 dark:bg-zinc-900/50 flex gap-1.5 overflow-x-auto hide-scrollbar shrink-0">
+            {QUICK_ACTIONS.map((action) => (
+              <button
+                key={action.label}
+                disabled={loading || messageCount >= MAX_SESSION_MESSAGES}
+                onClick={() => executePrompt(action.prompt)}
+                className="text-[10px] font-semibold text-stone-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 hover:bg-[#B8763C] hover:text-white border border-[#E8E2DB] dark:border-white/10 rounded-full px-2.5 py-1 transition-all whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50"
+              >
+                {action.label}
+              </button>
+            ))}
+          </div>
 
-          {/* Footer Input Form */}
-          <form onSubmit={handleSend} className="p-3 bg-white dark:bg-[#09090b] border-t border-[#E8E2DB] dark:border-white/10 shrink-0">
-            <div className="flex items-center gap-2">
+          {/* Input Form */}
+          <form onSubmit={handleSend} className="p-3 bg-white dark:bg-zinc-900 border-t border-[#E8E2DB] dark:border-white/10 shrink-0">
+            <div className="flex items-center gap-2 bg-[#FAF7F4] dark:bg-zinc-800 border border-[#E8E2DB] dark:border-white/10 rounded-full px-3 py-1.5 focus-within:border-[#B8763C] transition-colors">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={
                   messageCount >= MAX_SESSION_MESSAGES
-                    ? 'Session limit reached (10/10)'
-                    : 'Ask about hoodies, sizes, gifts...'
+                    ? 'Session limit reached. Restart chat.'
+                    : 'Ask about sizing, gift ideas, or custom apparel...'
                 }
                 disabled={loading || messageCount >= MAX_SESSION_MESSAGES}
-                className="flex-1 text-xs bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 border border-[#E8E2DB] dark:border-white/10 rounded-xl px-3 py-2.5 focus:outline-none focus:border-[#B8763C] disabled:opacity-50"
+                className="flex-1 bg-transparent text-xs text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none disabled:opacity-50"
               />
-              <Button
+              <button
                 type="submit"
-                size="icon"
                 disabled={!input.trim() || loading || messageCount >= MAX_SESSION_MESSAGES}
-                className="bg-[#B8763C] hover:bg-[#a66833] text-white rounded-xl w-9 h-9 shrink-0 disabled:opacity-50"
+                className="w-7 h-7 rounded-full bg-[#B8763C] hover:bg-[#a66833] disabled:opacity-40 text-white flex items-center justify-center transition-all shrink-0 cursor-pointer"
+                aria-label="Send message"
               >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-              </Button>
+                <Send className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <div className="mt-1.5 flex justify-between text-[9px] text-zinc-400 px-1">
-              <span>Powered by Gemini 1.5 Flash</span>
-              <span>{MAX_SESSION_MESSAGES - messageCount} msgs remaining</span>
-            </div>
+            <p className="text-[9px] text-center text-zinc-400 mt-1.5 font-medium">
+              Powered by Alpona AI • {MAX_SESSION_MESSAGES - messageCount} questions left in session
+            </p>
           </form>
 
         </div>
