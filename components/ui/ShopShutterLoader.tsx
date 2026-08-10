@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useRef, useMemo } from 'react'
+import Image from 'next/image'
 import { motion, useAnimationControls, useMotionValue, useTransform, animate } from 'framer-motion'
 
 interface ShopShutterLoaderProps {
@@ -477,30 +478,15 @@ export function ShopShutterLoader({ onComplete }: ShopShutterLoaderProps) {
                 />
               )}
               {/* Slow continuous rotation */}
-              <motion.svg
-                className="w-12 h-12 sm:w-14 sm:h-14 text-white relative z-10"
-                viewBox="0 0 32 32"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={0.7}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                animate={!reducedMotion ? { rotate: 360 } : {}}
-                transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-              >
-                <circle cx="16" cy="16" r="14" opacity={0.12} />
-                <circle cx="16" cy="16" r="10" opacity={0.08} />
-                <path d="M16 2C16 2 19 8 16 12C13 8 16 2 16 2Z" fill="currentColor" fillOpacity={0.12} />
-                <path d="M16 30C16 30 13 24 16 20C19 24 16 30 16 30Z" fill="currentColor" fillOpacity={0.12} />
-                <path d="M2 16C2 16 8 13 12 16C8 19 2 16 2 16Z" fill="currentColor" fillOpacity={0.12} />
-                <path d="M30 16C30 16 24 19 20 16C24 13 30 16 30 16Z" fill="currentColor" fillOpacity={0.12} />
-                <path d="M4.5 4.5C4.5 4.5 10 7 12 12C7 10 4.5 4.5 4.5 4.5Z" fill="currentColor" fillOpacity={0.06} />
-                <path d="M27.5 4.5C27.5 4.5 22 7 20 12C25 10 27.5 4.5 27.5 4.5Z" fill="currentColor" fillOpacity={0.06} />
-                <path d="M4.5 27.5C4.5 27.5 10 25 12 20C7 22 4.5 27.5 4.5 27.5Z" fill="currentColor" fillOpacity={0.06} />
-                <path d="M27.5 27.5C27.5 27.5 22 25 20 20C25 22 27.5 27.5 27.5 27.5Z" fill="currentColor" fillOpacity={0.06} />
-                <circle cx="16" cy="16" r="3" fill="currentColor" opacity={0.7} />
-                <circle cx="16" cy="16" r="1" fill="currentColor" />
-              </motion.svg>
+              <div className="w-12 h-12 sm:w-14 sm:h-14 relative z-10 mx-auto">
+                <Image
+                  src="/images/icons/logo.png"
+                  alt="Alpona Logo"
+                  fill
+                  priority
+                  className="object-contain"
+                />
+              </div>
             </motion.div>
 
             {/* ─── Brand Name ─── */}

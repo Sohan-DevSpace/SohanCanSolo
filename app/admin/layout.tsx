@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, Component, ReactNode, ErrorInfo } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
@@ -180,8 +181,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Brand */}
       <div className="h-16 px-5 flex items-center gap-3 border-b border-white/[0.06] shrink-0">
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-[#B8763C] flex items-center justify-center shadow-sm group-hover:bg-[#a66833] transition-colors">
-            <span className="text-white font-extrabold text-xs tracking-tighter">AL</span>
+          <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0">
+            <Image src="/images/icons/logo.png" alt="Alpona Logo" fill sizes="32px" className="object-contain" />
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-tight text-white  leading-none">Alpona</h1>
