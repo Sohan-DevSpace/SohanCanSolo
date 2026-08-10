@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { Globe, ChevronDown } from 'lucide-react'
 
 const LANGUAGES = [
-  { code: 'en', label: 'English (IN)', flag: '🇮🇳' },
-  { code: 'hi', label: 'हिन्दी (Hindi)', flag: '🇮🇳' },
-  { code: 'bn', label: 'বাংলা (Bengali)', flag: '🇮🇳' },
+  { code: 'en', label: 'English (IN)' },
+  { code: 'hi', label: 'हिन्दी (Hindi)' },
+  { code: 'bn', label: 'বাংলা (Bengali)' },
 ]
 
 export function LanguageSelector({ variant = 'default' }: { variant?: 'default' | 'compact' | 'footer' }) {
@@ -24,7 +24,7 @@ export function LanguageSelector({ variant = 'default' }: { variant?: 'default' 
     setIsOpen(false)
   }
 
-  const currentLang = LANGUAGES.find((l) => l.code === selected) || LANGUAGES[0] || { code: 'en', label: 'English', native: 'English', flag: '🇮🇳' }
+  const currentLang = LANGUAGES.find((l) => l.code === selected) || LANGUAGES[0] || { code: 'en', label: 'English', native: 'English' }
 
   if (variant === 'compact') {
     return (

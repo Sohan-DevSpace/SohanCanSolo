@@ -10,6 +10,7 @@ import {
   AlertCircle,
   Folder,
   ArrowUpRight,
+  ArrowRight,
   GripVertical,
 } from 'lucide-react'
 import { useUpload } from '@/hooks/useUpload'
@@ -226,8 +227,8 @@ export const CloudinaryUploader: React.FC<CloudinaryUploaderProps> = ({
                 <div className="flex items-center justify-between text-[10px] text-stone-500 font-mono">
                   <span>{(item.size / (1024 * 1024)).toFixed(2)} MB</span>
                   {item.compressedSize && (
-                    <span className="text-emerald-600">
-                      ➜ {(item.compressedSize / 1024).toFixed(0)} KB
+                    <span className="text-emerald-600 flex items-center gap-0.5">
+                      <ArrowRight className="w-3 h-3" /> {(item.compressedSize / 1024).toFixed(0)} KB
                     </span>
                   )}
                 </div>

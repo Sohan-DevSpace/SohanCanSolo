@@ -884,7 +884,7 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                   }`}
                 >
                   {addedToCart ? <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 15 }}><AnimatedCheck size={16} /></motion.span> : <AnimatedCart size={16} />}
-                  <span>{addedToCart ? 'Added To Cart ✓' : 'Add to Cart'}</span>
+                  <span>{addedToCart ? 'Added To Cart' : 'Add to Cart'}</span>
                 </motion.button>
               </div>
 
@@ -1122,7 +1122,7 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                       ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' 
                       : 'bg-[#1A1A1A] text-white shadow-[0_8px_25px_-6px_rgba(26,26,26,0.35)] hover:bg-[#B8763C]'
                   } ${stockInfo.level === 'out' ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}>
-                  {addedToCart ? '✓ Added to Cart' : 'Add To Cart'}
+                  {addedToCart ? 'Added to Cart' : 'Add To Cart'}
                 </motion.button>
                 <motion.button whileTap={{ scale: 0.96 }} onClick={() => handleAddToCart(true)} disabled={stockInfo.level === 'out'}
                   className={`w-full h-14 rounded-2xl font-black text-xs uppercase tracking-[0.18em] bg-gradient-to-r from-[#B8763C] to-[#9E5F2A] text-white shadow-[0_8px_25px_-6px_rgba(184,118,60,0.35)] flex items-center justify-center ${stockInfo.level === 'out' ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}>
@@ -1545,7 +1545,7 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                         ? 'bg-emerald-600 text-white' 
                         : 'bg-[#C87533] text-white hover:bg-[#A65E28]'
                     } ${stockInfo.level === 'out' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}>
-                    {addedToCart ? '✓ Added' : 'Add'}
+                    {addedToCart ? 'Added' : 'Add'}
                   </motion.button>
                   <motion.button whileTap={{ scale: 0.95 }} onClick={() => handleAddToCart(true)} disabled={stockInfo.level === 'out'}
                     className={`flex-1 h-12 rounded-2xl font-black text-[10px] uppercase tracking-[0.15em] transition-all active:scale-95 border-2 border-white text-white hover:bg-white hover:text-black ${

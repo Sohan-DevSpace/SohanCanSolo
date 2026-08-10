@@ -119,7 +119,7 @@ export default async function AccountLayout({ children }: { children: ReactNode 
   return (
     <div className="min-h-screen bg-[#FAF7F4] text-[#1A1A1A] pt-0 lg:pt-8 pb-20 select-none">
       <div className="container mx-auto px-4 lg:px-12 xl:px-20 max-w-[1440px]">
-        {/* ✨ DESKTOP HERO BANNER ✨ */}
+        {/* DESKTOP HERO BANNER */}
         <div className="hidden lg:block">
           {HeroBanner}
         </div>

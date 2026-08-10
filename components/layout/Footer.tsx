@@ -311,7 +311,7 @@ export function Footer() {
           {/* Currency & Scroll-to-Top */}
           <div className="flex items-center gap-4 order-3">
             <span className="text-xs font-medium text-[#9A938C] flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              <span>🇮🇳</span> India (INR ₹)
+              <span>India (INR ₹)</span>
             </span>
 
             <button

@@ -239,7 +239,7 @@ function OrderSummary({
               <span>256-Bit SSL Encrypted</span>
             </div>
             <div className="flex items-center gap-1.5 justify-center py-1 bg-secondary/50 rounded-lg">
-              <span>🇮🇳 Made in India</span>
+              <span>Made in India • Premium Apparel</span>
             </div>
           </div>
         </div>
