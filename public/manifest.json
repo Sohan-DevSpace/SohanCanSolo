@@ -1,0 +1,21 @@
+{
+  "name": "Alpona — Custom Apparel & Studio",
+  "short_name": "Alpona",
+  "description": "Custom print on demand apparel — pick a design or create your own.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F4",
+  "theme_color": "#1A1A1A",
+  "icons": [
+    {
+      "src": "/images/icons/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icons/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
