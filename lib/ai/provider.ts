@@ -184,7 +184,7 @@ export async function generateTextWithFailover(options: AIOptions): Promise<AIRe
 
   if (primaryProvider === 'gemini') {
     try {
-      console.log('[AI ENGINE] Calling Primary Provider: Gemini AI (Vision Multimodal)...')
+
       const text = await callGemini(options)
       return { success: true, text, provider: 'gemini' }
     } catch (geminiError: any) {
@@ -204,7 +204,7 @@ export async function generateTextWithFailover(options: AIOptions): Promise<AIRe
     }
   } else {
     try {
-      console.log('[AI ENGINE] Calling Primary Provider: OpenRouter AI...')
+
       const text = await callOpenRouter(options)
       return { success: true, text, provider: 'openrouter' }
     } catch (openRouterError: any) {

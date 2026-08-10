@@ -9,7 +9,7 @@ export const POST = createApiHandler({
   auth: 'optional', // Webhook is public but requires signature check
   handler: async ({ req, body }) => {
     try {
-      console.log('Qikink Webhook Payload:', body)
+
 
       // Signature Verification (Basic check if header exists for now)
       const signature = req.headers.get('x-qikink-signature')

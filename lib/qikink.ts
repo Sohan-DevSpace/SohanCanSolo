@@ -40,7 +40,7 @@ export async function getQikinkToken(): Promise<{ Accesstoken: string; ClientId:
   // Refresh 10 minutes before expiry
   tokenExpiry = Date.now() + (expiresIn - 600) * 1000
 
-  console.log('[Qikink] New access token generated. Expires in:', expiresIn, 'seconds')
+
   return { Accesstoken: token, ClientId: returnedClientId }
 }
 

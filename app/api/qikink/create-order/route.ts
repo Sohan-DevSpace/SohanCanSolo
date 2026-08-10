@@ -35,7 +35,7 @@ export const POST = createApiHandler({
 
       // 2. Skip this order entirely if fulfillment_type = 'manual'
       if (order.fulfillment_type === 'manual') {
-        console.log(`[Qikink] Order ${orderId} is manual. Skipping Qikink push.`)
+
         return apiSuccess({ skipped: true, reason: 'manual_fulfillment' }, 200)
       }
 

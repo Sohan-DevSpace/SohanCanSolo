@@ -75,7 +75,7 @@ export class AuthService {
         console.error(`[HASH_MIGRATION_ERROR] Failed to persist migrated hash for user ${userId}:`, error.message)
         return false
       }
-      console.log(`[HASH_MIGRATION_SUCCESS] Upgraded user password hash to 12-round bcrypt for user: ${userId}`)
+
       return true
     } catch (err) {
       console.error('[HASH_MIGRATION_EXCEPTION]', err)

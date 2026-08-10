@@ -10,7 +10,7 @@ export interface AuditLogEntry {
 
 export async function logAuditEvent(entry: AuditLogEntry) {
   const timestamp = new Date().toISOString()
-  console.log(`[AUDIT LOG ${timestamp}] Action: ${entry.action} | User: ${entry.userId || 'Anonymous'} | Status: ${entry.status || 'success'}`)
+
 
   try {
     await supabaseAdmin.from('audit_logs').insert([

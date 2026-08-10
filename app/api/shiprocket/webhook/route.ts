@@ -5,7 +5,7 @@ import { sendOrderShippingUpdateEmail } from '@/lib/email'
 export async function POST(req: Request) {
   try {
     const payload = await req.json()
-    console.log('Shiprocket Webhook Payload:', payload)
+
 
     const {
       order_id,
