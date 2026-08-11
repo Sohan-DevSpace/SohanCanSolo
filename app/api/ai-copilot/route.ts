@@ -23,13 +23,17 @@ export async function POST(req: Request) {
     // ─────────────────────────────────────────────────────────────
     // MODE 1: shopping_assistant (Customer-facing)
     // ─────────────────────────────────────────────────────────────
+    // MODE 1: shopping_assistant (Customer-facing 10-in-1 AI Copilot)
+    // ─────────────────────────────────────────────────────────────
     if (mode === 'shopping_assistant') {
       const userMessage = (message || '').trim()
-      if (!userMessage) {
-        return NextResponse.json({ error: 'Message cannot be empty' }, { status: 400 })
+      const imageUrls = body.imageUrls && Array.isArray(body.imageUrls) ? body.imageUrls : []
+      
+      if (!userMessage && imageUrls.length === 0) {
+        return NextResponse.json({ error: 'Message or image URL cannot be empty' }, { status: 400 })
       }
 
-      // Fetch active catalog items from Supabase
+      // 1. Fetch active catalog items from Supabase
       let products: any[] = []
       try {
         const prodRes = await supabaseAdmin
@@ -54,6 +58,26 @@ export async function POST(req: Request) {
         console.warn('[AI COPILOT] Supabase fetch fallback warning:', dbErr)
       }
 
+      // 2. Check for order tracking ID in query
+      let orderDetailsContext = ''
+      const orderIdMatch = userMessage.match(/ALP-?\d+/i) || userMessage.match(/[0-9a-f]{8}-[0-9a-f]{4}/i)
+      if (orderIdMatch) {
+        try {
+          const searchPattern = orderIdMatch[0].toUpperCase()
+          const { data: orderData } = await supabaseAdmin
+            .from('orders')
+            .select('order_number, total_amount, payment_status, shipping_status, created_at, tracking_number')
+            .or(`order_number.ilike.%${searchPattern}%,id.eq.${searchPattern}`)
+            .maybeSingle()
+
+          if (orderData) {
+            orderDetailsContext = `\nFound Live Order Match: Order #${orderData.order_number} | Amount: ₹${orderData.total_amount} | Payment: ${orderData.payment_status} | Shipping Status: ${orderData.shipping_status || 'Processing'} | Date: ${new Date(orderData.created_at).toLocaleDateString()}`
+          }
+        } catch (e) {
+          console.warn('[AI COPILOT] Order lookup check error:', e)
+        }
+      }
+
       const catalogSummary = (products || []).map(p => 
         `[ID: ${p.id}] "${p.name}" | Price: ₹${p.price} | Desc: ${p.description?.slice(0, 100) || 'N/A'}`
       ).join('\n')
@@ -61,17 +85,20 @@ export async function POST(req: Request) {
       const promptText = `
 Available Store Catalog (Real Products):
 ${catalogSummary}
+${orderDetailsContext}
 
-User Query: "${userMessage}"
+User Query: "${userMessage || 'Analyze this image and suggest matching apparel.'}"
+Image Attachments: ${imageUrls.length > 0 ? `${imageUrls.length} image(s) provided` : 'None'}
 Recent Conversation Context: ${JSON.stringify(history || [])}
 
-Provide your warm, human stylist response text and select up to 3 matching product IDs from the store catalog above.
+Provide your warm, human response and select up to 3 matching product IDs from the store catalog above.
 `
 
       const aiResponse = await generateTextWithFailover({
         systemPrompt: SHOPPING_ASSISTANT_SYSTEM_PROMPT,
         prompt: promptText,
-        maxTokens: 500,
+        imageUrls: imageUrls.length > 0 ? imageUrls : undefined,
+        maxTokens: 600,
         temperature: 0.75
       })
 
