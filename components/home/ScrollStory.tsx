@@ -146,9 +146,7 @@ export function ScrollStory() {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.5,
+          scrub: 0.5, // Faster scrub interpolation
         }
       })
 
@@ -182,33 +180,33 @@ export function ScrollStory() {
       tl.fromTo(textRef1.current,
         { opacity: 0, y: 40 },
         { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out' },
-        0.05
+        0.08
       )
       tl.to(textRef1.current,
         { opacity: 0, y: -40, duration: 0.12, ease: 'power2.in' },
-        0.28
+        0.25
       )
 
       // Slide 2: Quality
       tl.fromTo(textRef2.current,
         { opacity: 0, y: 40 },
         { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out' },
-        0.35
+        0.40
       )
       tl.to(textRef2.current,
         { opacity: 0, y: -40, duration: 0.12, ease: 'power2.in' },
-        0.58
+        0.57
       )
 
       // Slide 3: Eco
       tl.fromTo(textRef3.current,
         { opacity: 0, y: 40 },
         { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out' },
-        0.65
+        0.72
       )
       tl.to(textRef3.current,
         { opacity: 0, y: -40, duration: 0.12, ease: 'power2.in' },
-        0.95
+        0.88
       )
 
     }, containerRef)
@@ -222,12 +220,12 @@ export function ScrollStory() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[200vh] bg-[#FAF7F4]"
+      className="relative w-full h-[350vh] bg-[#FAF7F4]"
     >
       {/* Background Wrapper driven by GSAP */}
       <div
         ref={bgRef}
-        className="absolute inset-0 bg-[#FAF7F4] pointer-events-none opacity-0"
+        className="absolute inset-0 bg-[#806d5f] pointer-events-none opacity-0"
       />
 
       {/* Sticky Content Wrapper */}
@@ -236,14 +234,14 @@ export function ScrollStory() {
         className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center"
       >
         {/* Ambient Top and Bottom Fades for Seamless Layout Integration */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#FAF7F4] to-transparent z-10 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FAF7F4] to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent opacity-100 z-10 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent opacity-100 z-10 pointer-events-none" />
 
         {/* Static Placeholder (renders immediately while preloading in background) */}
         <img
           src={getFramePath(1)}
           alt="Alpona Story"
-          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700"
+          className="absolute w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center transition-opacity duration-1000"
           style={{ 
             opacity: isLoaded ? 0 : 1, 
             pointerEvents: 'none',
@@ -254,9 +252,10 @@ export function ScrollStory() {
         {/* Canvas for High-Performance Frame Rendering */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+          className="w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center pointer-events-none"
           style={{
-            opacity: 1,
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1)',
             zIndex: 10
           }}
         />
