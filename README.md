@@ -1,18 +1,21 @@
 <div align="center">
 
-# 🎨 Alpona — Premium Print-on-Demand E-Commerce & AI Platform
+# 🎨 Alpona Studio
 
-**Official Submission for Adamas University Hackathon: GameLiminals X VibeForge 1.0**  
+### Premium Print-on-Demand E-Commerce & AI Platform
+
+**Official Submission — Adamas University Hackathon: GameLiminals × VibeForge 1.0**
 *Track: AI in Finance & E-Commerce*
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.19-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
-[![Google Gemini](https://img.shields.io/badge/Google_Gemini-1.5_Flash-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
-[![License](https://img.shields.io/badge/License-MIT-amber?style=for-the-badge)](LICENSE)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Flash-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+[![Razorpay](https://img.shields.io/badge/Razorpay-Payments-0066FF?style=for-the-badge&logo=razorpay&logoColor=white)](https://razorpay.com/)
+[![License](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
 
-[Live Storefront](#-executive-summary) • [AI Features](#-alpona-ai-copilot-suite-vibeforge-track) • [Full 63-Page Directory](#-complete-application-page-directory-63-pages) • [Architecture](#-system-architecture) • [Quickstart](#-quickstart--local-development)
+[Features](#-key-highlights) · [AI Suite](#-alpona-ai-copilot-suite) · [Pages Directory](#-complete-application-page-directory-63-pages) · [Architecture](#-system-architecture) · [Quickstart](#-quickstart--local-development)
 
 ---
 
@@ -20,160 +23,179 @@
 
 ## 🌟 Executive Summary
 
-**Alpona** is a full-stack, enterprise-grade Print-on-Demand (POD) apparel e-commerce platform engineered for creative expression, automated print logistics, and financial intelligence. Built using **Next.js 15 App Router**, **Supabase PostgreSQL**, and **Google Gemini AI**, Alpona bridges custom streetwear design, sub-second checkout, automated POD supply chain dispatch, and AI risk management into a unified digital flagship.
+**Alpona Studio** is a full-stack, production-grade **Print-on-Demand (POD)** e-commerce platform built for creative expression, automated print logistics, and AI-powered financial intelligence. It combines custom streetwear design, sub-second checkout, automated Qikink POD fulfillment, and multi-modal AI into a unified digital flagship.
 
-At the core of Alpona sits the **Alpona AI Copilot** — a server-side AI suite that guides customer purchases, protects store revenue via automated transaction fraud risk scoring, and empowers store administrators with strategic financial intelligence.
+At its core sits the **Alpona AI Copilot** — a server-side intelligence suite powered by **Google Gemini 2.5 Flash** with multimodal vision, automatic failover to OpenRouter, and 16+ dedicated AI API endpoints covering everything from shopping assistance to fraud detection, dynamic pricing, inventory forecasting, and product image OCR.
 
 > [!TIP]
-> **Production Ready**: Fully optimized with 5-minute Incremental Static Regeneration (ISR), hardware-accelerated 60 FPS hero animations, dynamic Cloudinary image compression, and ultra-fast edge middleware auth checks.
+> **Production Ready**: Optimized with 5-minute ISR, hardware-accelerated 60 FPS hero animations, dynamic Cloudinary CDN image compression, Razorpay HMAC-SHA256 payment verification, and zero TypeScript compilation errors.
 
 ---
 
-## ⚡ Key Highlights & Core Capabilities
+## ⚡ Key Highlights
 
-| Module | Features & Technical Highlights |
+| Module | Capabilities |
 | :--- | :--- |
-| **🤖 AI Intelligence** | 4-Mode Google Gemini 1.5 Flash Copilot (Shopping Assistant, Smart Pairings, Admin Fraud Scoring, Financial Insights) |
-| **🎨 Merch Studio** | Interactive 2D/3D custom apparel editor with print positioning (Front/Back/Pocket), DTF/Embroidery finish selection, & instant mockups |
-| **🛍️ Dynamic Catalog** | 25 storefront pages with multi-facet filtering (categories, sizes, colors, price), search overlay, & review lightboxes |
-| **💳 Payments & POD** | Razorpay gateway with HMAC-SHA256 signature security, COD pin coverage, & automated **Qikink** print dispatch |
-| **🛡️ Admin Suite** | 19 management modules for real-time sales KPIs, order status pipelines, customer CRM, review moderation, & CSV exports |
-| **⚡ Performance** | Sub-500ms initial paint, 102 KB shared JS bundle, zero layout shift (CLS 0.00), and 100% clean production build |
+| **🤖 AI Intelligence (16+ Endpoints)** | Gemini 2.5 Flash Multimodal Vision — Shopping Copilot, Smart Recommendations, Fraud Risk Scoring, Dynamic Pricing, Product OCR, Inventory Forecasting, Review Summarization, Size Recommendation, Visual Search, Auto-Tagging, Customer Segmentation, Return Risk Analysis |
+| **🎨 Design Studio** | Interactive custom apparel editor with print positioning (Front / Back / Pocket), DTF & Embroidery finish selection, text layers, logo upload, and instant mockup preview |
+| **🛍️ Dynamic Catalog** | Multi-facet filtering (category, subcategory, size, color, price range, gender), grid/list toggle, dual Men + Women taxonomy, and 5-minute ISR |
+| **💳 Payments & POD** | Razorpay gateway (UPI/Card/NetBanking) with HMAC-SHA256 verification, COD with pincode coverage check, and automated Qikink POD dispatch |
+| **🛡️ Admin Suite (15 Modules)** | Real-time sales KPIs, order pipelines with AI fraud badges, product CRUD, customer CRM, review moderation, coupon management, analytics dashboards, and CSV export |
+| **🖼️ Media Pipeline** | Cloudinary CDN with auto WebP/AVIF, clipboard paste-to-upload (Ctrl+V), drag-and-drop, and SVG vector brand emblem system |
+| **📱 Progressive Web App** | Service worker, web manifest, responsive mobile-first design, and offline-capable asset caching |
 
 ---
 
-## 🤖 Alpona AI Copilot Suite (VibeForge Track)
+## 🤖 Alpona AI Copilot Suite
 
-All AI features execute securely via a single server-side endpoint (`/api/ai-copilot`) using **Google Gemini 1.5 Flash** (with OpenRouter failover) to guarantee API keys are never exposed client-side.
+All AI features execute securely via server-side API routes using **Google Gemini 2.5 Flash** (with multi-model failover chain: `gemini-2.5-flash` → `gemini-2.0-flash` → `gemini-1.5-flash-latest` → OpenRouter). API keys are **never** exposed to the client.
 
 ```
-                  ┌─────────────────────────────────────────┐
-                  │   Alpona AI Unified Endpoint             │
-                  │        (/api/ai-copilot)                │
-                  └────────────────────┬────────────────────┘
-                                       │
-         ┌──────────────────┬──────────┴──────────┬──────────────────┐
-         ▼                  ▼                     ▼                  ▼
-┌──────────────────┐ ┌───────────────┐ ┌──────────────────┐ ┌──────────────────┐
-│ Mode 1: Shopping │ │ Mode 2: Smart │ │ Mode 3: Fraud    │ │ Mode 4: Business │
-│ Assistant        │ │ Recommendations││ Scoring          │ │ Insights         │
-│ (Concierge Chat) │ │ (PDP & Home)  │ │ (Admin Orders)   │ │ (Admin Dashboard)│
-└──────────────────┘ └───────────────┘ └──────────────────┘ └──────────────────┘
+                  ┌──────────────────────────────────────────────┐
+                  │     Alpona AI Engine (Server-Side Only)      │
+                  │   Google Gemini 2.5 Flash + OpenRouter       │
+                  └───────────────────────┬──────────────────────┘
+                                          │
+    ┌─────────────┬──────────────┬────────┴────────┬──────────────┬─────────────┐
+    ▼             ▼              ▼                 ▼              ▼             ▼
+┌─────────┐ ┌──────────┐ ┌────────────┐ ┌───────────────┐ ┌──────────┐ ┌────────────┐
+│Shopping │ │  Smart   │ │   Fraud    │ │   Dynamic    │ │ Product  │ │ Inventory  │
+│Copilot  │ │  Recs    │ │  Scoring   │ │   Pricing    │ │ OCR &    │ │ Forecast & │
+│(Chat)   │ │(PDP/Home)│ │(Admin)     │ │(Admin)       │ │Describe  │ │ 12 More    │
+└─────────┘ └──────────┘ └────────────┘ └───────────────┘ └──────────┘ └────────────┘
 ```
 
-### Mode 1 — AI Shopping Assistant *(Customer-Facing)*
-- **Floating Chat Widget**: Styled in brand warm amber (`#B8763C`) accessible on every storefront page.
-- **Natural-Language Concierge**: Delivers concise style recommendations, sizing guidance, and gift suggestions in short, 2–3 sentence answers.
-- **Interactive Product Cards**: Directly renders clickable, purchasable product cards inside chat conversations.
-- **Session Rate-Limiting**: Enforces max 10 queries per session with loading skeleton UI feedback.
+### 🛒 Customer-Facing AI
 
-### Mode 2 — AI Smart Recommendations *(Customer-Facing)*
-- **Contextual Product Pairings**: Embedded on Homepage and Product Detail Pages (PDP).
-- **Personalized Rationale**: Ranks 4 complementary apparel items with a 1-line pairing reason badge (*"Pairs well with your last order's minimalist aesthetic"*).
-- **Graceful Fallback**: Fast category-similarity engine kicks in if external AI APIs time out.
+| Feature | Description |
+| :--- | :--- |
+| **Shopping Copilot** | Floating chat widget on every page — natural language concierge delivering style advice, sizing guidance, and interactive product cards inside conversations |
+| **Smart Recommendations** | Contextual product pairings on Homepage and PDP with personalized rationale badges and category-similarity fallback |
+| **Size Recommendation** | AI-driven body-fit matching based on garment measurements and user preferences |
+| **Visual Search** | Image-based product discovery powered by Gemini vision capabilities |
+| **Smart Search** | Natural language product search with intent understanding |
 
-### Mode 3 — AI Fraud Risk Scoring *(Admin-Facing)*
-- **Order Risk Badges**: Renders visual risk indicators (`Low`, `Medium`, `High`) and scores (0–100) inside the Admin Orders table.
-- **Multi-Factor Signals**: Evaluates order value anomalies (> ₹5,000 or >3x customer average), new account age (<3 days), rapid order velocity (≥3 orders in 24h), and high-ticket first purchases.
-- **Plain-English Explanations**: Generates clear explanations (*"Flagged: First-time order over ₹5,000 from a new account created 2 hours ago"*).
+### 🛡️ Admin-Facing AI
 
-### Mode 4 — AI Financial & Business Insights *(Admin-Facing)*
-- **Executive Strategic Intelligence**: On-demand intelligence card on the main Admin Dashboard.
-- **Multi-Metric Synthesis**: Aggregates revenue trends, order velocity, top selling categories, and cancellation rates into actionable financial action items.
-- **On-Demand Execution**: Triggered via button click to eliminate redundant API credit usage on routine page reloads.
+| Feature | Description |
+| :--- | :--- |
+| **Fraud Risk Scoring** | Multi-factor risk badges (Low/Medium/High, 0–100 score) evaluating order value anomalies, account age, rapid velocity, and high-ticket first purchases |
+| **Dynamic Pricing** | AI-powered pricing suggestions with Gemini 2.5 Flash vision analysis of product images for OCR text detection (e.g., Bengali typography recognition) |
+| **Product Auto-Describe** | Multimodal vision OCR — reads garment text, fabric details, and design elements from product photos to generate accurate titles and descriptions |
+| **Inventory Forecasting** | Demand prediction and re-order alerts based on sales velocity analysis |
+| **Customer Segmentation** | AI-powered customer cohort analysis for targeted marketing |
+| **Return Risk Analysis** | Predictive return probability scoring per order |
+| **Review Summarization** | Automated sentiment aggregation across customer reviews |
+| **Business Insights** | Executive strategic intelligence synthesizing revenue trends, order velocity, top categories, and cancellation rates |
+| **Auto-Tagging** | Automatic product tag generation from images and descriptions |
 
 ---
 
 ## 🗺️ Complete Application Page Directory (63 Pages)
 
-Alpona features **63 dedicated pages, tabs, and module views** built to deliver a flagship shopping, customization, and business administration experience.
+Alpona features **63 dedicated pages, tabs, and module views** across storefront, account, authentication, admin, and seller hub.
 
 <details open>
 <summary><b>🛍️ 1. Storefront & Customer Pages (25 Pages)</b></summary>
 
-1. **Homepage (`/`)** — Interactive 60fps frame sequence Hero animation, Trust Section, Category Hubs, Trending Products Carousel, New Arrivals, AI Smart Recommendations, Why Alpona Comparison, Limited Time Offer timer, Scroll Story, Testimonials, FAQ Preview, and Newsletter subscription.
-2. **Shop Catalog (`/shop`)** — Multi-facet product catalog with grid/list view toggle, price slider, sort controls (newest, price, rating, featured), category filter chips, search bar, and 5-minute Incremental Static Regeneration (ISR).
-3. **Product Detail Page (`/shop/[slug]`)** — High-resolution image gallery with lightbox zoom, variant pickers (sizes & colors), fabric craftsmanship accordions, AI Size Recommender, customer reviews, rating breakdown, and sticky mobile purchase bar.
-4. **Design Studio (`/design-studio` & `/create`)** — Interactive 2D/3D custom apparel builder, print position toggle (front, back, left-pocket), DTF/Embroidery finish selector, text layer editor, vector logo upload, snap guidelines, and instant mockup renderer.
-5. **Style Match AI (`/style-match`)** — Interactive AI-powered aesthetic quiz analyzing fit, vibe, and color preferences to match users with curated apparel drops.
-6. **Design DNA (`/design-dna`)** — Visual aesthetic feed showcasing streetwear culture, art inspirations, and print finish stories.
-7. **Shopping Cart (`/cart`)** — Cart item manager with quantity adjustments, promo coupon validation drawer, subtotal breakdown, gift wrapping options (+₹59), priority delivery (+₹100), and checkout CTA.
-8. **Checkout Page (`/checkout`)** — Single-page checkout with shipping address manager, pincode delivery check, Razorpay UPI/Card gateway integration, Cash on Delivery option, and HMAC signature verification.
-9. **Order Tracking Lookup (`/order/track` & `/track-order`)** — Public lookup form requiring Order ID and phone number to display real-time shipment status and tracking updates.
-10. **Order Success Confirmation (`/order/success`)** — Post-purchase confirmation page presenting order breakdown, payment status badge, delivery estimate timeline, and downloadable receipt.
-11. **Wishlist (`/wishlist`)** — Saved product gallery with one-click quick add to cart, item removal, and persistent local/account sync.
-12. **Reviews & Social Proof (`/reviews`)** — Public community reviews wall displaying aggregate ratings, customer photo gallery, verified purchase badges, and review submission drawer.
-13. **FAQ & Help Center (`/faq` & `/help`)** — Searchable knowledge base with accordion topics covering custom printing, shipping timelines, return policies, and instant AI help.
-14. **Contact Us (`/contact`)** — Contact form, support email/phone details, business operating hours, and average response time badge.
-15. **About Us (`/about`)** — Brand story, sustainable zero-waste print-on-demand mission, fabric quality standards, and craftsmanship transparency.
-16. **Affiliate Program (`/affiliate`)** — Creator partner onboarding page explaining commission tiers, payout schedules, earning calculator, and registration CTA.
-17. **Referral Program (`/referral`)** — "Give ₹200, Get ₹200" referral hub with unique shareable links, WhatsApp share button, and referral rewards tracker.
-18. **Gift Cards (`/gift-cards`)** — Digital gift card store with customizable denomination selectors (₹500 to ₹5,000), recipient email form, and live digital voucher preview.
-19. **Size Guide (`/size-guide`)** — Garment sizing chart with detailed measurements (Chest, Length, Shoulder) for Regular, Oversized, Boxy, and Hoodie fits.
-20. **Shipping & Delivery Policy (`/shipping`)** — Shipping rates, pincode serviceability map, free shipping threshold (orders over ₹999), and delivery carrier SLAs (Delhivery/Shiprocket).
-21. **Returns & Exchange Policy (`/returns`)** — 7-day hassle-free return policy guidelines, return eligibility checklist, and automated return request workflow.
-22. **Privacy Policy (`/privacy`)** — Data protection statement, cookie policy, encryption protocols, and user data rights disclosure.
-23. **Terms & Conditions (`/terms`)** — Intellectual property rules, print copyright guidelines, payment terms, and user conduct agreement.
-24. **Blog Catalog (`/blog`)** — Streetwear fashion journal, custom apparel design tips, printing technology guides, and style lookbooks.
-25. **Blog Article Page (`/blog/[slug]`)** — Rich article viewer with read time estimator, author bio, social sharing triggers, and contextual product recommendations.
+| # | Page | Route | Highlights |
+|---|------|-------|------------|
+| 1 | **Homepage** | `/` | 60fps frame-sequence hero animation, category hubs, trending carousel, AI recommendations, scroll story, testimonials, FAQ, newsletter |
+| 2 | **Shop Catalog** | `/shop` | Multi-facet filtering, grid/list toggle, price slider, sort controls, dual Men+Women gender taxonomy, 5-min ISR |
+| 3 | **Product Detail** | `/shop/[slug]` | Hi-res gallery with lightbox, variant pickers (size/color), fabric accordions, AI size recommender, reviews, sticky mobile purchase bar |
+| 4 | **Design Studio** | `/design-studio` & `/create` | Interactive 2D/3D apparel builder, print position toggle, DTF/Embroidery finish, text editor, logo upload, instant mockups |
+| 5 | **Style Match AI** | `/style-match` | AI aesthetic quiz for personalized apparel recommendations |
+| 6 | **Design DNA** | `/design-dna` | Visual streetwear culture feed and print finish stories |
+| 7 | **Shopping Cart** | `/cart` | Quantity management, promo coupon drawer, gift wrapping (+₹59), priority delivery (+₹100) |
+| 8 | **Checkout** | `/checkout` | Single-page checkout, address manager, pincode delivery check, Razorpay UPI/Card gateway, COD, HMAC verification, independent gift wrap & box packing toggles |
+| 9 | **Order Tracking** | `/order/track` & `/track-order` | Public lookup with Order ID + phone for real-time shipment status |
+| 10 | **Order Success** | `/order/success` | Confirmation with order breakdown, payment badge, delivery timeline, downloadable receipt |
+| 11 | **Wishlist** | `/wishlist` | Saved product gallery with quick add-to-cart and persistent sync |
+| 12 | **Reviews** | `/reviews` | Community reviews wall with aggregate ratings, photo gallery, verified purchase badges |
+| 13 | **FAQ & Help** | `/faq` & `/help` | Searchable knowledge base with accordion topics and AI help |
+| 14 | **Contact** | `/contact` | Contact form, support details, business hours, response time badge |
+| 15 | **About** | `/about` | Brand story, zero-waste POD mission, fabric quality standards |
+| 16 | **Affiliate** | `/affiliate` | Creator partner onboarding with commission tiers and earning calculator |
+| 17 | **Referral** | `/referral` | "Give ₹200, Get ₹200" hub with shareable links and WhatsApp share |
+| 18 | **Gift Cards** | `/gift-cards` | Digital voucher store (₹500–₹5,000) with recipient email and live preview |
+| 19 | **Size Guide** | `/size-guide` | Measurement charts for Regular, Oversized, Boxy, and Hoodie fits |
+| 20 | **Shipping Policy** | `/shipping` | Rates, pincode map, free shipping threshold (₹999+), carrier SLAs |
+| 21 | **Returns Policy** | `/returns` | 7-day hassle-free return guidelines and automated return workflow |
+| 22 | **Privacy Policy** | `/privacy` | Data protection, cookie policy, encryption protocols |
+| 23 | **Terms & Conditions** | `/terms` | IP rules, print copyright, payment terms, user conduct |
+| 24 | **Blog Catalog** | `/blog` | Fashion journal, design tips, printing guides, style lookbooks |
+| 25 | **Blog Article** | `/blog/[slug]` | Rich article viewer with read time, author bio, social sharing |
+
 </details>
 
 <details open>
-<summary><b>👤 2. User Account Dashboard Pages & Tabs (16 Pages)</b></summary>
+<summary><b>👤 2. User Account Dashboard (16 Pages)</b></summary>
 
-26. **Account Overview (`/account`)** — Customer profile summary card displaying total orders, saved addresses count, active wishlist items, and recent order status tracker.
-27. **My Orders (`/account/orders`)** — Order history list with status filtering (All, Processing, Shipped, Delivered, Cancelled), item breakdown, track package action, and one-click re-order.
-28. **Profile Settings (`/account/profile`)** — Profile manager for editing full name, email, mobile phone number, and avatar image upload.
-29. **Saved Addresses (`/account/addresses`)** — Address book allowing users to add, edit, or delete shipping addresses and set a default checkout address.
-30. **Coupons & Offers (`/account/coupons`)** — Personal coupon wallet listing active discount codes, percentage/flat savings, expiry countdowns, and one-click copy.
-31. **Account Wishlist (`/account/wishlist`)** — User-specific saved items grid with quick move-to-cart actions.
-32. **My Product Reviews (`/account/reviews`)** — History of customer's submitted product ratings and pending review requests for delivered orders.
-33. **Connected Devices (`/account/devices`)** — Active login session monitor displaying browser type, operating system, IP address, and remote sign-out action.
-34. **Language & Regional Settings (`/account/language`)** — Regional currency selector (INR ₹) and language preference controls (English, Hindi, Bengali).
-35. **Security & Password (`/account/password`)** — Password update form with current password validation and two-factor authentication (2FA) status.
-36. **Account Settings (`/account/settings`)** — Communication preferences toggle (Email newsletters, SMS/WhatsApp order updates) and account deletion request drawer.
-37. **Customer Support Tickets (`/account/faq`)** — Ticket management center for viewing active customer support requests, staff responses, and resolution status.
-38. **Community Q&A (`/account/qa`)** — Log of questions asked by the customer on product pages and official store answers.
-39. **Legal & Account Privacy (`/account/legal` & `/account/privacy`)** — Account privacy disclosures and data download tools.
-40. **Seller Hub Onboarding (`/account/seller-hub`)** — Creator signup gateway to apply for a seller account and earn royalties on custom designs.
+| # | Page | Route |
+|---|------|-------|
+| 26 | Account Overview | `/account` |
+| 27 | My Orders | `/account/orders` |
+| 28 | Profile Settings | `/account/profile` |
+| 29 | Saved Addresses | `/account/addresses` |
+| 30 | Coupons & Offers | `/account/coupons` |
+| 31 | Account Wishlist | `/account/wishlist` |
+| 32 | My Reviews | `/account/reviews` |
+| 33 | Connected Devices | `/account/devices` |
+| 34 | Language & Regional | `/account/language` |
+| 35 | Security & Password | `/account/password` |
+| 36 | Account Settings | `/account/settings` |
+| 37 | Support Tickets | `/account/faq` |
+| 38 | Community Q&A | `/account/qa` |
+| 39–40 | Legal & Privacy | `/account/legal` & `/account/privacy` |
+| 41 | Seller Hub Onboarding | `/account/seller-hub` |
+
 </details>
 
 <details>
 <summary><b>🔐 3. Authentication Pages (3 Pages)</b></summary>
 
-41. **Sign In (`/auth/login`)** — Login portal supporting Email/Password authentication, Google OAuth 2.0 single sign-on, Remember Me session persistence, and password reset redirect.
-42. **Create Account (`/auth/signup`)** — New user registration form with real-time password strength meter, email verification, and terms agreement check.
-43. **Forgot Password (`/auth/forgot-password`)** — Password recovery page sending secure, single-use password reset tokens to verified user emails.
+| # | Page | Route |
+|---|------|-------|
+| 42 | Sign In | `/auth/login` — Email/Password, Google OAuth 2.0, Remember Me |
+| 43 | Create Account | `/auth/signup` — Password strength meter, email verification |
+| 44 | Forgot Password | `/auth/forgot-password` — Secure single-use reset tokens |
+
 </details>
 
 <details open>
-<summary><b>🛠️ 4. Admin Management Dashboard Pages & Tabs (19 Pages)</b></summary>
+<summary><b>🛠️ 4. Admin Dashboard (19 Modules)</b></summary>
 
-44. **Admin Overview (`/admin`)** — Store executive dashboard displaying Today's Revenue, Total Orders, Active Customers, Gateway API Status checks, Sales Trend Chart, and AI Strategic Insights.
-45. **Products Catalog Management (`/admin/products`)** — Products data table with search, status toggles (Active, Draft, Hidden), price quick-edit, category filter, and pagination.
-46. **Create Product (`/admin/products/create`)** — Multi-step product builder for title, description, base/selling price, category/subcategory mapping, fabric specs, color swatches, size matrix, and Cloudinary image upload.
-47. **Edit Product (`/admin/products/[id]`)** — Complete product management view for updating inventory stock, variant prices, product badges, and image galleries.
-48. **Import Products (`/admin/products/import`)** — CSV import tool & automated Qikink POD catalog sync manager for bulk product creation.
-49. **Categories Management (`/admin/categories`)** — Category taxonomy manager to create, edit, reorder, or hide main product categories (T-Shirts, Hoodies, Accessories).
-50. **Subcategories Management (`/admin/subcategories`)** — Subcategory mapping tool linking sub-items (Graphic Tees, Oversized Hoodies, Tote Bags) to parent categories.
-51. **Product Types (`/admin/product-types`)** — Apparel cut classification manager defining garment styles (Heavyweight 240GSM, Boxy Fit, French Terry).
-52. **Orders Management (`/admin/orders`)** — Fulfillment control center displaying all customer orders, payment badges, **AI Fraud Risk Scores**, status update dropdowns, Qikink POD dispatch trigger, and CSV export.
-53. **Customer Database (`/admin/customers`)** — Customer CRM table showing customer names, emails, total spend (LTV), total orders count, and account registration dates.
-54. **Design Assets Vault (`/admin/designs`)** — Repository for managing custom uploaded design vectors, print artwork files, and copyright licensing statuses.
-55. **Coupons & Promotions (`/admin/coupons`)** — Promotional campaign creator for setting up discount codes, percentage/flat savings, minimum order values, usage limits, and expiration dates.
-56. **Analytics & Financial Reports (`/admin/analytics`)** — Business analytics suite with interactive revenue graphs, conversion rate metrics, top selling designs, and regional sales distribution maps.
-57. **AI Strategic Insights (`/admin/ai-insights`)** — Dedicated AI intelligence dashboard providing demand forecasting, inventory re-order alerts, return risk analysis, and dynamic pricing suggestions.
-58. **Product Reviews Moderation (`/admin/reviews`)** — Moderation panel to review, approve, feature, or hide customer product reviews and photo uploads.
-59. **Store Settings (`/admin/settings`)** — Store profile manager for configuring store name, contact email, tax (GST) settings, currency options, and brand logo.
-60. **Shipping & Freight Rules (`/admin/shipping`)** — Logistics manager for configuring flat shipping rates, free shipping order minimums, Delhivery/Shiprocket API keys, and pincode blacklists.
-61. **Support Tickets Helpdesk (`/admin/support`)** — Support agent ticketing desk for managing customer queries, responding to order issues, and closing resolved tickets.
-62. **Staff & User Roles (`/admin/users`)** — Role-based access control (RBAC) panel for assigning admin, moderator, and support staff permissions.
+| # | Module | Route | Highlights |
+|---|--------|-------|------------|
+| 45 | Dashboard Overview | `/admin` | Revenue KPIs, order velocity, gateway status, sales chart, AI strategic insights |
+| 46 | Products Catalog | `/admin/products` | Search, status toggles, price quick-edit, category filter, pagination |
+| 47 | Create Product | `/admin/products/create` | Multi-step builder, Cloudinary upload, clipboard paste (Ctrl+V), dual Men+Women audience, AI auto-describe with vision OCR |
+| 48 | Edit Product | `/admin/products/[id]` | Full product management with variant pricing and gallery |
+| 49 | Import Products | `/admin/products/import` | CSV import & Qikink POD catalog sync |
+| 50 | Categories | `/admin/categories` | Category taxonomy manager |
+| 51 | Subcategories | `/admin/subcategories` | Subcategory-to-parent mapping |
+| 52 | Product Types | `/admin/product-types` | Garment style classification (240GSM, Boxy Fit, French Terry) |
+| 53 | Orders | `/admin/orders` | Fulfillment center with AI fraud risk scores, status pipelines, Qikink dispatch, CSV export |
+| 54 | Customers | `/admin/customers` | CRM table with LTV, order count, registration dates |
+| 55 | Design Assets | `/admin/designs` | Custom design vault with copyright licensing |
+| 56 | Coupons | `/admin/coupons` | Promotional campaign creator with usage limits and expiry |
+| 57 | Analytics | `/admin/analytics` | Revenue graphs, conversion metrics, regional distribution |
+| 58 | AI Insights | `/admin/ai-insights` | Demand forecasting, inventory alerts, dynamic pricing suggestions |
+| 59 | Reviews Moderation | `/admin/reviews` | Approve, feature, or hide customer reviews |
+| 60 | Store Settings | `/admin/settings` | Store profile, GST, currency, brand logo |
+| 61 | Shipping Rules | `/admin/shipping` | Flat rates, free shipping minimums, carrier API config |
+| 62 | Support Helpdesk | `/admin/support` | Customer query ticketing desk |
+| 63 | Staff & Roles | `/admin/users` | RBAC panel for admin/moderator/support permissions |
+
 </details>
 
 <details>
-<summary><b>🎨 5. Seller Hub Dashboard Pages (1 Page)</b></summary>
+<summary><b>🎨 5. Seller Hub (1 Page)</b></summary>
 
-63. **Seller Creator Hub (`/seller` & `/seller/products`)** — Creator portal for independent designers to track design sales, monitor earned royalties, submit new artwork for review, and request bank payouts.
+| # | Page | Route |
+|---|------|-------|
+| 64 | Seller Creator Hub | `/seller` & `/seller/products` — Design sales tracking, royalties, artwork submission, payout requests |
+
 </details>
 
 ---
@@ -182,22 +204,26 @@ Alpona features **63 dedicated pages, tabs, and module views** built to deliver 
 
 ```mermaid
 graph TD
-    User([🛒 Customer / Visitor]) -->|Browses & Customizes| NextApp[Next.js 15 Storefront]
-    Admin([🛡️ Store Administrator]) -->|RBAC Auth Guard| AdminPanel[Next.js 15 Admin Panel]
+    User(["🛒 Customer"]) -->|Browses & Customizes| NextApp["Next.js 15 Storefront"]
+    Admin(["🛡️ Administrator"]) -->|RBAC Auth Guard| AdminPanel["Next.js 15 Admin Panel"]
     
-    subgraph Server-Side API Layer
-        NextApp -->|POST Request| AICopilot[/api/ai-copilot\]
-        AdminPanel -->|POST Request| AICopilot
-        NextApp -->|Razorpay Webhook| VerifyAPI[/api/razorpay/verify\]
+    subgraph "Server-Side API Layer (15 Route Groups)"
+        NextApp -->|POST| AICopilot["/api/ai-copilot"]
+        NextApp -->|POST| AIEndpoints["/api/ai/* (16 endpoints)"]
+        AdminPanel -->|POST| AICopilot
+        AdminPanel -->|POST| AIEndpoints
+        NextApp -->|Razorpay Webhook| VerifyAPI["/api/razorpay/verify"]
     end
 
-    subgraph Core Infrastructure & Services
-        AICopilot -->|Server Prompt| Gemini[Google Gemini 1.5 Flash AI]
-        AICopilot -->|Failover| OpenRouter[OpenRouter AI Platform]
-        VerifyAPI -->|HMAC Verification| Razorpay[Razorpay Payment Gateway]
-        VerifyAPI -->|Auto POD Dispatch| Qikink[Qikink Fulfillment API]
-        NextApp -->|PostgreSQL Data| Supabase[(Supabase DB & Auth)]
-        AdminPanel -->|PostgreSQL Data| Supabase
+    subgraph "Core Infrastructure"
+        AICopilot -->|Multimodal Vision| Gemini["Google Gemini 2.5 Flash"]
+        AIEndpoints -->|Vision + OCR| Gemini
+        AICopilot -->|Failover Chain| OpenRouter["OpenRouter AI"]
+        VerifyAPI -->|HMAC-SHA256| Razorpay["Razorpay Gateway"]
+        VerifyAPI -->|Auto Dispatch| Qikink["Qikink POD Fulfillment"]
+        NextApp -->|PostgreSQL + RLS| Supabase[("Supabase DB & Auth")]
+        AdminPanel -->|PostgreSQL + RLS| Supabase
+        NextApp -->|CDN Transform| Cloudinary["Cloudinary Media"]
     end
 ```
 
@@ -205,45 +231,68 @@ graph TD
 
 ## 🛠️ Technology Stack
 
-| Layer | Technology | Purpose & Implementation Details |
+| Layer | Technology | Details |
 | :--- | :--- | :--- |
-| **Framework** | **Next.js 15.5** | App Router, React Server Components (RSC), Incremental Static Regeneration (ISR) |
-| **Language** | **TypeScript 5.0** | End-to-end strict type definitions & Zod validation schemas |
-| **Styling** | **Tailwind CSS v4** | Custom warm matte design system with amber accents (`#B8763C`) |
-| **Animations** | **Framer Motion** | Hardware-accelerated 60 FPS transitions, spring physics, & micro-interactions |
-| **Database & Auth**| **Supabase** | PostgreSQL database, Row Level Security (RLS) policies, & Supabase Auth |
-| **AI Engine** | **Google Gemini** | Gemini 1.5 Flash multimodal AI with OpenRouter failover resilience |
-| **Payments** | **Razorpay API** | Secured payment checkout with HMAC-SHA256 signature verification |
-| **POD Supply Chain**| **Qikink API** | Automated print-on-demand fulfillment dispatch and tracking webhooks |
-| **Media CDN** | **Cloudinary** | Image transformation pipeline (`f_auto,q_auto,w_xxx`) and auto WebP/AVIF |
+| **Framework** | Next.js 15.5.19 | App Router, React Server Components, ISR, Edge Middleware |
+| **Language** | TypeScript 5.0 | Strict mode, Zod validation schemas, zero compilation errors |
+| **Runtime** | React 19.1 | Latest concurrent features, server components |
+| **Styling** | Tailwind CSS v4.3 | Custom warm matte design system with amber accents (`#B8763C`) |
+| **Animations** | Framer Motion + GSAP | Hardware-accelerated 60 FPS transitions, spring physics, scroll story |
+| **3D** | Three.js + React Three Fiber | Interactive 3D product previews in Design Studio |
+| **State** | Zustand | Lightweight stores for cart, wishlist, and design studio state |
+| **Database** | Supabase PostgreSQL | Row Level Security policies, real-time subscriptions, Supabase Auth |
+| **AI Engine** | Google Gemini 2.5 Flash | Multimodal vision with OCR, multi-model failover chain, OpenRouter backup |
+| **Payments** | Razorpay API | UPI / Card / NetBanking with HMAC-SHA256 signature verification |
+| **POD Fulfillment** | Qikink API | Automated print-on-demand dispatch and tracking webhooks |
+| **Media CDN** | Cloudinary | Auto WebP/AVIF, `f_auto,q_auto` transforms, responsive breakpoints |
+| **Email** | Resend | Transactional order confirmation and password reset emails |
+| **Forms** | React Hook Form + Zod | Type-safe form validation with resolver integration |
+| **Smooth Scroll** | Lenis | Buttery smooth scroll with momentum and easing |
+| **Icons** | Tabler Icons + Lucide | Consistent icon system across all components |
 
 ---
 
-## 📁 Repository Map
+## 📁 Repository Structure
 
 ```text
 SohanCanSolo/
-├── app/                        # Next.js App Router Structure
-│   ├── (shop)/                 # Storefront pages (Home, Shop, PDP, Cart, Checkout)
-│   ├── admin/                  # Admin Operations Panel (Dashboard, Orders, Catalog)
-│   ├── api/                    # Core Server API Endpoints
-│   │   ├── ai-copilot/         # Unified AI Copilot (Shopping, Recs, Fraud, Insights)
-│   │   ├── razorpay/           # Payment creation & HMAC signature verification
-│   │   └── qikink/             # POD order dispatch & webhooks
-│   └── globals.css             # Tailwind CSS tokens & matte design system
-├── components/                 # React UI Component Library
-│   ├── ai/                     # ShoppingCopilotWidget component
-│   ├── admin/                  # FraudRiskBadge & AIInsightsCard components
-│   ├── shop/                   # ProductCard, AIRecommendations, ProductDetailClient
-│   ├── create/                 # DesignStudio canvas editor
-│   ├── layout/                 # Navbar, Footer, AnnouncementBar
-│   └── ui/                     # Base UI reusable primitives
-├── lib/                        # Core Application Services
-│   ├── ai/                     # Gemini provider, failover engine, copilot prompts
-│   ├── supabase/               # Client, Server, and Admin Supabase instances
-│   ├── razorpay.ts             # Razorpay API client
-│   └── qikink.ts               # Qikink API client
-└── README.md                   # Repository Documentation
+├── app/                           # Next.js 15 App Router
+│   ├── (shop)/                    # 25 storefront pages (Home, Shop, PDP, Cart, Checkout…)
+│   ├── admin/                     # 19 admin modules (Dashboard, Orders, Products…)
+│   ├── api/                       # 15 API route groups
+│   │   ├── ai-copilot/            # Unified AI Copilot endpoint
+│   │   ├── ai/                    # 16 specialized AI endpoints (OCR, pricing, fraud…)
+│   │   ├── razorpay/              # Payment creation & HMAC verification
+│   │   ├── qikink/                # POD order dispatch & webhooks
+│   │   ├── cloudinary/            # Image upload & transformation
+│   │   └── ...                    # search, orders, coupons, auth, health, etc.
+│   ├── auth/                      # Login, Signup, Forgot Password
+│   ├── seller/                    # Seller Creator Hub
+│   ├── globals.css                # Tailwind v4 tokens & matte design system
+│   └── layout.tsx                 # Root layout with fonts, metadata, providers
+├── components/                    # React Component Library (12 modules)
+│   ├── ai/                        # ShoppingCopilotWidget
+│   ├── admin/                     # FraudRiskBadge, AIInsightsCard
+│   ├── shop/                      # ProductCard, ProductDetailClient, ShopCatalog
+│   ├── create/                    # DesignStudio canvas editor
+│   ├── layout/                    # Navbar, Footer, AnnouncementBar
+│   ├── shared/                    # AlponaLogo (SVG), JsonLd, PremiumIcons
+│   ├── ui/                        # Base primitives, image upload (paste + drag-drop)
+│   └── ...                        # checkout, home, help, product, providers
+├── lib/                           # Core Services
+│   ├── ai/                        # Gemini provider (multi-model failover), copilot prompts
+│   ├── supabase/                  # Client, Server, and Admin instances
+│   ├── security/                  # Rate limiting, input sanitization
+│   ├── validation/                # Zod schemas
+│   └── ...                        # Cloudinary, Razorpay, Qikink, email, utils
+├── store/                         # Zustand state (cart, wishlist, design studio)
+├── hooks/                         # Custom hooks (useUser, useUpload, useTilt3D, useReveal…)
+├── constants/                     # Site config, categories, product data
+├── config/                        # App configuration
+├── middleware.ts                  # Edge auth middleware with public route fast-path
+├── next.config.ts                 # CSP headers, image remotePatterns, Razorpay CDN rules
+├── public/                        # Static assets, hero frames, scroll story, PWA manifest
+└── supabase/                      # Database migrations & seed data
 ```
 
 ---
@@ -262,32 +311,37 @@ npm install
 ```
 
 ### 3. Setup Environment Variables
-Create `.env.local` based on `.env.example`:
 ```bash
 cp .env.example .env.local
 ```
 
-Fill in required keys:
+Fill in the required keys:
 ```env
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-# Supabase Credentials
-NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+# ── Supabase ──
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
-# Razorpay Credentials
+# ── Razorpay ──
 NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_your_key_id
 RAZORPAY_KEY_SECRET=your_razorpay_key_secret
 
-# AI Engine Credentials
+# ── Google Gemini AI ──
 GEMINI_API_KEY=your_gemini_api_key
 
-# Qikink & Cloudinary
-QIKINK_CLIENT_ID=your_qikink_client_id
-QIKINK_CLIENT_SECRET=your_qikink_client_secret
+# ── Cloudinary ──
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# ── Qikink POD ──
+QIKINK_CLIENT_ID=your_qikink_client_id
+QIKINK_CLIENT_SECRET=your_qikink_client_secret
+
+# ── Email (Resend) ──
+RESEND_API_KEY=your_resend_api_key
 ```
 
 ### 4. Launch Development Server
@@ -298,26 +352,38 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🔒 Security & Performance Guardrails
+## 🔒 Security & Performance
 
-1. **Server-Side API Key Masking**: All Gemini AI keys execute exclusively in server-side API routes (`/api/ai-copilot`). No AI credentials exist in client bundles.
-2. **Cryptographic Payment Security**: Every Razorpay order confirmation is verified using server-side HMAC-SHA256 signatures before status mutation.
-3. **Edge Middleware Fast-Path**: Public unauthenticated routes skip auth RTT queries in `middleware.ts`, eliminating ~250ms latency per request.
-4. **Output XSS Sanitization**: All AI text outputs are sanitized before DOM insertion to prevent injection attacks.
-5. **Production Build Clean**: 100% error-free compilation with `npm run build` across 95 static & dynamic route bundles.
+| Area | Implementation |
+| :--- | :--- |
+| **API Key Isolation** | All AI, payment, and third-party keys execute exclusively in server-side API routes — zero client exposure |
+| **Payment Verification** | Every Razorpay transaction is verified via server-side HMAC-SHA256 signature before order status mutation |
+| **Content Security Policy** | Strict CSP headers allowing only whitelisted domains (Razorpay CDN, Google Analytics, Cloudinary) |
+| **Edge Middleware** | Public routes skip auth DB queries, eliminating ~250ms latency per unauthenticated request |
+| **XSS Sanitization** | All AI-generated text outputs are sanitized before DOM insertion |
+| **Input Validation** | Zod schemas validate all API inputs server-side with typed error responses |
+| **TypeScript Strict** | Zero compilation errors — verified with `tsc --noEmit` before every deployment |
+| **ISR Caching** | 5-minute Incremental Static Regeneration for catalog pages with on-demand revalidation |
 
 ---
 
 ## 🤝 Submission & Credits
 
-- **Event**: Adamas University Hackathon — GameLiminals X VibeForge 1.0
-- **Track**: AI in Finance & E-Commerce
-- **Project**: Alpona — Premium Print-on-Demand E-Commerce & AI Platform
-- **Developer**: Team SohanCanSolo ([Sohan-DevSpace](https://github.com/Sohan-DevSpace))
+| | |
+| :--- | :--- |
+| **Event** | Adamas University Hackathon — GameLiminals × VibeForge 1.0 |
+| **Track** | AI in Finance & E-Commerce |
+| **Project** | Alpona Studio — Premium Print-on-Demand E-Commerce & AI Platform |
+| **Developer** | Team SohanCanSolo — [Sohan-DevSpace](https://github.com/Sohan-DevSpace) |
+| **Repository** | [github.com/Sohan-DevSpace/SohanCanSolo](https://github.com/Sohan-DevSpace/SohanCanSolo) |
+
+---
 
 <div align="center">
 <br />
 
-*Crafted with precision & passion for Adamas University GameLiminals X VibeForge 1.0*
+*Built with precision & passion for Adamas University GameLiminals × VibeForge 1.0*
+
+**© 2026 Alpona Studio. All rights reserved.**
 
 </div>
