@@ -55,6 +55,7 @@ export function EditProductForm({ product, categories, subcategories, productTyp
   const [categoryId, setCategoryId] = useState(product.category_id || '')
   const [subcategoryId, setSubcategoryId] = useState(product.subcategory_id || '')
   const [productTypeId, setProductTypeId] = useState(product.product_type_id || '')
+  const [targetGenders, setTargetGenders] = useState<string[]>(['Men', 'Women'])
   
   // Pricing
   const [basePrice, setBasePrice] = useState(product.base_price?.toString() || '')
@@ -854,8 +855,6 @@ export function EditProductForm({ product, categories, subcategories, productTyp
                   onValueChange={(val: string | null) => {
                     const newCat: string = (!val || val === 'none') ? '' : val
                     setCategoryId(newCat)
-                    setSubcategoryId('')
-                    setProductTypeId('')
                   }}
                 >
                   <SelectTrigger className="w-full bg-[#09090b] border border-zinc-800 text-white text-xs h-10 px-3 rounded-xl focus:border-[#B8763C]">
@@ -872,29 +871,43 @@ export function EditProductForm({ product, categories, subcategories, productTyp
                 </Select>
               </div>
 
+              {/* Subcategory — Men, Women & Unisex Selection */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-medium text-zinc-300">Subcategory (Optional)</label>
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-medium text-zinc-300">Subcategory (Men & Women)</label>
+                  <span className="text-[9px] text-[#B8763C] font-semibold">Select Men, Women or Unisex</span>
+                </div>
                 <Select
                   value={subcategoryId || 'none'}
                   onValueChange={(val: string | null) => {
                     const newSub: string = (!val || val === 'none') ? '' : val
                     setSubcategoryId(newSub)
-                    setProductTypeId('')
+                    const selectedSub = subcategories.find(s => s.id === newSub)
+                    if (selectedSub?.category_id && !categoryId) {
+                      setCategoryId(selectedSub.category_id)
+                    }
                   }}
                 >
                   <SelectTrigger className="w-full bg-[#09090b] border border-zinc-800 text-white text-xs h-10 px-3 rounded-xl focus:border-[#B8763C]">
-                    <SelectValue placeholder="Select subcategory">
-                      {subcategories.find(s => s.id === subcategoryId)?.name || 'Select subcategory (Optional)'}
+                    <SelectValue placeholder="Select subcategory (Men, Women, Unisex)">
+                      {(() => {
+                        const sub = subcategories.find(s => s.id === subcategoryId)
+                        if (!sub) return 'Select subcategory (Men, Women, Unisex)'
+                        const parentCat = categories.find(c => c.id === sub.category_id)?.name
+                        return parentCat ? `${parentCat} ➔ ${sub.name}` : sub.name
+                      })()}
                     </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="bg-[#18181b] border border-zinc-700/80 text-white shadow-2xl z-[100]">
+                  <SelectContent className="bg-[#18181b] border border-zinc-700/80 text-white shadow-2xl z-[100] max-h-72 overflow-y-auto">
                     <SelectItem value="none">-- None (Direct to Category) --</SelectItem>
-                    {(categoryId 
-                      ? subcategories.filter(s => s.category_id === categoryId)
-                      : subcategories
-                    ).map(s => (
-                      <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
-                    ))}
+                    {subcategories.map(s => {
+                      const parentCat = categories.find(c => c.id === s.category_id)?.name
+                      return (
+                        <SelectItem key={s.id} value={s.id}>
+                          {parentCat ? `${parentCat} ➔ ${s.name}` : s.name}
+                        </SelectItem>
+                      )
+                    })}
                   </SelectContent>
                 </Select>
               </div>
@@ -913,18 +926,93 @@ export function EditProductForm({ product, categories, subcategories, productTyp
                       {productTypes.find(t => t.id === productTypeId)?.name || 'Select product type (Optional)'}
                     </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="bg-[#18181b] border border-zinc-700/80 text-white shadow-2xl z-[100]">
+                  <SelectContent className="bg-[#18181b] border border-zinc-700/80 text-white shadow-2xl z-[100] max-h-72 overflow-y-auto">
                     <SelectItem value="none">-- None --</SelectItem>
-                    {(subcategoryId
-                      ? (productTypes.filter(t => t.subcategory_id === subcategoryId).length > 0
-                          ? productTypes.filter(t => t.subcategory_id === subcategoryId)
-                          : productTypes)
-                      : productTypes
-                    ).map(t => (
-                      <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>
-                    ))}
+                    {productTypes.map(t => {
+                      const sub = subcategories.find(s => s.id === t.subcategory_id)
+                      const parentCat = sub ? categories.find(c => c.id === sub.category_id)?.name : null
+                      const prefix = parentCat && sub ? `${parentCat} ➔ ${sub.name}` : sub?.name
+                      return (
+                        <SelectItem key={t.id} value={t.id}>
+                          {prefix ? `${prefix} ➔ ${t.name}` : t.name}
+                        </SelectItem>
+                      )
+                    })}
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Target Audience / Gender Fit Selection */}
+              <div className="space-y-1.5 pt-2 border-t border-zinc-800/40">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-semibold text-zinc-200">Target Audience / Fit</label>
+                  <span className="text-[9px] text-[#B8763C] font-semibold">Select both for Unisex</span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (targetGenders.includes('Men')) {
+                        if (targetGenders.length > 1) setTargetGenders(targetGenders.filter(g => g !== 'Men'))
+                      } else {
+                        setTargetGenders([...targetGenders, 'Men'])
+                      }
+                    }}
+                    className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      targetGenders.includes('Men')
+                        ? 'border-blue-500/50 bg-blue-500/15 text-blue-300 ring-1 ring-blue-500/30'
+                        : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700 hover:text-white'
+                    }`}
+                  >
+                    <span>👨 Men</span>
+                    {targetGenders.includes('Men') && <Check className="w-3.5 h-3.5" />}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (targetGenders.includes('Women')) {
+                        if (targetGenders.length > 1) setTargetGenders(targetGenders.filter(g => g !== 'Women'))
+                      } else {
+                        setTargetGenders([...targetGenders, 'Women'])
+                      }
+                    }}
+                    className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      targetGenders.includes('Women')
+                        ? 'border-pink-500/50 bg-pink-500/15 text-pink-300 ring-1 ring-pink-500/30'
+                        : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700 hover:text-white'
+                    }`}
+                  >
+                    <span>👩 Women</span>
+                    {targetGenders.includes('Women') && <Check className="w-3.5 h-3.5" />}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (targetGenders.includes('Men') && targetGenders.includes('Women')) {
+                        setTargetGenders(['Men'])
+                      } else {
+                        setTargetGenders(['Men', 'Women'])
+                      }
+                    }}
+                    className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      targetGenders.includes('Men') && targetGenders.includes('Women')
+                        ? 'border-amber-500/50 bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/30'
+                        : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700 hover:text-white'
+                    }`}
+                  >
+                    <span>👫 Both (Unisex Fit)</span>
+                    {targetGenders.includes('Men') && targetGenders.includes('Women') && <Check className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+                
+                <p className="text-[10px] text-zinc-400 font-medium">
+                  {targetGenders.includes('Men') && targetGenders.includes('Women')
+                    ? '✓ Listed under BOTH Men & Women shop sections (Unisex)'
+                    : `✓ Listed under ${targetGenders.join(', ')} shop section`}
+                </p>
               </div>
             </div>
 

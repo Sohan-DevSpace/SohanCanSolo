@@ -424,55 +424,7 @@ export default function EditProfilePage() {
   }
 
   return (
-    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="w-full">
-      {/* ═══ HERO BANNER ─── */}
-      <motion.div variants={itemVariants} className="relative rounded-[32px] overflow-hidden bg-gradient-to-br from-[#FAF7F4] via-[#F5F1EC] to-[#EDE7DF] border border-[#E8E2DB] p-6 sm:p-8 mb-8">
-        {/* Ambient glow */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(circle_at_top_right,rgba(184,118,60,0.1)_0%,transparent_70%)] pointer-events-none" />
-
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
-          {/* Avatar with completion ring */}
-          <div className="relative shrink-0">
-            <CompletionRing percentage={effectiveCompletion} size={88} strokeWidth={5} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-md">
-              {(avatarUrl || previewUrl) ? (
-                <Image src={(avatarUrl || previewUrl) as string} alt="Avatar" fill className="object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-[#FAF7F4]">
-                  <AnimatedUser size={32} className="text-[#C6B6A5]" />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Info */}
-          <div className="flex-1">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-[#B8763C] mb-1">
-              {new Date().getHours() < 12 ? 'Good Morning' : new Date().getHours() < 17 ? 'Good Afternoon' : 'Good Evening'}
-            </p>
-            <h1 className="text-balance text-2xl sm:text-3xl font-serif font-bold text-[#1A1A1A] tracking-tight">
-              {profile?.full_name || user?.email?.split('@')[0] || 'Member'}
-            </h1>
-            <div className="flex flex-wrap items-center gap-3 mt-3">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B8763C]/10 text-[10px] font-bold text-[#B8763C] uppercase tracking-wider border border-[#B8763C]/20">
-                <AnimatedSparkles size={10} /> ALPONA Member
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-[#8C8375] uppercase tracking-wider">
-                <AnimatedCalendar size={10} />
-                {user?.created_at ? new Date(user.created_at).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' }) : 'Recently'}
-              </span>
-            </div>
-          </div>
-
-          {/* Completion badge */}
-          <div className="hidden sm:flex flex-col items-center gap-1 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-2xl border border-white shadow-sm">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#8C8375]">Profile</span>
-            <span className="text-[20px] font-serif font-bold text-[#B8763C]">{effectiveCompletion}%</span>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-[#8C8375]">Complete</span>
-          </div>
-        </div>
-      </motion.div>
-
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="w-full space-y-6">
       {/* ═══ PERSONAL INFORMATION ─── */}
       <CollapsibleSection
         title="Personal Information"
@@ -501,7 +453,7 @@ export default function EditProfilePage() {
                 <input
                   type="text"
                   {...register('fullName')}
-                  className="w-full h-12 bg-[#FAF7F4] hover:bg-white border border-transparent hover:border-[#E8E2DB] rounded-xl pl-11 pr-4 text-[#1A1A1A] text-[13px] font-semibold focus:bg-white focus:outline-none focus:border-[#B8763C]/30 focus:shadow-[0_0_0_4px_rgba(184,118,60,0.05)] transition-all duration-300 placeholder:text-[#A09485]"
+                  className="w-full h-12 py-3 leading-normal bg-[#FAF7F4] hover:bg-white border border-[#E8E2DB]/60 hover:border-[#E8E2DB] rounded-xl pl-11 pr-4 text-[#1A1A1A] text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#B8763C]/40 focus:shadow-[0_0_0_4px_rgba(184,118,60,0.08)] transition-all duration-300 placeholder:text-[#A09485]"
                   placeholder="e.g. John Doe"
                 />
               </div>
@@ -525,7 +477,7 @@ export default function EditProfilePage() {
                 <input
                   type="tel"
                   {...register('phone')}
-                  className="w-full h-12 bg-[#FAF7F4] hover:bg-white border border-transparent hover:border-[#E8E2DB] rounded-xl pl-11 pr-4 text-[#1A1A1A] text-[13px] font-semibold focus:bg-white focus:outline-none focus:border-[#B8763C]/30 focus:shadow-[0_0_0_4px_rgba(184,118,60,0.05)] transition-all duration-300 placeholder:text-[#A09485]"
+                  className="w-full h-12 py-3 leading-normal bg-[#FAF7F4] hover:bg-white border border-[#E8E2DB]/60 hover:border-[#E8E2DB] rounded-xl pl-11 pr-4 text-[#1A1A1A] text-sm font-semibold focus:bg-white focus:outline-none focus:border-[#B8763C]/40 focus:shadow-[0_0_0_4px_rgba(184,118,60,0.08)] transition-all duration-300 placeholder:text-[#A09485]"
                   placeholder="Mobile number"
                 />
               </div>
@@ -542,9 +494,9 @@ export default function EditProfilePage() {
                 type="email"
                 value={user?.email || ''}
                 disabled
-                className="w-full h-12 bg-[#F5F2ED] border border-transparent rounded-xl pl-11 pr-4 text-[#5C534A] text-[13px] font-medium cursor-not-allowed"
+                className="w-full h-12 py-3 leading-normal bg-[#F5F2ED] border border-transparent rounded-xl pl-11 pr-24 text-[#5C534A] text-sm font-semibold cursor-not-allowed"
               />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-[#E8E2DB] text-[#5C534A] text-[9px] font-bold uppercase tracking-wider rounded-md">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-[#E8E2DB] text-[#5C534A] text-[9px] font-bold uppercase tracking-wider rounded-md">
                 Verified
               </div>
             </div>

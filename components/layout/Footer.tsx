@@ -1,26 +1,56 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
-import toast from 'react-hot-toast'
 import { JsonLd } from '@/components/shared/JsonLd'
 import { SITE_URL } from '@/constants/config'
-import {
-  IconArrowRight,
-  IconArrowUp,
-  IconHeart,
-  IconInstagram,
-  IconFacebook,
-  IconYoutube,
-  IconMail,
-  IconMapPin,
-  IconRecycle,
-  IconRefresh,
-  IconStar,
-} from '@/components/shared/PremiumIcons'
-import { MessageSquare } from 'lucide-react'
+import { AlponaLogoMark } from '@/components/shared/AlponaLogo'
+import { 
+  MapPin, 
+  Recycle, 
+  ShieldCheck, 
+  RotateCcw, 
+  MessageCircle, 
+  ArrowUp, 
+  ArrowRight,
+} from 'lucide-react'
+
+function InstagramIcon({ className = 'w-4 h-4' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  )
+}
+
+function FacebookIcon({ className = 'w-4 h-4' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  )
+}
+
+function YoutubeIcon({ className = 'w-4 h-4' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.56 49.56 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
+      <polygon points="10 15 15 12 10 9 10 15" fill="currentColor" />
+    </svg>
+  )
+}
+
+function TwitterIcon({ className = 'w-4 h-4' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
 
 const EASE: [number, number, number, number] = [0.23, 1, 0.32, 1]
 
@@ -41,67 +71,49 @@ const fadeUpVariant = {
   },
 }
 
-// ─── Data Architecture ────────────────────────────────────────────────────────
 interface NavLink {
   label: string
   href: string
 }
 
-const navColumns: { title: string; links: NavLink[] }[] = [
-  {
-    title: 'Shop',
-    links: [
-      { label: 'New Arrivals', href: '/shop?sortBy=newest' },
-      { label: 'Best Sellers', href: '/shop?sortBy=best-selling' },
-      { label: 'T-Shirts & Hoodies', href: '/shop?category=t-shirts' },
-      { label: 'Oversized Fit', href: '/shop?category=oversized' },
-      { label: 'All Collections', href: '/shop' },
-    ],
-  },
-  {
-    title: 'Support',
-    links: [
-      { label: 'Contact Us', href: '/contact' },
-      { label: 'Track Order', href: '/order/track' },
-      { label: 'FAQs & Shipping', href: '/faq' },
-      { label: 'Size Guide', href: '/size-guide' },
-      { label: 'Help Center', href: '/faq' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About Alpona', href: '/about' },
-      { label: 'Sustainability', href: '/about' },
-      { label: 'Design Studio', href: '/design-studio' },
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms & Conditions', href: '/terms' },
-    ],
-  },
+const shopLinks: NavLink[] = [
+  { label: 'New Arrivals', href: '/shop?sortBy=newest' },
+  { label: 'Best Sellers', href: '/shop?sortBy=best-selling' },
+  { label: 'T-Shirts & Hoodies', href: '/shop?category=t-shirts' },
+  { label: 'Oversized Fit', href: '/shop?category=oversized' },
+  { label: 'Design Studio', href: '/design-studio' },
+]
+
+const supportLinks: NavLink[] = [
+  { label: 'Contact Us', href: '/contact' },
+  { label: 'Track Order', href: '/order/track' },
+  { label: 'FAQs & Shipping', href: '/faq' },
+  { label: 'Size Guide', href: '/size-guide' },
+  { label: 'Privacy & Terms', href: '/privacy' },
 ]
 
 const socials = [
-  { Icon: IconInstagram, label: 'Instagram', href: 'https://instagram.com/alpona.store' },
-  { Icon: IconFacebook, label: 'Facebook', href: '#' },
-  { Icon: IconYoutube, label: 'YouTube', href: '#' },
-  { Icon: IconMail, label: 'Email', href: 'mailto:hello@alpona.in' },
+  { Icon: InstagramIcon, label: 'Instagram', href: 'https://instagram.com/alpona.store' },
+  { Icon: FacebookIcon, label: 'Facebook', href: 'https://facebook.com' },
+  { Icon: YoutubeIcon, label: 'YouTube', href: 'https://youtube.com' },
+  { Icon: TwitterIcon, label: 'Twitter', href: 'https://x.com' },
 ]
 
 const trustBadges = [
-  { Icon: IconMapPin, title: 'Designed in India', desc: 'Proudly made for creators' },
-  { Icon: IconRecycle, title: 'Print On Demand', desc: 'Zero waste sustainable production' },
-  { Icon: IconHeart, title: 'Loved by 25K+', desc: 'Creators trust Alpona' },
-  { Icon: IconRefresh, title: '7 Days Easy Return', desc: 'Hassle-free size swaps' },
+  { Icon: MapPin, title: 'Designed in India', desc: 'Proudly made for creators' },
+  { Icon: Recycle, title: 'Print On Demand', desc: 'Zero waste sustainable' },
+  { Icon: ShieldCheck, title: '256-Bit SSL Secure', desc: 'Encrypted Razorpay UPI' },
+  { Icon: RotateCcw, title: '7 Days Easy Returns', desc: 'Hassle-free size swaps' },
 ]
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className="relative text-xs leading-[1.6] text-[#A09A94] transition-colors duration-300 hover:text-white group inline-block"
+      className="relative text-[13px] leading-[1.7] text-[#A09A94] transition-colors duration-300 hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B8763C] rounded group inline-block font-medium"
     >
       {children}
-      <span className="absolute left-0 -bottom-0.5 h-px w-0 bg-[#C87533] transition-all duration-300 group-hover:w-full" />
+      <span className="absolute left-0 -bottom-0.5 h-px w-0 bg-[#B8763C] transition-all duration-300 group-hover:w-full" />
     </Link>
   )
 }
@@ -109,30 +121,14 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 export function Footer() {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-40px' })
-  const [newsletterEmail, setNewsletterEmail] = useState('')
-  const [submitting, setSubmitting] = useState(false)
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newsletterEmail.trim()) {
-      toast.error('Please enter a valid email address')
-      return
-    }
-    setSubmitting(true)
-    setTimeout(() => {
-      toast.success('Thank you for subscribing to Alpona Insider drops!')
-      setNewsletterEmail('')
-      setSubmitting(false)
-    }, 600)
-  }
 
   const footerSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Footer Site Navigation',
-    itemListElement: navColumns.flatMap(c => c.links).map((link, idx) => ({
+    itemListElement: [...shopLinks, ...supportLinks].map((link, idx) => ({
       '@type': 'SiteNavigationElement',
       position: idx + 1,
       name: link.label,
@@ -143,40 +139,35 @@ export function Footer() {
   return (
     <footer ref={ref} className="bg-[#0A0A0A] text-white border-t border-white/10 relative overflow-hidden select-none">
       <JsonLd data={footerSchema} />
-      {/* Soft Ambient Luxury Lighting */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-b from-[#C87533]/10 via-[#B8763C]/5 to-transparent blur-3xl pointer-events-none rounded-full" />
+      
+      {/* Ambient Lighting */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[300px] bg-gradient-to-b from-[#B8763C]/10 via-[#B8763C]/3 to-transparent blur-3xl pointer-events-none rounded-full" />
 
-      {/* ══════════ MAIN FOOTER SECTION ══════════ */}
+      {/* ══════════ MAIN COMPACT GRID ══════════ */}
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12 relative z-10">
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.8fr_1fr_1fr_1fr_1.5fr] gap-10 py-12 lg:py-16 items-start"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_0.8fr_0.8fr_1.3fr] gap-8 py-10 lg:py-12 items-start"
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'show' : 'hidden'}
         >
           {/* ── 1. BRAND COLUMN ── */}
           <motion.div variants={fadeUpVariant} className="flex flex-col items-start">
-            <Link href="/" className="group inline-flex items-center gap-3 mb-4">
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 transition-transform duration-500 group-hover:scale-105">
-                <Image
-                  src="/logo-light.png?v=10"
-                  alt="Alpona"
-                  fill
-                  sizes="40px"
-                  className="object-contain"
-                />
+            <Link href="/" aria-label="Alpona Home" className="group inline-flex items-center gap-2.5 mb-3 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8763C]">
+              <div className="relative w-9 h-9 flex-shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+                <AlponaLogoMark size={34} />
               </div>
-              <span className="font-display text-2xl font-bold tracking-tight text-white">
+              <span className="font-display text-2xl font-bold tracking-tight text-white group-hover:text-[#B8763C] transition-colors">
                 Alpona
               </span>
             </Link>
 
-            <p className="font-body text-xs text-[#9A938C] leading-relaxed max-w-[240px] mb-6">
-              Thoughtful apparel designs. Premium sustainable quality. Crafted for creators & originals.
+            <p className="font-body text-xs text-[#9A938C] leading-relaxed max-w-[240px] mb-4">
+              Thoughtful streetwear apparel & custom print-on-demand studio for creators.
             </p>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-2.5 mb-5">
+            <div className="flex items-center gap-2.5 mb-4">
               {socials.map(({ Icon, label, href }) => (
                 <a
                   key={label}
@@ -184,74 +175,78 @@ export function Footer() {
                   aria-label={label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#9A938C] hover:text-white hover:bg-white/10 hover:border-white/25 transition-all duration-300 active:scale-95"
+                  className="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-[#B8763C] hover:bg-[#B8763C]/15 hover:text-[#B8763C] hover:scale-110 flex items-center justify-center text-[#A09A94] transition-all duration-300 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8763C]"
                 >
-                  <Icon size={14} color="currentColor" />
+                  <Icon className="w-3.5 h-3.5" />
                 </a>
               ))}
             </div>
 
-            {/* Ratings & Contact Info */}
-            <div className="inline-flex flex-col gap-1.5 p-3 rounded-xl bg-white/5 border border-white/10 mb-2 max-w-[260px]">
-              <div className="flex items-center gap-2 text-[11px] text-[#A09A94]">
-                <span className="font-bold text-white">GSTIN:</span> 19AAACA1234A1Z5
-              </div>
-              <p className="text-[11px] text-[#8C857C] leading-snug">
-                Salt Lake Sector V, Kolkata, WB 700091
-              </p>
-              <div className="flex items-center gap-2 text-[11px] text-[#C87533] font-semibold mt-1">
-                <MessageSquare className="w-3.5 h-3.5 text-[#C87533] inline" aria-hidden="true" />
-                <span>WhatsApp: +91 98765 43210</span>
-              </div>
+            {/* Compact Business Info */}
+            <div className="flex flex-wrap items-center gap-3 text-[11px] text-[#A09A94] bg-white/[0.03] border border-white/10 px-3 py-2 rounded-xl">
+              <span><strong className="text-white">GSTIN:</strong> 19AAACA1234A1Z5</span>
+              <span className="text-white/20" aria-hidden="true">•</span>
+              <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="text-[#B8763C] hover:underline font-semibold flex items-center gap-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#B8763C] rounded">
+                <MessageCircle className="w-3 h-3" /> WhatsApp Support
+              </a>
             </div>
           </motion.div>
 
-          {/* ── 2-4. NAV COLUMNS ── */}
-          {navColumns.map((col) => (
-            <motion.nav key={col.title} variants={fadeUpVariant} aria-label={col.title}>
-              <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-white mb-4">
-                {col.title}
-              </h3>
-              <ul className="flex flex-col gap-2.5">
-                {col.links.map((link) => (
-                  <li key={link.href + link.label}>
-                    <FooterLink href={link.href}>{link.label}</FooterLink>
-                  </li>
-                ))}
-              </ul>
-            </motion.nav>
-          ))}
+          {/* ── 2. SHOP LINKS ── */}
+          <motion.nav variants={fadeUpVariant} aria-label="Shop Navigation">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-white mb-3">
+              Shop
+            </h3>
+            <ul className="flex flex-col gap-2">
+              {shopLinks.map((link) => (
+                <li key={link.href + link.label}>
+                  <FooterLink href={link.href}>{link.label}</FooterLink>
+                </li>
+              ))}
+            </ul>
+          </motion.nav>
 
-          {/* ── 5. INSTAGRAM & COMMUNITY COMPACT CARD ── */}
+          {/* ── 3. SUPPORT LINKS ── */}
+          <motion.nav variants={fadeUpVariant} aria-label="Support Navigation">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-white mb-3">
+              Support
+            </h3>
+            <ul className="flex flex-col gap-2">
+              {supportLinks.map((link) => (
+                <li key={link.href + link.label}>
+                  <FooterLink href={link.href}>{link.label}</FooterLink>
+                </li>
+              ))}
+            </ul>
+          </motion.nav>
+
+          {/* ── 4. INSTAGRAM & COMMUNITY CARD ── */}
           <motion.div variants={fadeUpVariant} className="flex flex-col">
-            <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-5 backdrop-blur-md relative overflow-hidden group hover:border-white/20 transition-all duration-500">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#C87533]/10 rounded-full blur-2xl pointer-events-none" />
-              
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#C87533] flex items-center gap-1.5">
-                  <IconInstagram size={13} color="currentColor" />
+            <div className="rounded-2xl bg-zinc-900/90 border border-white/10 p-4 backdrop-blur-xl relative overflow-hidden group hover:border-[#B8763C]/40 transition-all duration-500 shadow-md">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#B8763C] flex items-center gap-1.5">
+                  <InstagramIcon className="w-3.5 h-3.5 text-[#B8763C]" />
                   @alpona.store
                 </span>
-                <span className="text-[10px] text-[#8C857C]">Community</span>
+                <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30 uppercase tracking-wider">
+                  Community
+                </span>
               </div>
 
-              <p className="text-xs text-[#B3ABA3] leading-relaxed mb-4">
-                Made with creativity. Worn with pride. Tag us to get featured.
+              <p className="text-[11px] text-[#B3ABA3] leading-snug mb-3">
+                Worn with pride. Tag us on Instagram to get featured.
               </p>
 
-              {/* 3 Compact Post Preview Thumbnails */}
-              <div className="grid grid-cols-3 gap-1.5 mb-4">
+              {/* 3 Thumbnails */}
+              <div className="grid grid-cols-3 gap-1.5 mb-3">
                 {[1, 2, 3].map((n) => (
-                  <div key={n} className="relative aspect-square rounded-lg overflow-hidden border border-white/10 group/img">
+                  <div key={n} className="relative aspect-square rounded-lg overflow-hidden border border-white/10 bg-zinc-800">
                     <Image
                       src={`/images/instagram/insta-${n}.png`}
                       alt={`Community post ${n}`}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover/img:scale-110"
+                      className="object-cover transition-transform duration-500 hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
-                      <IconHeart size={14} color="white" />
-                    </div>
                   </div>
                 ))}
               </div>
@@ -260,26 +255,26 @@ export function Footer() {
                 href="https://instagram.com/alpona.store"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white text-[#1A1A1A] hover:bg-[#FAF7F4] text-xs font-bold tracking-wider uppercase transition-all duration-300 active:scale-95 shadow-sm"
+                className="w-full inline-flex items-center justify-center gap-1.5 py-2 rounded-full bg-gradient-to-r from-[#B8763C] to-amber-600 hover:from-amber-600 hover:to-[#B8763C] text-white text-[10px] font-bold tracking-wider uppercase transition-all duration-300 active:scale-95 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8763C]"
               >
-                Follow on Instagram
-                <IconArrowRight size={13} color="currentColor" />
+                <span>Follow on Instagram</span>
+                <ArrowRight className="w-3 h-3" />
               </a>
             </div>
           </motion.div>
         </motion.div>
 
-        {/* ══════════ TRUST BADGES STRIP ══════════ */}
-        <div className="border-t border-white/10 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-8">
+        {/* ══════════ UNIFIED TRUST STRIP ══════════ */}
+        <div className="border-t border-white/10 py-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {trustBadges.map(({ Icon, title, desc }) => (
-              <div key={title} className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#C87533] shrink-0">
-                  <Icon size={16} color="currentColor" />
+              <div key={title} className="flex items-center gap-3 group">
+                <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#B8763C] shrink-0 group-hover:border-[#B8763C] transition-colors">
+                  <Icon className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white leading-tight">{title}</p>
-                  <p className="text-[11px] text-[#8C857C] leading-snug">{desc}</p>
+                  <p className="text-[10px] text-[#8C857C] leading-snug mt-0.5">{desc}</p>
                 </div>
               </div>
             ))}
@@ -287,39 +282,38 @@ export function Footer() {
         </div>
       </div>
 
-      {/* ══════════ BOTTOM BAR ══════════ */}
-      <div className="border-t border-white/10 bg-black/40 relative z-10">
-        <div className="mx-auto max-w-[1360px] px-6 lg:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* ══════════ BOTTOM COMPACT BAR ══════════ */}
+      <div className="border-t border-white/10 bg-black/80 relative z-10">
+        <div className="mx-auto max-w-[1360px] px-6 lg:px-12 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           
-          {/* Copyright */}
-          <p className="text-xs text-[#8C857C] font-body tracking-wide order-2 sm:order-1">
+          <p className="text-[11px] text-[#8C857C] font-body tracking-wide order-2 sm:order-1">
             &copy; {new Date().getFullYear()} Alpona. All rights reserved.
           </p>
 
-          {/* Expanded Payment Method Badges */}
-          <div className="flex flex-wrap items-center gap-1.5 order-1 sm:order-2">
+          {/* Payment Chips */}
+          <div className="flex flex-wrap items-center gap-1 order-1 sm:order-2">
             {['VISA', 'MASTERCARD', 'RAZORPAY', 'UPI', 'GPAY', 'PAYTM', 'PHONEPE', 'COD'].map((brand) => (
               <span
                 key={brand}
-                className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] font-bold tracking-widest text-[#9A938C] uppercase"
+                className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/10 text-[8px] font-bold tracking-widest text-[#A09A94] uppercase hover:text-white transition-colors"
               >
                 {brand}
               </span>
             ))}
           </div>
 
-          {/* Currency & Scroll-to-Top */}
-          <div className="flex items-center gap-4 order-3">
-            <span className="text-xs font-medium text-[#9A938C] flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              <span>India (INR ₹)</span>
+          {/* Region & Scroll-to-Top */}
+          <div className="flex items-center gap-3 order-3">
+            <span className="text-[11px] font-medium text-[#A09A94] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
+              India (INR ₹)
             </span>
 
             <button
               onClick={scrollToTop}
-              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:bg-white hover:text-[#1A1A1A] text-white flex items-center justify-center transition-all duration-300 active:scale-95 cursor-pointer"
+              className="w-7 h-7 rounded-full bg-white/5 border border-white/10 hover:bg-[#B8763C] hover:border-[#B8763C] text-white flex items-center justify-center transition-all duration-300 active:scale-95 cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8763C]"
               aria-label="Back to top"
             >
-              <IconArrowUp size={14} color="currentColor" />
+              <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>
 

@@ -495,7 +495,7 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                             : 'opacity-50 hover:opacity-100'
                         }`}
                       >
-                        <Image src={img} alt={`View ${idx + 1}`} width={72} height={90} className="w-full h-full object-cover" />
+                        <Image src={img} alt={`View ${idx + 1}`} width={72} height={90} unoptimized className="w-full h-full object-cover" />
                       </button>
                     </div>
                   )
@@ -580,7 +580,7 @@ export function ProductDetailClient({ product, variants, designs, initialReviews
                     className="absolute inset-0 w-full h-full"
                   >
                     {mainImage ? (
-                      <Image src={mainImage} alt={product.name} fill className="object-contain p-4 md:p-6" sizes="(max-width: 1024px) 100vw, 50vw" priority />
+                      <Image src={mainImage} alt={product.name} fill unoptimized className="object-contain p-4 md:p-6" sizes="(max-width: 1024px) 100vw, 50vw" priority />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center"><AnimatedTshirt size={80} className="text-[#D4CFC8]" /></div>
                     )}

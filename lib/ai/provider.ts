@@ -28,8 +28,16 @@ async function callGemini(options: AIOptions): Promise<string> {
     throw new Error('GEMINI_API_KEY is not set')
   }
 
-  const modelName = options.model || process.env.GEMINI_MODEL || 'gemini-2.0-flash'
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`
+  const modelCandidateList = [
+    options.model || process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+    'gemini-2.5-flash',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash-latest',
+    'gemini-2.0-flash-exp'
+  ]
+
+  // Remove duplicate entries
+  const candidateModels = Array.from(new Set(modelCandidateList))
 
   const userParts: any[] = []
 
@@ -59,7 +67,7 @@ async function callGemini(options: AIOptions): Promise<string> {
     userParts.push({ text: options.prompt })
   }
 
-  const contents: Array<{ role: string; parts: any[] }> = []
+  const contents: any[] = []
 
   if (options.messages && options.messages.length > 0) {
     options.messages.forEach((msg) => {
@@ -73,7 +81,7 @@ async function callGemini(options: AIOptions): Promise<string> {
   } else {
     contents.push({
       role: 'user',
-      parts: userParts.length > 0 ? userParts : [{ text: 'Describe the uploaded apparel product image.' }]
+      parts: userParts
     })
   }
 
@@ -82,7 +90,7 @@ async function callGemini(options: AIOptions): Promise<string> {
   const payload: any = {
     contents,
     generationConfig: {
-      maxOutputTokens: options.maxTokens || 2500,
+      maxOutputTokens: Math.min(options.maxTokens || 1500, 2000),
       temperature: options.temperature ?? 0.7
     }
   }
@@ -93,24 +101,36 @@ async function callGemini(options: AIOptions): Promise<string> {
     }
   }
 
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
+  let lastError: Error | null = null
 
-  if (!response.ok) {
-    const errorBody = await response.text()
-    throw new Error(`Gemini API HTTP ${response.status}: ${errorBody}`)
+  for (const modelName of candidateModels) {
+    try {
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+
+      if (!response.ok) {
+        const errorBody = await response.text()
+        throw new Error(`Gemini API HTTP ${response.status}: ${errorBody}`)
+      }
+
+      const data = await response.json()
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text
+      if (!text) {
+        throw new Error('Gemini API returned an empty response candidate')
+      }
+
+      return text
+    } catch (err: any) {
+      console.warn(`[GEMINI MODEL RETRY] Gemini model ${modelName} failed: ${err.message}. Retrying next Gemini model...`)
+      lastError = err
+    }
   }
 
-  const data = await response.json()
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text
-  if (!text) {
-    throw new Error('Gemini API returned an empty response candidate')
-  }
-
-  return text
+  throw lastError || new Error('All Gemini candidate models failed')
 }
 
 // 2. Call OpenRouter AI via Chat Completions API
@@ -128,6 +148,8 @@ async function callOpenRouter(options: AIOptions): Promise<string> {
     messagesToSend.push({ role: 'system', content: systemText })
   }
 
+  const hasImages = options.imageUrls && options.imageUrls.length > 0
+
   if (options.messages && options.messages.length > 0) {
     options.messages.forEach((msg) => {
       if (msg.role !== 'system') {
@@ -136,7 +158,7 @@ async function callOpenRouter(options: AIOptions): Promise<string> {
     })
   } else {
     const userContent: any[] = []
-    if (options.imageUrls && options.imageUrls.length > 0) {
+    if (hasImages && options.imageUrls) {
       options.imageUrls.slice(0, 2).forEach(url => {
         userContent.push({ type: 'image_url', image_url: { url } })
       })
@@ -145,10 +167,20 @@ async function callOpenRouter(options: AIOptions): Promise<string> {
     messagesToSend.push({ role: 'user', content: userContent })
   }
 
-  // Model fallback candidate list for 100% resilience
-  const candidateModels = (options.model && options.model !== 'openrouter/free') 
-    ? [options.model, 'openrouter/auto', 'deepseek/deepseek-chat', 'meta-llama/llama-3.3-70b-instruct']
-    : ['openrouter/auto', 'deepseek/deepseek-chat', 'meta-llama/llama-3.3-70b-instruct']
+  // Choose appropriate candidate models (Vision-capable if imageUrls are present)
+  let candidateModels: string[] = []
+  if (hasImages) {
+    candidateModels = [
+      'google/gemini-2.5-flash',
+      'google/gemini-2.0-flash-001',
+      'meta-llama/llama-3.2-11b-vision-instruct',
+      'openrouter/auto'
+    ]
+  } else {
+    candidateModels = (options.model && options.model !== 'openrouter/free') 
+      ? [options.model, 'openrouter/auto', 'deepseek/deepseek-chat', 'meta-llama/llama-3.3-70b-instruct']
+      : ['openrouter/auto', 'deepseek/deepseek-chat', 'meta-llama/llama-3.3-70b-instruct']
+  }
 
   let lastError: Error | null = null
 
@@ -165,7 +197,7 @@ async function callOpenRouter(options: AIOptions): Promise<string> {
         body: JSON.stringify({
           model: modelCandidate,
           messages: messagesToSend,
-          max_tokens: options.maxTokens || 2500,
+          max_tokens: Math.min(options.maxTokens || 1500, 1500),
           temperature: options.temperature ?? 0.7
         })
       })

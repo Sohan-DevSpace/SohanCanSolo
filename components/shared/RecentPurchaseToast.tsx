@@ -1,10 +1,11 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, X, ShoppingBag } from 'lucide-react'
+import { CheckCircle2, X } from 'lucide-react'
 
 interface PurchaseEvent {
   id: string
@@ -44,73 +45,76 @@ const SAMPLE_PURCHASES: PurchaseEvent[] = [
     productSlug: 'heavyweight-archive-oversized-tee',
     timeAgo: '8 minutes ago',
   },
-  {
-    id: 'p4',
-    customerName: 'Sneha D.',
-    location: 'Delhi, NCR',
-    productTitle: 'Essential V-Neck Streetwear Top',
-    productImage: '/images/categories/tee_vneck_front_1783452468360.png',
-    productSlug: 'essential-v-neck',
-    timeAgo: '12 minutes ago',
-  },
 ]
 
 export function RecentPurchaseToast() {
+  const pathname = usePathname()
   const [currentEvent, setCurrentEvent] = useState<PurchaseEvent | null>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
-  useEffect(() => {
-    if (dismissed) return
+  // Strictly allowed routes for purchase social proof toasts
+  const isAllowedRoute = 
+    pathname === '/' || 
+    pathname === '/shop' || 
+    (pathname.startsWith('/shop/') && !pathname.includes('/cart'))
 
-    // Show initial toast after 4 seconds
-    const initialTimer = setTimeout(() => {
+  useEffect(() => {
+    if (!isAllowedRoute || dismissed) return
+
+    // Check if user already saw or dismissed toast in this session
+    try {
+      const alreadyShown = sessionStorage.getItem('alpona_toast_shown')
+      if (alreadyShown) {
+        setDismissed(true)
+        return
+      }
+    } catch {}
+
+    // Show single subtle toast after 8 seconds of engagement
+    const timer = setTimeout(() => {
       const selected = SAMPLE_PURCHASES[Math.floor(Math.random() * SAMPLE_PURCHASES.length)]
       if (selected) {
         setCurrentEvent(selected)
         setIsVisible(true)
+        try {
+          sessionStorage.setItem('alpona_toast_shown', '1')
+        } catch {}
       }
-    }, 4000)
+    }, 8000)
 
-    // Hide after 6 seconds
-    const interval = setInterval(() => {
+    // Automatically hide after 6 seconds
+    const autoHide = setTimeout(() => {
       setIsVisible(false)
-
-      setTimeout(() => {
-        const selected = SAMPLE_PURCHASES[Math.floor(Math.random() * SAMPLE_PURCHASES.length)]
-        if (selected) {
-          setCurrentEvent(selected)
-          setIsVisible(true)
-        }
-      }, 3000)
-    }, 16000)
+      setDismissed(true)
+    }, 14000)
 
     return () => {
-      clearTimeout(initialTimer)
-      clearInterval(interval)
+      clearTimeout(timer)
+      clearTimeout(autoHide)
     }
-  }, [dismissed])
+  }, [pathname, isAllowedRoute, dismissed])
 
-  if (dismissed || !currentEvent) return null
+  if (!isAllowedRoute || dismissed || !currentEvent) return null
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-          className="fixed bottom-5 left-5 z-50 max-w-[340px] bg-white/95 backdrop-blur-md border border-[#E8E2DB] shadow-2xl rounded-2xl p-3 select-none"
+          className="fixed bottom-20 left-4 sm:bottom-6 sm:left-6 z-40 max-w-[320px] bg-white/98 backdrop-blur-md border border-[#E8E2DB] shadow-[0_16px_36px_-8px_rgba(0,0,0,0.12)] rounded-2xl p-3 select-none"
         >
           <div className="flex items-center gap-3 relative">
             {/* Product Thumbnail */}
-            <Link href={`/shop/${currentEvent.productSlug}`} className="relative w-14 h-14 rounded-xl overflow-hidden bg-stone-100 shrink-0 border border-stone-200 block">
+            <Link href={`/shop/${currentEvent.productSlug}`} className="relative w-12 h-12 rounded-xl overflow-hidden bg-stone-100 shrink-0 border border-stone-200 block">
               <Image
                 src={currentEvent.productImage}
                 alt={currentEvent.productTitle}
                 fill
-                sizes="56px"
+                sizes="48px"
                 className="object-cover"
               />
             </Link>
@@ -137,6 +141,9 @@ export function RecentPurchaseToast() {
               onClick={() => {
                 setIsVisible(false)
                 setDismissed(true)
+                try {
+                  sessionStorage.setItem('alpona_toast_shown', '1')
+                } catch {}
               }}
               className="absolute top-0 right-0 p-1 text-stone-400 hover:text-stone-700 transition-colors"
               aria-label="Close notification"

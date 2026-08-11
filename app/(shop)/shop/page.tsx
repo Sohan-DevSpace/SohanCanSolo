@@ -5,7 +5,7 @@ import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { JsonLd } from '@/components/shared/JsonLd'
 import { SITE_NAME, SITE_URL } from '@/constants/config'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300 // Revalidate shop page every 5 minutes
 
 export const metadata: Metadata = {
   title: `Shop All Custom Products & Original Streetwear | ${SITE_NAME}`,

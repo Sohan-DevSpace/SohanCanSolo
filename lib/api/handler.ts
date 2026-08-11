@@ -151,26 +151,32 @@ export function createApiHandler<TBody = unknown>(
         }
       }
 
-      // ── Body Validation ──────────────────────────────
+      // ── Body Validation & Parsing ───────────────────
       let body = {} as TBody
-      if (config.schema) {
+      if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
         try {
           const rawBody = await req.json()
-          const result = config.schema.safeParse(rawBody)
-          if (!result.success) {
-            return apiError(
-              'VALIDATION_ERROR',
-              'Invalid request body',
-              400,
-              result.error.issues.map((i) => ({
-                path: i.path.join('.'),
-                message: i.message,
-              }))
-            )
+          if (config.schema) {
+            const result = config.schema.safeParse(rawBody)
+            if (!result.success) {
+              return apiError(
+                'VALIDATION_ERROR',
+                'Invalid request body',
+                400,
+                result.error.issues.map((i) => ({
+                  path: i.path.join('.'),
+                  message: i.message,
+                }))
+              )
+            }
+            body = result.data
+          } else {
+            body = rawBody
           }
-          body = result.data
         } catch {
-          return apiError('INVALID_JSON', 'Request body is not valid JSON', 400)
+          if (config.schema) {
+            return apiError('INVALID_JSON', 'Request body is not valid JSON', 400)
+          }
         }
       }
 

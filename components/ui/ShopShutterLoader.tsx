@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import Image from 'next/image'
+import { AlponaLogoMark } from '@/components/shared/AlponaLogo'
 import { motion, useAnimationControls, useMotionValue, useTransform, animate } from 'framer-motion'
 
 interface ShopShutterLoaderProps {
@@ -478,14 +478,8 @@ export function ShopShutterLoader({ onComplete }: ShopShutterLoaderProps) {
                 />
               )}
               {/* Slow continuous rotation */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 relative z-10 mx-auto">
-                <Image
-                  src="/logo-light.png?v=10"
-                  alt="Alpona Logo"
-                  fill
-                  priority
-                  className="object-contain"
-                />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 relative z-10 mx-auto flex items-center justify-center">
+                <AlponaLogoMark size={56} />
               </div>
             </motion.div>
 

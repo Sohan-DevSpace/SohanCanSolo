@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Sparkles, X, Send, Loader2, ShoppingBag, ArrowRight, Shirt, Truck, Palette, Gift } from 'lucide-react'
+import { Sparkles, X, Send, Loader2, ShoppingBag, ArrowRight, Ruler, Palette, Tag, Truck } from 'lucide-react'
 
 interface ProductCard {
   id: string
@@ -23,10 +23,10 @@ interface Message {
 const MAX_SESSION_MESSAGES = 10
 
 const QUICK_ACTIONS = [
-  { label: 'Find My Size', prompt: 'What size should I choose for oversized graphic tees?' },
-  { label: 'Track Order', prompt: 'How do I track my order status?' },
-  { label: 'Print Guide', prompt: 'What is the difference between DTF and Embroidery?' },
-  { label: 'Gift Ideas', prompt: 'Suggest popular apparel gift items under ₹1000' },
+  { label: '📏 Fit & Size Guide', prompt: 'What size should I pick for oversized streetwear tees?' },
+  { label: '🎨 DTF vs Embroidery', prompt: 'What is the difference between DTF printing and Embroidery?' },
+  { label: '🏷️ Active Coupon Codes', prompt: 'What active discount coupon codes can I use?' },
+  { label: '📦 Track Shipment', prompt: 'How do I track my order delivery?' },
 ]
 
 export function ShoppingCopilotWidget() {
@@ -38,7 +38,7 @@ export function ShoppingCopilotWidget() {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: "Hi! I'm Alpona AI Assistant. Ask me for gift recommendations, apparel sizing tips, print guide advice, or custom order help!",
+      text: "Welcome to Alpona! I'm your AI Fashion & Sizing Concierge. Ask me about custom printing, fabric specs (240GSM cotton), sizing tips, or discount coupons!",
     }
   ])
 
@@ -108,20 +108,19 @@ export function ShoppingCopilotWidget() {
 
   return (
     <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 antialiased">
-      {/* Floating Trigger Button */}
+      {/* Floating Circular Glassmorphic Trigger Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 bg-[#B8763C] hover:bg-[#a66833] text-white px-4 py-3 rounded-full shadow-[0_8px_30px_rgba(184,118,60,0.35)] transition-all duration-300 active:scale-95 cursor-pointer"
-          aria-label="Open AI Assistant"
+          className="group relative w-13 h-13 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-zinc-950/90 dark:bg-zinc-900/90 hover:bg-black text-white border border-[#B8763C]/60 hover:border-[#B8763C] shadow-[0_12px_36px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+          aria-label="Open AI Concierge"
         >
-          <div className="relative flex items-center justify-center">
-            <Sparkles className="w-5 h-5 animate-pulse text-amber-200" />
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#B8763C] to-amber-500/80 flex items-center justify-center text-white shadow-inner group-hover:rotate-12 transition-transform duration-300">
+            <Sparkles className="w-4 h-4 text-white" />
           </div>
-          <span className="text-xs font-semibold tracking-wide pr-1">AI Assistant</span>
-          <span className="absolute -top-1 -right-1 flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400" />
+          <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-zinc-950" />
           </span>
         </button>
       )}
@@ -133,17 +132,17 @@ export function ShoppingCopilotWidget() {
           {/* Header */}
           <div className="bg-[#1A1A1A] dark:bg-[#09090b] text-white px-4 py-3.5 flex items-center justify-between border-b border-white/10 shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#B8763C] flex items-center justify-center text-white shadow-sm">
-                <Sparkles className="w-4 h-4 text-amber-200" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#B8763C] to-amber-500 flex items-center justify-center text-white shadow-sm">
+                <Sparkles className="w-4 h-4 text-white" />
               </div>
               <div>
                 <h3 className="text-xs font-bold tracking-tight text-white flex items-center gap-1.5">
-                  Alpona AI Assistant
-                  <span className="text-[8px] font-bold bg-[#B8763C]/40 text-amber-200 px-1.5 py-0.5 rounded-full border border-[#B8763C]/60 uppercase tracking-widest">
-                    Gemini + OpenRouter
+                  Alpona AI Concierge
+                  <span className="text-[8px] font-bold bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full border border-emerald-500/40 uppercase tracking-widest">
+                    Gemini 1.5 Flash
                   </span>
                 </h3>
-                <p className="text-[10px] text-zinc-400">Shopping, Sizing & Design Advisor</p>
+                <p className="text-[10px] text-zinc-400">Styling, Sizing & Custom Print Advisor</p>
               </div>
             </div>
             <button
@@ -216,7 +215,7 @@ export function ShoppingCopilotWidget() {
             {loading && (
               <div className="flex items-center gap-2 text-zinc-500 text-xs italic bg-white dark:bg-zinc-800 p-2.5 rounded-xl border border-[#E8E2DB] dark:border-white/10 w-fit">
                 <Loader2 className="w-3.5 h-3.5 animate-spin text-[#B8763C]" />
-                <span>Alpona AI Assistant is searching catalog & style rules...</span>
+                <span>Alpona AI is searching catalog & style guide...</span>
               </div>
             )}
 
@@ -247,7 +246,7 @@ export function ShoppingCopilotWidget() {
                 placeholder={
                   messageCount >= MAX_SESSION_MESSAGES
                     ? 'Session limit reached. Restart chat.'
-                    : 'Ask about sizing, gift ideas, or custom apparel...'
+                    : 'Ask about sizing, fabric GSM, or custom print...'
                 }
                 disabled={loading || messageCount >= MAX_SESSION_MESSAGES}
                 className="flex-1 bg-transparent text-xs text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none disabled:opacity-50"
@@ -262,7 +261,7 @@ export function ShoppingCopilotWidget() {
               </button>
             </div>
             <p className="text-[9px] text-center text-zinc-400 mt-1.5 font-medium">
-              Powered by Alpona AI • {MAX_SESSION_MESSAGES - messageCount} questions left in session
+              Powered by Alpona AI • {MAX_SESSION_MESSAGES - messageCount} queries left in session
             </p>
           </form>
 

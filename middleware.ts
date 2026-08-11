@@ -2,6 +2,23 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  
+  const isProtectedRoute = 
+    pathname.startsWith('/account') || 
+    pathname.startsWith('/checkout') || 
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/seller')
+
+  // Performance optimization: check if any Supabase auth cookie exists
+  const allCookies = request.cookies.getAll()
+  const hasAuthCookie = allCookies.some(c => c.name.startsWith('sb-') || c.name.includes('auth-token'))
+
+  // Fast path for public routes when no auth cookie is present
+  if (!isProtectedRoute && !hasAuthCookie) {
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -47,9 +64,6 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // IMPORTANT: Avoid writing any logic between createServerClient and
-  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
   let user = null
   try {
     const { data } = await supabase.auth.getUser()
@@ -57,13 +71,6 @@ export async function middleware(request: NextRequest) {
   } catch (error) {
     console.warn('Supabase authentication fetch bypassed or timed out.')
   }
-
-  const { pathname } = request.nextUrl
-  
-  const isProtectedRoute = 
-    pathname.startsWith('/account') || 
-    pathname.startsWith('/checkout') || 
-    pathname.startsWith('/admin')
 
   if (isProtectedRoute && !user) {
     const url = request.nextUrl.clone()

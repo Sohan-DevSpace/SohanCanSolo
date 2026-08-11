@@ -180,12 +180,9 @@ export default function CheckoutPage() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [showAddressForm])
 
-  // Handle Gift Wrap Auto-Toggle Box Packing
+  // Handle Gift Wrap Toggle
   const handleGiftWrapToggle = (checked: boolean) => {
     setGiftWrap(checked)
-    if (checked) {
-      setBoxPacking(true)
-    }
   }
 
   // Fetch Saved Addresses
@@ -471,7 +468,17 @@ export default function CheckoutPage() {
         amount: Math.round(amountToPay * 100),
       })
 
-      const { orderId, amount, currency, keyId } = res.data
+      const orderPayload = res.data?.data || res.data
+      const orderId = orderPayload.orderId
+      const amount = orderPayload.amount
+      const currency = orderPayload.currency || 'INR'
+      const keyId = orderPayload.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_TOOEkheg0OiebM'
+
+      if (!keyId) {
+        toast.error('Razorpay API Key missing. Please check settings.')
+        setIsProcessing(false)
+        return
+      }
 
       const resScript = await loadRazorpayScript()
       if (!resScript) {
@@ -1222,7 +1229,7 @@ export default function CheckoutPage() {
 
                   {/* Gift Wrap Toggle with Visual Preview Thumbnail */}
                   <div
-                    onClick={() => handleGiftWrapToggle(!giftWrap)}
+                    onClick={() => setGiftWrap(!giftWrap)}
                     className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 relative overflow-hidden ${
                       giftWrap ? 'bg-ring/5 border-ring shadow-matte-sm' : 'border-border/60 hover:bg-secondary/30'
                     }`}
@@ -1233,7 +1240,8 @@ export default function CheckoutPage() {
                       <input
                         type="checkbox"
                         checked={giftWrap}
-                        onChange={(e) => handleGiftWrapToggle(e.target.checked)}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => setGiftWrap(e.target.checked)}
                         className="w-4.5 h-4.5 rounded border-border text-ring focus:ring-0 cursor-pointer"
                       />
                       
@@ -1259,14 +1267,15 @@ export default function CheckoutPage() {
                   {/* Box Packing Toggle with Visual Preview Badge */}
                   <div
                     onClick={() => setBoxPacking(!boxPacking)}
-                    className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-                      boxPacking ? 'bg-secondary/70 border-ring' : 'border-border/60 hover:bg-secondary/30'
+                    className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                      boxPacking ? 'bg-amber-500/10 border-amber-500/60 shadow-matte-sm' : 'border-border/60 hover:bg-secondary/30'
                     }`}
                   >
                     <div className="flex items-center gap-3.5">
                       <input
                         type="checkbox"
                         checked={boxPacking}
+                        onClick={(e) => e.stopPropagation()}
                         onChange={(e) => setBoxPacking(e.target.checked)}
                         className="w-4.5 h-4.5 rounded border-border text-ring focus:ring-0 cursor-pointer"
                       />

@@ -130,28 +130,45 @@ export function ShopCatalog({ categories, subcategories, productTypes, products 
       const colorways = Array.from(colorwaysMap.values())
       const uniqueColors = colorways.map(cw => cw.colorHex)
 
-      list.push({
-        id: p.id.toString(),
-        name: p.display_name || p.name,
-        slug: p.slug,
-        category: p.category?.name || 'Custom POD',
-        parentCategory: p.category_id || '',
-        subcategory: p.subcategory_id || '',
-        productType: p.product_type_id || '',
-        categorySlug: p.category?.slug || '',
-        sellingPrice: p.selling_price,
-        basePrice: p.base_price,
-        discountPct,
-        badge: p.is_bestseller 
-          ? 'Best Seller' 
-          : (p.is_new_arrival || (p.created_at && (new Date().getTime() - new Date(p.created_at).getTime()) < 30 * 24 * 60 * 60 * 1000)) 
-            ? 'New' 
-            : p.is_trending 
-              ? 'Trending' 
-              : undefined,
-        image: p.images?.[0] || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600',
-        colors: uniqueColors.length > 0 ? uniqueColors : ['#FFFFFF', '#1A1A1A'],
-        gender: ['Unisex'],
+        const combinedText = [
+          p.name, p.display_name, p.category?.name, p.description, p.short_description,
+          ...(Array.isArray(p.product_highlights) ? p.product_highlights : [])
+        ].filter(Boolean).join(' ').toLowerCase()
+
+        const hasMen = combinedText.includes('men') || combinedText.includes('male') || combinedText.includes('unisex')
+        const hasWomen = combinedText.includes('women') || combinedText.includes('female') || combinedText.includes('lady') || combinedText.includes('unisex')
+        
+        const inferredGenders: string[] = []
+        if (hasMen) inferredGenders.push('Men')
+        if (hasWomen) inferredGenders.push('Women')
+        if (inferredGenders.length === 0 || combinedText.includes('unisex') || (hasMen && hasWomen)) {
+          if (!inferredGenders.includes('Men')) inferredGenders.push('Men')
+          if (!inferredGenders.includes('Women')) inferredGenders.push('Women')
+          if (!inferredGenders.includes('Unisex')) inferredGenders.push('Unisex')
+        }
+
+        list.push({
+          id: p.id.toString(),
+          name: p.display_name || p.name,
+          slug: p.slug,
+          category: p.category?.name || 'Custom POD',
+          parentCategory: p.category_id || '',
+          subcategory: p.subcategory_id || '',
+          productType: p.product_type_id || '',
+          categorySlug: p.category?.slug || '',
+          sellingPrice: p.selling_price,
+          basePrice: p.base_price,
+          discountPct,
+          badge: p.is_bestseller 
+            ? 'Best Seller' 
+            : (p.is_new_arrival || (p.created_at && (new Date().getTime() - new Date(p.created_at).getTime()) < 30 * 24 * 60 * 60 * 1000)) 
+              ? 'New' 
+              : p.is_trending 
+                ? 'Trending' 
+                : undefined,
+          image: p.images?.[0] || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600',
+          colors: uniqueColors.length > 0 ? uniqueColors : ['#FFFFFF', '#1A1A1A'],
+          gender: inferredGenders,
         sizes: p.product_variants && p.product_variants.length > 0
           ? Array.from(new Set(p.product_variants.map((v: any) => v.size)))
           : ['S', 'M', 'L', 'XL'],
@@ -542,7 +559,7 @@ export function ShopCatalog({ categories, subcategories, productTypes, products 
               <div className="hidden md:flex items-center bg-white border border-border rounded-xl p-1 shadow-2xs">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-[0.97] ${
                     viewMode === 'grid' ? 'bg-[#1A1A1A] text-white shadow-xs' : 'text-neutral-500 hover:text-neutral-900'
                   }`}
                   aria-label="Grid view"
@@ -557,7 +574,7 @@ export function ShopCatalog({ categories, subcategories, productTypes, products 
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-[0.97] ${
                     viewMode === 'list' ? 'bg-[#1A1A1A] text-white shadow-xs' : 'text-neutral-500 hover:text-neutral-900'
                   }`}
                   aria-label="List view"
@@ -580,7 +597,7 @@ export function ShopCatalog({ categories, subcategories, productTypes, products 
                   onClick={() => setIsSortOpen(!isSortOpen)}
                   aria-haspopup="listbox"
                   aria-expanded={isSortOpen}
-                  className={`flex items-center justify-between w-full sm:w-52 bg-white border rounded-xl text-xs font-semibold pl-4 pr-3 py-2.5 transition-all duration-200 cursor-pointer active:scale-[0.97] text-neutral-700 tracking-wide min-h-[40px] outline-none ${
+                  className={`flex items-center justify-between w-full sm:w-52 bg-white border rounded-xl text-xs font-semibold pl-4 pr-3 py-2.5 transition-all duration-200 cursor-pointer active:scale-[0.97] text-neutral-700 tracking-wide min-h-[44px] outline-none ${
                     isSortOpen ? 'border-primary shadow-matte-xs' : 'border-border hover:border-primary/40'
                   }`}
                 >

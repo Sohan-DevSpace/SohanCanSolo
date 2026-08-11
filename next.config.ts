@@ -17,33 +17,31 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'chitpatang.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.chitpatang.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'images.unsplash.com',
       },
       {
         protocol: 'https',
         hostname: '*.supabase.co',
-        pathname: '/storage/v1/object/public/**',
       },
       {
         protocol: 'https',
         hostname: 'qikink-assets.s3.ap-south-1.amazonaws.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'ui-avatars.com',
-        pathname: '/api/**',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.googleusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
       },
       {
         protocol: 'https',
@@ -75,12 +73,12 @@ const nextConfig: NextConfig = {
     // Content Security Policy — allow trusted origins only
     const cspDirectives = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://cdn.razorpay.com https://*.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https://res.cloudinary.com https://*.cloudinary.com https://*.supabase.co https://images.unsplash.com https://qikink-assets.s3.ap-south-1.amazonaws.com https://ui-avatars.com https://*.googleusercontent.com https://avatars.githubusercontent.com",
+      "img-src 'self' data: blob: https: http:",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://openrouter.ai https://generativelanguage.googleapis.com https://api.qikink.com https://res.cloudinary.com https://api.cloudinary.com https://www.google-analytics.com",
-      "frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://cdn.razorpay.com https://*.razorpay.com wss://*.razorpay.com https://openrouter.ai https://generativelanguage.googleapis.com https://api.qikink.com https://res.cloudinary.com https://api.cloudinary.com https://www.google-analytics.com",
+      "frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://*.razorpay.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

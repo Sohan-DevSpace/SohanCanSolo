@@ -83,26 +83,6 @@ function SignupForm() {
     }
   }
 
-  const handleGoogleLogin = async () => {
-    setError(null)
-    try {
-      const supabase = createClient()
-      const redirectOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://alpona.vercel.app'
-      const redirectUrl = `${redirectOrigin}/auth/callback?next=${encodeURIComponent(returnUrl)}`
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: redirectUrl,
-        },
-      })
-      if (error) {
-        setError(error.message || 'Failed to initiate Google authentication.')
-      }
-    } catch {
-      setError('An unexpected error occurred initiating Google sign up.')
-    }
-  }
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
@@ -204,26 +184,7 @@ function SignupForm() {
 
         <div className="mb-8 text-center lg:text-left relative z-10">
           <h2 className="text-balance text-3xl font-serif text-white mb-3 tracking-tight">Create an account</h2>
-          <p className="text-white/80 text-[13px] font-medium leading-relaxed max-w-[320px] mx-auto lg:mx-0">Enter your details below to create your design studio account and save custom apparel.</p>
-        </div>
-
-        {/* Social Logins — Google Only */}
-        <div className="flex flex-col gap-3.5 mb-8 relative z-10">
-          <button onClick={handleGoogleLogin} type="button" className="group active:scale-[0.98] w-full h-12 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-center gap-3 text-[14px] font-semibold text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300 shadow-sm cursor-pointer">
-            <svg className="w-[18px] h-[18px] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24">
-              <path fill="#EA4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.61 14.99 1 12 1 7.35 1 3.4 3.65 1.57 7.5L5.05 10.2C5.9 7.22 8.69 5.04 12 5.04z" />
-              <path fill="#4285F4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.36H12v4.51h6.46c-.29 1.48-1.14 2.73-2.4 3.58l3.7 2.87c2.16-2 3.73-4.94 3.73-8.6z" />
-              <path fill="#FBBC05" d="M5.05 13.8c-.24-.72-.37-1.5-.37-2.3s.13-1.58.37-2.3L1.57 6.5C.57 8.5 0 10.7 0 13s.57 4.5 1.57 6.5l3.48-2.7z" />
-              <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.7-2.87c-1.03.69-2.35 1.1-4.26 1.1-3.31 0-6.1-2.18-6.95-5.16L1.57 16.5C3.4 20.35 7.35 23 12 23z" />
-            </svg>
-            Continue with Google
-          </button>
-        </div>
-
-        <div className="flex items-center gap-4 mb-8 relative z-10">
-          <div className="h-px bg-white/20 flex-1" />
-          <span className="text-[11px] text-white/70 uppercase tracking-widest font-bold">Or register with</span>
-          <div className="h-px bg-white/20 flex-1" />
+          <p className="text-white/80 text-[13px] font-medium leading-relaxed max-w-[320px] mx-auto lg:mx-0">Enter your details below to create your account and save custom apparel designs.</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">

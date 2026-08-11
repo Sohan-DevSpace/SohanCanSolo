@@ -22,10 +22,11 @@ import { useCartStore } from '@/store/cartStore'
 import { useWishlistStore } from '@/store/wishlistStore'
 import { useUser } from '@/hooks/useUser'
 import dynamic from 'next/dynamic'
+import { AlponaLogoMark } from '@/components/shared/AlponaLogo'
 import { Command } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
-const SearchOverlay = dynamic(() => import('@/components/layout/SearchOverlay').then(mod => mod.SearchOverlay), { ssr: false })
+import { SearchOverlay } from '@/components/layout/SearchOverlay'
 import { MorphingIcon } from '@/components/shared/MorphingIcon'
 import {
   Sheet,
@@ -178,18 +179,10 @@ export function Navbar() {
       hoverBg: 'group-hover:bg-[#B8763C] group-hover:text-white group-hover:border-[#B8763C]'
     },
     { 
-      title: 'New Arrivals', 
-      description: 'Latest premium drops', 
-      href: '/shop?sort=newest', 
-      icon: Zap,
-      badgeStyle: 'bg-[#FAF7F4] border-[#E8E2DB] text-[#B8763C]',
-      hoverBg: 'group-hover:bg-[#B8763C] group-hover:text-white group-hover:border-[#B8763C]'
-    },
-    { 
-      title: 'Best Sellers', 
-      description: 'Most loved products', 
-      href: '/shop?sort=best-selling', 
-      icon: Crown,
+      title: 'Design Studio', 
+      description: 'Create custom 2D & 3D apparel', 
+      href: '/design-studio', 
+      icon: IconPencil,
       badgeStyle: 'bg-[#FAF7F4] border-[#E8E2DB] text-[#B8763C]',
       hoverBg: 'group-hover:bg-[#B8763C] group-hover:text-white group-hover:border-[#B8763C]'
     },
@@ -197,8 +190,6 @@ export function Navbar() {
 
   const navLinks = [
     { label: 'Shop', href: '/shop', hasDropdown: true },
-    { label: 'New Arrivals', href: '/shop?sort=newest' },
-    { label: 'Best Sellers', href: '/shop?sort=best-selling' },
     { label: 'Design Studio', href: '/design-studio' },
     { label: 'Reviews', href: '/#testimonials' },
     { label: 'Track Order', href: '/order/track' },
@@ -243,8 +234,8 @@ export function Navbar() {
           {/* Brand Logo */}
           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1, duration: 0.4 }}>
             <Link href="/" className="flex items-center gap-2.5 group select-none active:scale-[0.97] transition-transform duration-150">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 relative flex-shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.06]">
-                <Image src="/logo.png?v=10" alt="Alpona Logo" fill sizes="40px" priority className="object-contain" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 relative flex-shrink-0 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.08]">
+                <AlponaLogoMark size={34} />
               </div>
               <span className="font-display text-xl lg:text-2xl font-bold text-primary tracking-[-0.02em] transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:text-ring">
                 Alpona
@@ -277,7 +268,7 @@ export function Navbar() {
                     transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)',
                   }}
                 >
-                  {/* Sleek Animated Underline */}
+                  {/* Sleek Single Animated Underline */}
                   <AnimatePresence>
                     {hoveredLink === link.label && (
                       <motion.div
@@ -285,12 +276,12 @@ export function Navbar() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-transparent via-[#B8763C] to-transparent shadow-[0_0_8px_rgba(184,118,60,0.4)]"
+                        className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#B8763C]"
                         transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                       />
                     )}
                   </AnimatePresence>
-                  <span className="link-draw transition-transform duration-200">{link.label}</span>
+                  <span className="transition-transform duration-200">{link.label}</span>
                   {link.hasDropdown && (
                     <MorphingIcon
                       name={isMegaMenuOpen ? 'chevron-up' : 'chevron-down'}
@@ -473,8 +464,8 @@ export function Navbar() {
                   <SheetHeader className="pb-4 border-b border-[#E8E2DB]/70 text-left">
                     <SheetTitle className="flex items-center gap-2">
                       <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 relative shrink-0">
-                          <Image src="/logo.png?v=10" alt="Alpona" fill sizes="36px" className="object-contain" />
+                        <div className="w-9 h-9 relative shrink-0 flex items-center justify-center">
+                          <AlponaLogoMark size={32} />
                         </div>
                         <span className="font-display text-xl font-bold text-primary">Alpona</span>
                       </Link>

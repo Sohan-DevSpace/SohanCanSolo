@@ -5,6 +5,7 @@ export const fontSerif = Cormorant_Garamond({
   weight: ['400', '500', '600', '700'],
   variable: '--font-serif',
   display: 'swap',
+  preload: true,
 })
 
 export const fontSans = Plus_Jakarta_Sans({
@@ -12,4 +13,6 @@ export const fontSans = Plus_Jakarta_Sans({
   weight: ['300', '400', '500', '600', '700', '800'],
   variable: '--font-sans',
   display: 'swap',
+  preload: true,
 })
+

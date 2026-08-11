@@ -1307,7 +1307,7 @@ export function DesignStudio() {
 
                 {/* Empty state prompt when no artwork */}
                 {!activeImageUrl && (designState.textLayers[activeTab] || []).length === 0 && (
-                  <div className="flex flex-col items-center gap-2 text-center pointer-events-none opacity-60">
+                  <div key="empty-canvas-prompt" className="flex flex-col items-center gap-2 text-center pointer-events-none opacity-60">
                     <Upload size={28} className="text-[#C87533]/50" />
                     <span className="text-[11px] font-bold text-neutral-400 max-w-[160px] leading-snug">Upload artwork or generate with AI to begin designing</span>
                   </div>
@@ -1316,6 +1316,7 @@ export function DesignStudio() {
                 <AnimatePresence>
                   {isSnapX && (
                     <motion.div
+                      key="snap-guideline-x"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -1324,6 +1325,7 @@ export function DesignStudio() {
                   )}
                   {isSnapY && (
                     <motion.div
+                      key="snap-guideline-y"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -1334,6 +1336,7 @@ export function DesignStudio() {
 
                 {activeImageUrl && (
                   <motion.div
+                    key="active-artwork-layer"
                     drag
                     dragMomentum={false}
                     onDrag={(e, info) => {

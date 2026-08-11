@@ -31,33 +31,48 @@ export function HeroFrameAnimation({ className, style }: HeroFrameAnimationProps
   const lastTimeRef = useRef(0)
   const requestRef = useRef<number>(0)
 
-  // Preload all frames immediately for buttery-smooth performance
+  // Preload frames — load Frame 1 immediately for fast paint, then stream remaining frames
   useEffect(() => {
     let isActive = true
     let loadedCount = 0
     const loadedImages: HTMLImageElement[] = new Array(TOTAL_FRAMES)
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new Image()
-      img.src = getFramePath(i)
-      
-      const handleLoad = () => {
-        if (!isActive) return
-        loadedImages[i - 1] = img
-        loadedCount++
+    // Load Frame 1 immediately
+    const firstImg = new window.Image()
+    firstImg.src = getFramePath(1)
+    firstImg.onload = () => {
+      if (!isActive) return
+      loadedImages[0] = firstImg
+      if (canvasRef.current) {
+        canvasRef.current.width = firstImg.width || 800
+        canvasRef.current.height = firstImg.height || 800
+      }
 
-        if (loadedCount === TOTAL_FRAMES) {
-          setIsLoaded(true)
-          setImages(loadedImages.filter(Boolean))
-          if (canvasRef.current && loadedImages[0]) {
-            canvasRef.current.width = loadedImages[0].width || 800
-            canvasRef.current.height = loadedImages[0].height || 800
+      // Stream remaining frames after initial paint
+      const preloadRest = () => {
+        for (let i = 2; i <= TOTAL_FRAMES; i++) {
+          const img = new window.Image()
+          img.src = getFramePath(i)
+          const handleLoad = () => {
+            if (!isActive) return
+            loadedImages[i - 1] = img
+            loadedCount++
+
+            if (loadedCount >= TOTAL_FRAMES - 1) {
+              setIsLoaded(true)
+              setImages(loadedImages.filter(Boolean))
+            }
           }
+          img.onload = handleLoad
+          img.onerror = handleLoad
         }
       }
 
-      img.onload = handleLoad
-      img.onerror = handleLoad
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => preloadRest(), { timeout: 1500 })
+      } else {
+        setTimeout(preloadRest, 200)
+      }
     }
 
     return () => {
