@@ -77,7 +77,7 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob: https: http:",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://cdn.razorpay.com https://*.razorpay.com wss://*.razorpay.com https://openrouter.ai https://generativelanguage.googleapis.com https://api.qikink.com https://res.cloudinary.com https://api.cloudinary.com https://www.google-analytics.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://cdn.razorpay.com https://*.razorpay.com wss://*.razorpay.com https://openrouter.ai https://generativelanguage.googleapis.com https://api.hcnsec.cn https://*.hcnsec.cn https://api.qikink.com https://res.cloudinary.com https://api.cloudinary.com https://images.unsplash.com https://*.unsplash.com https://www.google-analytics.com",
       "frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://*.razorpay.com",
       "object-src 'none'",
       "base-uri 'self'",
