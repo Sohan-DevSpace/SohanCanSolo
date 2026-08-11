@@ -49,7 +49,7 @@ export function FloatingCartBar() {
   if (itemCount === 0 || isProductDetailPage || isCheckoutPage) return null
 
   return (
-    <div className="fixed bottom-20 md:bottom-8 right-5 md:right-8 z-40 font-sans pointer-events-auto select-none">
+    <div className="fixed bottom-36 md:bottom-6 right-4 md:right-24 z-40 font-sans pointer-events-auto select-none">
       <div className="relative">
         
         {/* ═════════════════════════════════════════════════════════════════ */}

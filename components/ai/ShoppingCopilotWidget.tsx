@@ -107,7 +107,7 @@ export function ShoppingCopilotWidget() {
   }
 
   return (
-    <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 antialiased">
+    <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 antialiased">
       {/* Floating Circular Glassmorphic Trigger Button */}
       {!isOpen && (
         <button
