@@ -27,7 +27,6 @@ export default async function OrderSuccessPage({
   const supabase = await createClient()
 
   let order: any = null
-  let error: any = null
 
   // 1. If valid ID or order_number provided
   if (rawId && rawId !== 'undefined') {
@@ -93,7 +92,7 @@ export default async function OrderSuccessPage({
     }
   }
 
-  if (error || !order) {
+  if (!order) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center bg-[#FAF7F4] text-[#1A1A1A] px-4 text-center">
         <h1 className="text-3xl font-bold mb-3 font-serif">Order Not Found</h1>
