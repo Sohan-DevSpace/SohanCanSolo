@@ -10,14 +10,14 @@ export interface AIOptions {
   imageUrls?: string[]
   maxTokens?: number
   temperature?: number
-  preferredProvider?: 'gemini' | 'openrouter'
+  preferredProvider?: 'gemini' | 'hcnsec' | 'openrouter'
   model?: string
 }
 
 export interface AIResponse {
   success: boolean
   text: string
-  provider: 'gemini' | 'openrouter' | 'fallback'
+  provider: 'gemini' | 'hcnsec' | 'openrouter' | 'fallback'
   error?: string
 }
 
@@ -223,50 +223,144 @@ async function callOpenRouter(options: AIOptions): Promise<string> {
   throw lastError || new Error('All OpenRouter candidate models failed')
 }
 
+// 3. Call HCNSEC AI Provider via OpenAI-compatible Chat Completions API
+async function callHcnsec(options: AIOptions): Promise<string> {
+  const apiKey = process.env.HCNSEC_API_KEY || 'sk-fzqGh7pu2myGOQfHGDpVcFrD7yFFLOJAEzOgClfN1fyMsX9y'
+  const endpoint = process.env.HCNSEC_API_URL || 'https://api.hcnsec.cn/v1/chat/completions'
+  const modelName = options.model || process.env.HCNSEC_MODEL || 'auto'
+
+  const messagesToSend: any[] = []
+
+  const systemText = options.systemPrompt || options.messages?.find(m => m.role === 'system')?.content
+  if (systemText) {
+    messagesToSend.push({ role: 'system', content: systemText })
+  }
+
+  const hasImages = options.imageUrls && options.imageUrls.length > 0
+
+  if (options.messages && options.messages.length > 0) {
+    options.messages.forEach((msg) => {
+      if (msg.role !== 'system') {
+        messagesToSend.push(msg)
+      }
+    })
+  } else {
+    const userContent: any[] = []
+    if (hasImages && options.imageUrls) {
+      options.imageUrls.slice(0, 2).forEach(url => {
+        userContent.push({ type: 'image_url', image_url: { url } })
+      })
+    }
+    userContent.push({ type: 'text', text: options.prompt || 'Describe the apparel item.' })
+    messagesToSend.push({ role: 'user', content: userContent })
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: modelName,
+      messages: messagesToSend,
+      max_tokens: Math.min(options.maxTokens || 1500, 1500),
+      temperature: options.temperature ?? 0.7
+    })
+  })
+
+  if (!response.ok) {
+    const errorBody = await response.text()
+    throw new Error(`HCNSEC API [${modelName}] HTTP ${response.status}: ${errorBody}`)
+  }
+
+  const data = await response.json()
+  const text = data.choices?.[0]?.message?.content
+  if (!text) {
+    throw new Error(`HCNSEC API [${modelName}] returned empty response`)
+  }
+
+  return text
+}
+
 /**
- * Executes AI completion with automatic failover between Gemini AI and OpenRouter.
+ * Executes AI completion with automatic failover between Gemini AI, HCNSEC AI, and OpenRouter AI.
  * Supports image URLs for vision multimodal recognition!
  */
 export async function generateTextWithFailover(options: AIOptions): Promise<AIResponse> {
   const primaryProvider = options.preferredProvider || 'gemini'
 
+  if (primaryProvider === 'hcnsec') {
+    try {
+      const text = await callHcnsec(options)
+      return { success: true, text, provider: 'hcnsec' }
+    } catch (hcnsecError: any) {
+      console.warn(`[AI ENGINE FAILOVER] HCNSEC AI failed (${hcnsecError.message}). Failing over to Gemini AI...`)
+      try {
+        const text = await callGemini(options)
+        return { success: true, text, provider: 'gemini' }
+      } catch (geminiError: any) {
+        console.warn(`[AI ENGINE FAILOVER] Gemini AI failed (${geminiError.message}). Failing over to OpenRouter...`)
+        try {
+          const text = await callOpenRouter(options)
+          return { success: true, text, provider: 'openrouter' }
+        } catch (openRouterError: any) {
+          return {
+            success: false,
+            text: '',
+            provider: 'fallback',
+            error: `HCNSEC: ${hcnsecError.message} | Gemini: ${geminiError.message} | OpenRouter: ${openRouterError.message}`
+          }
+        }
+      }
+    }
+  }
+
   if (primaryProvider === 'gemini') {
     try {
-
       const text = await callGemini(options)
       return { success: true, text, provider: 'gemini' }
     } catch (geminiError: any) {
-      console.warn(`[AI ENGINE FAILOVER] Gemini AI failed (${geminiError.message}). Seamlessly failing over to OpenRouter AI...`)
+      console.warn(`[AI ENGINE FAILOVER] Gemini AI failed (${geminiError.message}). Seamlessly failing over to HCNSEC AI...`)
       try {
-        const text = await callOpenRouter(options)
-        return { success: true, text, provider: 'openrouter' }
-      } catch (openRouterError: any) {
-        console.error(`[AI ENGINE CRITICAL] Both Gemini AI and OpenRouter AI failed! OpenRouter error: ${openRouterError.message}`)
-        return {
-          success: false,
-          text: '',
-          provider: 'fallback',
-          error: `Gemini: ${geminiError.message} | OpenRouter: ${openRouterError.message}`
+        const text = await callHcnsec(options)
+        return { success: true, text, provider: 'hcnsec' }
+      } catch (hcnsecError: any) {
+        console.warn(`[AI ENGINE FAILOVER] HCNSEC AI failed (${hcnsecError.message}). Seamlessly failing over to OpenRouter AI...`)
+        try {
+          const text = await callOpenRouter(options)
+          return { success: true, text, provider: 'openrouter' }
+        } catch (openRouterError: any) {
+          return {
+            success: false,
+            text: '',
+            provider: 'fallback',
+            error: `Gemini: ${geminiError.message} | HCNSEC: ${hcnsecError.message} | OpenRouter: ${openRouterError.message}`
+          }
         }
       }
     }
   } else {
     try {
-
       const text = await callOpenRouter(options)
       return { success: true, text, provider: 'openrouter' }
     } catch (openRouterError: any) {
-      console.warn(`[AI ENGINE FAILOVER] OpenRouter AI failed (${openRouterError.message}). Seamlessly failing over to Gemini AI...`)
+      console.warn(`[AI ENGINE FAILOVER] OpenRouter AI failed (${openRouterError.message}). Seamlessly failing over to HCNSEC AI...`)
       try {
-        const text = await callGemini(options)
-        return { success: true, text, provider: 'gemini' }
-      } catch (geminiError: any) {
-        console.error(`[AI ENGINE CRITICAL] Both OpenRouter AI and Gemini AI failed! Gemini error: ${geminiError.message}`)
-        return {
-          success: false,
-          text: '',
-          provider: 'fallback',
-          error: `OpenRouter: ${openRouterError.message} | Gemini: ${geminiError.message}`
+        const text = await callHcnsec(options)
+        return { success: true, text, provider: 'hcnsec' }
+      } catch (hcnsecError: any) {
+        console.warn(`[AI ENGINE FAILOVER] HCNSEC AI failed (${hcnsecError.message}). Seamlessly failing over to Gemini AI...`)
+        try {
+          const text = await callGemini(options)
+          return { success: true, text, provider: 'gemini' }
+        } catch (geminiError: any) {
+          return {
+            success: false,
+            text: '',
+            provider: 'fallback',
+            error: `OpenRouter: ${openRouterError.message} | HCNSEC: ${hcnsecError.message} | Gemini: ${geminiError.message}`
+          }
         }
       }
     }

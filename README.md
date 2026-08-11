@@ -48,12 +48,12 @@ At its core sits the **Alpona AI Copilot** — a server-side intelligence suite 
 
 ## 🤖 Alpona AI Copilot Suite
 
-All AI features execute securely via server-side API routes using **Google Gemini 2.5 Flash** (with multi-model failover chain: `gemini-2.5-flash` → `gemini-2.0-flash` → `gemini-1.5-flash-latest` → OpenRouter). API keys are **never** exposed to the client.
+All AI features execute securely via server-side API routes using **Google Gemini 2.5 Flash** with multi-provider failover chain (`gemini-2.5-flash` → `hcnsec.cn` (`auto`) → `openrouter`). API keys are **never** exposed to the client.
 
 ```
                   ┌──────────────────────────────────────────────┐
                   │     Alpona AI Engine (Server-Side Only)      │
-                  │   Google Gemini 2.5 Flash + OpenRouter       │
+                  │   Google Gemini 2.5 + HCNSEC + OpenRouter    │
                   └───────────────────────┬──────────────────────┘
                                           │
     ┌─────────────┬──────────────┬────────┴────────┬──────────────┬─────────────┐
