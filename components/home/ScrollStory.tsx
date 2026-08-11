@@ -96,7 +96,7 @@ export function ScrollStory() {
 
     const frameObj = { frame: 0 }
 
-    // Helper function to draw frame with object-contain fit
+    // Helper function to draw frame with object-cover fit
     const drawFrame = (img: HTMLImageElement) => {
       if (!ctx || !canvas) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -110,11 +110,11 @@ export function ScrollStory() {
       let offsetY = 0
       
       if (imgRatio > canvasRatio) {
-        drawHeight = canvas.width / imgRatio
-        offsetY = (canvas.height - drawHeight) / 2
-      } else {
         drawWidth = canvas.height * imgRatio
         offsetX = (canvas.width - drawWidth) / 2
+      } else {
+        drawHeight = canvas.width / imgRatio
+        offsetY = (canvas.height - drawHeight) / 2
       }
       
       ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight)
@@ -146,9 +146,7 @@ export function ScrollStory() {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.5, // Smooth scrub interpolation
+          scrub: 0.5, // Faster scrub interpolation
         }
       })
 
@@ -243,7 +241,7 @@ export function ScrollStory() {
         <img
           src={getFramePath(1)}
           alt="Alpona Story"
-          className="absolute w-full h-full object-contain object-center transition-opacity duration-1000"
+          className="absolute w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center transition-opacity duration-1000"
           style={{ 
             opacity: isLoaded ? 0 : 1, 
             pointerEvents: 'none',
@@ -254,7 +252,7 @@ export function ScrollStory() {
         {/* Canvas for High-Performance Frame Rendering */}
         <canvas
           ref={canvasRef}
-          className="w-full h-full object-contain object-center pointer-events-none"
+          className="w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center pointer-events-none"
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1)',
