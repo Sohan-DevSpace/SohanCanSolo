@@ -20,9 +20,10 @@ export function FloatingCartBar() {
   const [isCheckingDelivery, setIsCheckingDelivery] = useState(false)
   const { items, itemCount, total, updateQuantity, removeItem } = useCartStore()
 
-  // Hide floating cart bar when on product detail page or checkout page
+  // Hide floating cart bar when on product detail page, checkout page, or cart page
   const isProductDetailPage = pathname?.startsWith('/shop/') && pathname !== '/shop'
   const isCheckoutPage = pathname === '/checkout'
+  const isCartPage = pathname === '/cart'
 
   // Trigger bounce effect on item count change
   useEffect(() => {
@@ -45,8 +46,8 @@ export function FloatingCartBar() {
   const isFreeShippingUnlocked = total >= FREE_SHIPPING_THRESHOLD
   const shippingProgressPct = Math.min(100, (total / FREE_SHIPPING_THRESHOLD) * 100)
 
-  // Don't render anything if cart is completely empty, on product detail page, or on checkout page
-  if (itemCount === 0 || isProductDetailPage || isCheckoutPage) return null
+  // Don't render anything if cart is completely empty, on product detail page, checkout page, or cart page
+  if (itemCount === 0 || isProductDetailPage || isCheckoutPage || isCartPage) return null
 
   return (
     <div className="fixed bottom-36 md:bottom-6 right-4 md:right-24 z-40 font-sans pointer-events-auto select-none">

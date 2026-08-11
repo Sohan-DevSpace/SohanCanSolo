@@ -701,10 +701,34 @@ export default function CheckoutPage() {
                 <div className="w-7 h-7 rounded-full bg-secondary border border-border text-muted-foreground flex items-center justify-center text-[10px] font-bold">
                   3
                 </div>
-                <span className="text-xs font-bold text-muted-foreground hidden sm:inline">Complete</span>
+                <span className="text-xs font-medium text-muted-foreground hidden sm:inline">Confirmation</span>
               </div>
             </div>
           </motion.div>
+
+          {/* Guest Checkout Notice Banner */}
+          {!user && !userLoading && (
+            <motion.div
+              variants={itemVariants}
+              className="rounded-2xl border border-ring/30 bg-[#FBF1E6] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-matte-xs select-none"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-ring/20 flex items-center justify-center text-ring shrink-0">
+                  <Lock className="w-4 h-4 text-ring" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-primary">Checking out as Guest</p>
+                  <p className="text-[11px] text-muted-foreground font-medium">Sign in to save your order history and track delivery updates easily.</p>
+                </div>
+              </div>
+              <Link
+                href="/auth/login?redirectTo=/checkout"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-[#1A1A1A] hover:bg-ring text-white text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
+              >
+                Sign In
+              </Link>
+            </motion.div>
+          )}
 
           {/* Main Layout Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">

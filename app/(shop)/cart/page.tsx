@@ -3,10 +3,13 @@
 import { useState, useMemo, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { useCartStore, type Coupon } from '@/store/cartStore'
 import { useWishlistStore } from '@/store/wishlistStore'
+import { useUser } from '@/hooks/useUser'
 import { Button } from '@/components/ui/button'
+import { User, UserPlus, X, LogIn, ArrowRight } from 'lucide-react'
 import { CURRENCY_SYMBOL, SITE_URL } from '@/constants/config'
 import { JsonLd } from '@/components/shared/JsonLd'
 import {
@@ -126,6 +129,7 @@ interface OrderSummaryProps {
   onApplyCoupon: () => void
   onRemoveCoupon: () => void
   showCheckout: boolean
+  onCheckoutClick?: (e: React.MouseEvent) => void
 }
 
 function OrderSummary({
@@ -139,6 +143,7 @@ function OrderSummary({
   onApplyCoupon,
   onRemoveCoupon,
   showCheckout,
+  onCheckoutClick,
 }: OrderSummaryProps) {
   const final = Math.max(0, activeTotal + shipping - discountAmount)
 
@@ -223,7 +228,7 @@ function OrderSummary({
 
       {showCheckout && (
         <div className="space-y-4 pt-2">
-          <Link href="/checkout" className="block">
+          <Link href="/checkout" onClick={onCheckoutClick} className="block">
             <Button
               size="lg"
               className="h-12 w-full rounded-2xl bg-primary text-xs font-bold uppercase tracking-[0.15em] text-white shadow-matte-sm hover:bg-ring hover:shadow-matte-md active:scale-[0.97] transition-all duration-300 cursor-pointer"
@@ -250,6 +255,17 @@ function OrderSummary({
 
 // ─── Page ───────────────────────────────────────────────────────────────────────
 export default function CartPage() {
+  const router = useRouter()
+  const { user, loading: userLoading } = useUser()
+  const [showAuthModal, setShowAuthModal] = useState(false)
+
+  const handleCheckoutClick = (e: React.MouseEvent) => {
+    if (!user && !userLoading) {
+      e.preventDefault()
+      setShowAuthModal(true)
+    }
+  }
+
   const {
     items,
     appliedCoupon,
@@ -646,6 +662,7 @@ export default function CartPage() {
                   onApplyCoupon={handleApplyCoupon}
                   onRemoveCoupon={removeCoupon}
                   showCheckout
+                  onCheckoutClick={handleCheckoutClick}
                 />
               </div>
             </aside>
@@ -721,7 +738,7 @@ export default function CartPage() {
               <AnimatedNumber value={mobileTotal} format={format} />
             </p>
           </div>
-          <Link href="/checkout">
+          <Link href="/checkout" onClick={handleCheckoutClick}>
             <Button
               size="lg"
               className="h-11 rounded-full bg-[#B8763C] px-6 text-[14px] font-semibold text-white shadow-matte-sm hover:bg-[#9A5E24] active:scale-[0.97]"
@@ -731,6 +748,78 @@ export default function CartPage() {
           </Link>
         </div>
       </div>
+
+      {/* Auth Required Modal */}
+      <AnimatePresence>
+        {showAuthModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowAuthModal(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 16 }}
+              transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+              className="relative w-full max-w-sm rounded-3xl border border-[#E8E2DB] bg-white p-6 shadow-2xl text-center select-none z-10"
+            >
+              {/* Header Icon */}
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#B8763C]/30 bg-[#FAF7F4] text-[#B8763C] shadow-inner">
+                <AnimatedLock size={28} className="text-[#B8763C]" />
+              </div>
+
+              <h3 className="mb-1.5 font-display text-xl font-bold text-[#1A1A1A] tracking-tight">
+                Sign In Required to Checkout
+              </h3>
+              <p className="mb-6 text-xs text-neutral-500 font-medium leading-relaxed">
+                Please log in or create an account to proceed with your order securely, track shipment status, and earn reward perks.
+              </p>
+
+              <div className="space-y-2.5">
+                <Link
+                  href="/auth/login?redirectTo=/checkout"
+                  className="flex h-11 w-full items-center justify-center gap-2 rounded-2xl bg-[#1A1A1A] text-xs font-bold uppercase tracking-[0.15em] text-white shadow-matte-sm transition-all hover:bg-[#B8763C] active:scale-[0.98]"
+                >
+                  <User size={15} />
+                  <span>Sign In to Continue</span>
+                </Link>
+
+                <Link
+                  href="/auth/signup?redirectTo=/checkout"
+                  className="flex h-11 w-full items-center justify-center gap-2 rounded-2xl border border-border bg-[#FAF7F4] text-xs font-bold uppercase tracking-[0.15em] text-[#1A1A1A] transition-all hover:bg-[#F5F1EC] active:scale-[0.98]"
+                >
+                  <UserPlus size={15} />
+                  <span>Create New Account</span>
+                </Link>
+
+                <div className="pt-2 border-t border-border/50">
+                  <Link
+                    href="/checkout"
+                    onClick={() => setShowAuthModal(false)}
+                    className="text-[11px] font-bold text-neutral-400 hover:text-[#B8763C] tracking-wide uppercase transition-colors inline-flex items-center gap-1"
+                  >
+                    <span>Or Continue as Guest</span>
+                    <ArrowRight size={12} />
+                  </Link>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowAuthModal(false)}
+                className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700 p-1.5 rounded-full transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <X size={16} />
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   )
 }

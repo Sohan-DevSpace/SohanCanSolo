@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Sparkles, X, Send, Loader2, ShoppingBag, ArrowRight, Ruler, Palette, Tag, Truck } from 'lucide-react'
 
 interface ProductCard {
@@ -106,8 +107,11 @@ export function ShoppingCopilotWidget() {
     executePrompt(input)
   }
 
+  const pathname = usePathname()
+  const isCartOrCheckout = pathname === '/cart' || pathname === '/checkout'
+
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 antialiased">
+    <div className={`fixed ${isCartOrCheckout ? 'bottom-36 md:bottom-6' : 'bottom-20 md:bottom-6'} right-4 md:right-6 z-50 antialiased`}>
       {/* Floating Circular Glassmorphic Trigger Button */}
       {!isOpen && (
         <button
