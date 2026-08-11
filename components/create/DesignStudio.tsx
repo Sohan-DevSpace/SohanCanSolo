@@ -847,7 +847,8 @@ export function DesignStudio() {
               studioItems,
             })
             toast.success('Order placed successfully!')
-            router.push(`/order/success?orderId=${data.orderId}&type=studio`)
+            const createdOrderId = (data as any).data?.orderId || (data as any).orderId
+            router.push(`/order/success?orderId=${createdOrderId}&type=studio`)
           } catch (err: any) {
             console.error('Studio order creation error:', err)
             toast.error(err?.message || 'Failed to save order. Please contact support.')

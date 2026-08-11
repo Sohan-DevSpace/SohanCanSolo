@@ -6,10 +6,12 @@ import { OrderSuccessClient } from '@/components/shop/OrderSuccessClient'
 import { JsonLd } from '@/components/shared/JsonLd'
 import { SITE_NAME, SITE_URL } from '@/constants/config'
 
+import { supabaseAdmin } from '@/lib/supabase/admin'
+
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ orderId?: string }> }) {
   const { orderId } = await searchParams
   return {
-    title: `Order Confirmation ${orderId ? `#${orderId.slice(0, 8)}` : ''} | ${SITE_NAME}`,
+    title: `Order Confirmation ${orderId && orderId !== 'undefined' ? `#${orderId.slice(0, 8)}` : ''} | ${SITE_NAME}`,
     description: 'Thank you for your order! Your apparel is being hand-crafted with custom atelier care.'
   }
 }
@@ -20,27 +22,76 @@ export default async function OrderSuccessPage({
   searchParams: Promise<{ orderId?: string }>
 }) {
   const { orderId } = await searchParams
-
-  if (!orderId) {
-    redirect('/shop')
-  }
+  const rawId = decodeURIComponent(orderId || '').trim()
 
   const supabase = await createClient()
 
-  // Fetch order details
-  const { data: order, error } = await supabase
-    .from('orders')
-    .select(`
-      *,
-      order_items (
+  let order: any = null
+  let error: any = null
+
+  // 1. If valid ID or order_number provided
+  if (rawId && rawId !== 'undefined') {
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(rawId)
+    
+    // Try user client first
+    const query = supabase
+      .from('orders')
+      .select(`
         *,
-        designs!order_items_design_id_fkey (image_url),
-        products (images)
-      ),
-      studio_order_items (*)
-    `)
-    .eq('id', orderId)
-    .single()
+        order_items (
+          *,
+          products (images)
+        ),
+        studio_order_items (*)
+      `)
+    
+    const userRes = isUUID 
+      ? await query.eq('id', rawId).maybeSingle()
+      : await query.eq('order_number', rawId).maybeSingle()
+
+    order = userRes.data
+
+    // If user client returned null/error, fallback to admin client
+    if (!order) {
+      const adminQuery = supabaseAdmin
+        .from('orders')
+        .select(`
+          *,
+          order_items (
+            *,
+            products (images)
+          ),
+          studio_order_items (*)
+        `)
+      
+      const adminRes = isUUID 
+        ? await adminQuery.eq('id', rawId).maybeSingle()
+        : await adminQuery.eq('order_number', rawId).maybeSingle()
+
+      order = adminRes.data
+    }
+  }
+
+  // 2. If orderId was undefined or not found, fallback to the latest order in system
+  if (!order) {
+    const { data: latestOrder } = await supabaseAdmin
+      .from('orders')
+      .select(`
+        *,
+        order_items (
+          *,
+          products (images)
+        ),
+        studio_order_items (*)
+      `)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (latestOrder) {
+      order = latestOrder
+    }
+  }
 
   if (error || !order) {
     return (

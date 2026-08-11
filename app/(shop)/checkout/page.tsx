@@ -452,7 +452,8 @@ export default function CheckoutPage() {
         if (res.data.success) {
           clearCart()
           toast.success('COD Order Placed Successfully!')
-          router.push(`/order/success?orderId=${res.data.orderId}`)
+          const createdOrderId = res.data.data?.orderId || res.data.orderId
+          router.push(`/order/success?orderId=${createdOrderId}`)
         }
       } catch (err: any) {
         console.error('COD Order Error:', err)
@@ -515,7 +516,8 @@ export default function CheckoutPage() {
             if (verifyRes.data.success) {
               clearCart()
               toast.success('Payment successful!')
-              router.push(`/order/success?orderId=${verifyRes.data.orderId}`)
+              const createdOrderId = verifyRes.data.data?.orderId || verifyRes.data.orderId
+              router.push(`/order/success?orderId=${createdOrderId}`)
             }
           } catch (error: any) {
             console.error('Payment verification failed:', error)

@@ -163,7 +163,7 @@ export async function POST(req: Request) {
 
     // (Mocking) Send email notification...
 
-    return NextResponse.json({ success: true, orderId: order.id })
+    return NextResponse.json({ success: true, orderId: order.id, data: { orderId: order.id } })
     
   } catch (error) {
     console.error('Studio checkout API error:', error)
