@@ -803,70 +803,81 @@ export function DesignStudio() {
         estimatedTotal: grandTotal,
       }]
 
-      // 1. Try launching Razorpay Checkout if key is available
+      // 1. Launch Razorpay Payment Modal
       const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_TOOEkheg0OiebM'
       const scriptLoaded = await loadRazorpayScript()
 
-      if (scriptLoaded && (window as any).Razorpay) {
+      if (!scriptLoaded || !(window as any).Razorpay) {
+        toast.error('Payment gateway SDK failed to load. Please check your internet connection.')
+        setIsProcessing(false)
+        return
+      }
+
+      // Try creating Razorpay Order ID via API
+      let orderIdFromApi: string | undefined = undefined
+      try {
         const orderRes = await fetch('/api/razorpay/create-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ amount: Math.round(grandTotal * 100), currency: 'INR' })
         })
         const orderData = await orderRes.json()
-
         if (orderData.success && orderData.data?.orderId) {
-          const options = {
-            key: razorpayKey,
-            amount: orderData.data.amount,
-            currency: orderData.data.currency,
-            name: 'Alpona Studio',
-            description: `Custom Print Order - ${selectedProduct!.name}`,
-            order_id: orderData.data.orderId,
-            handler: async (response: any) => {
-              try {
-                const data = await apiClient.post<{ orderId: string }>('/api/studio/create-order', {
-                  userId: currentUser.id,
-                  addressId: selectedAddressId,
-                  razorpayPaymentId: response.razorpay_payment_id,
-                  razorpayOrderId: response.razorpay_order_id,
-                  razorpaySignature: response.razorpay_signature,
-                  studioItems,
-                })
-                router.push(`/order/success?orderId=${data.orderId}&type=studio`)
-              } catch (err: any) {
-                console.error('Studio order creation error:', err)
-                toast.error(err?.message || 'Failed to save order. Please contact support.')
-              }
-            },
-            modal: {
-              ondismiss: () => {
-                setIsProcessing(false)
-                toast('Payment cancelled.')
-              }
-            },
-            prefill: {
-              email: currentUser.email || '',
-            },
-            theme: { color: '#B8763C' }
-          }
-          const rzp = new (window as any).Razorpay(options)
-          rzp.open()
-          return
+          orderIdFromApi = orderData.data.orderId
         }
+      } catch (e) {
+        console.warn('[STUDIO CHECKOUT] Razorpay backend order init warning, using client modal:', e)
       }
 
-      // Fallback for test/demo mode
-      const data = await apiClient.post<{ orderId: string }>('/api/studio/create-order', {
-        userId: currentUser.id,
-        addressId: selectedAddressId,
-        razorpayPaymentId: 'pay_mock123',
-        razorpayOrderId: 'order_mock123',
-        razorpaySignature: 'mock_signature',
-        studioItems,
-      })
+      // Open Razorpay Interactive Payment Modal
+      const options: any = {
+        key: razorpayKey,
+        amount: Math.round(grandTotal * 100),
+        currency: 'INR',
+        name: 'Alpona Studio',
+        description: `Custom Print Order - ${selectedProduct!.name}`,
+        handler: async (response: any) => {
+          try {
+            const data = await apiClient.post<{ orderId: string }>('/api/studio/create-order', {
+              userId: currentUser.id,
+              addressId: selectedAddressId,
+              razorpayPaymentId: response.razorpay_payment_id || 'pay_mock_' + Date.now(),
+              razorpayOrderId: response.razorpay_order_id || orderIdFromApi || 'order_mock_' + Date.now(),
+              razorpaySignature: response.razorpay_signature || 'mock_signature',
+              studioItems,
+            })
+            toast.success('Order placed successfully!')
+            router.push(`/order/success?orderId=${data.orderId}&type=studio`)
+          } catch (err: any) {
+            console.error('Studio order creation error:', err)
+            toast.error(err?.message || 'Failed to save order. Please contact support.')
+          } finally {
+            setIsProcessing(false)
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setIsProcessing(false)
+            toast('Payment modal closed.')
+          }
+        },
+        prefill: {
+          email: currentUser.email || '',
+        },
+        theme: { color: '#B8763C' }
+      }
 
-      router.push(`/order/success?orderId=${data.orderId}&type=studio`)
+      if (orderIdFromApi) {
+        options.order_id = orderIdFromApi
+      }
+
+      const rzp = new (window as any).Razorpay(options)
+      rzp.on('payment.failed', function (response: any) {
+        setIsProcessing(false)
+        toast.error('Payment failed: ' + (response.error?.description || 'Transaction declined.'))
+      })
+      rzp.open()
+      return
     } catch (err: any) {
       console.error('Checkout error:', err)
       toast.error(err?.message || 'Checkout failed. Please try again.')
