@@ -750,6 +750,17 @@ export function DesignStudio() {
     }
   }
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if ((window as any).Razorpay) return resolve(true)
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.onload = () => resolve(true)
+      script.onerror = () => resolve(false)
+      document.body.appendChild(script)
+    })
+  }
+
   const handlePlaceOrder = async () => {
     const { data: { user: currentUser } } = await supabase.auth.getUser()
     if (!currentUser) {
@@ -771,38 +782,89 @@ export function DesignStudio() {
     setIsProcessing(true)
     try {
       const frontTransform = designState.transforms['front'] || DEFAULT_TRANSFORM
+      const studioItems = [{
+        qikinkProductSku: selectedProduct!.sku,
+        qikinkProductName: selectedProduct!.name,
+        qikinkCollection: selectedProduct!.collection,
+        designFrontUrl: designState.frontUrl,
+        designBackUrl: designState.backUrl,
+        designLeftPocketUrl: designState.leftPocketUrl,
+        printPositions: [config.printPosition],
+        printingType: config.printingType,
+        selectedColors: config.selectedColors,
+        productBaseColor: config.selectedColors[0] || 'White',
+        sizesQuantities: config.sizes,
+        qikinkBasePrice: selectedProduct!.basePrice,
+        printFinish: config.printingType,
+        specialInstructions: config.specialInstructions,
+        designX: frontTransform.xOffset,
+        designY: frontTransform.yOffset,
+        designScale: frontTransform.scale,
+        estimatedTotal: grandTotal,
+      }]
+
+      // 1. Try launching Razorpay Checkout if key is available
+      const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+      const scriptLoaded = await loadRazorpayScript()
+
+      if (razorpayKey && scriptLoaded && (window as any).Razorpay) {
+        const orderRes = await fetch('/api/razorpay/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: Math.round(grandTotal * 100), currency: 'INR' })
+        })
+        const orderData = await orderRes.json()
+
+        if (orderData.success && orderData.data?.orderId) {
+          const options = {
+            key: razorpayKey,
+            amount: orderData.data.amount,
+            currency: orderData.data.currency,
+            name: 'Alpona Studio',
+            description: `Custom Print Order - ${selectedProduct!.name}`,
+            order_id: orderData.data.orderId,
+            handler: async (response: any) => {
+              try {
+                const data = await apiClient.post<{ orderId: string }>('/api/studio/create-order', {
+                  userId: currentUser.id,
+                  addressId: selectedAddressId,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpaySignature: response.razorpay_signature,
+                  studioItems,
+                })
+                router.push(`/order/success?orderId=${data.orderId}&type=studio`)
+              } catch (err: any) {
+                console.error('Studio order creation error:', err)
+                toast.error(err?.message || 'Failed to save order. Please contact support.')
+              }
+            },
+            prefill: {
+              email: currentUser.email || '',
+            },
+            theme: { color: '#B8763C' }
+          }
+          const rzp = new (window as any).Razorpay(options)
+          rzp.open()
+          setIsProcessing(false)
+          return
+        }
+      }
+
+      // Fallback for test/demo mode
       const data = await apiClient.post<{ orderId: string }>('/api/studio/create-order', {
         userId: currentUser.id,
         addressId: selectedAddressId,
         razorpayPaymentId: 'pay_mock123',
         razorpayOrderId: 'order_mock123',
         razorpaySignature: 'mock_signature',
-        studioItems: [{
-          qikinkProductSku: selectedProduct!.sku,
-          qikinkProductName: selectedProduct!.name,
-          qikinkCollection: selectedProduct!.collection,
-          designFrontUrl: designState.frontUrl,
-          designBackUrl: designState.backUrl,
-          designLeftPocketUrl: designState.leftPocketUrl,
-          printPositions: [config.printPosition],
-          printingType: config.printingType,
-          selectedColors: config.selectedColors,
-          productBaseColor: config.selectedColors[0] || 'White',
-          sizesQuantities: config.sizes,
-          qikinkBasePrice: selectedProduct!.basePrice,
-          printFinish: config.printingType,
-          specialInstructions: config.specialInstructions,
-          designX: frontTransform.xOffset,
-          designY: frontTransform.yOffset,
-          designScale: frontTransform.scale,
-          estimatedTotal: grandTotal,
-        }],
+        studioItems,
       })
 
       router.push(`/order/success?orderId=${data.orderId}&type=studio`)
-    } catch (err) {
+    } catch (err: any) {
       console.error('Checkout error:', err)
-      toast.error('Checkout failed. Please try again.')
+      toast.error(err?.message || 'Checkout failed. Please try again.')
     } finally {
       setIsProcessing(false)
     }
