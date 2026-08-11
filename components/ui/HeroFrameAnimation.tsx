@@ -48,30 +48,22 @@ export function HeroFrameAnimation({ className, style }: HeroFrameAnimationProps
         canvasRef.current.height = firstImg.height || 800
       }
 
-      // Stream remaining frames after initial paint
-      const preloadRest = () => {
-        for (let i = 2; i <= TOTAL_FRAMES; i++) {
-          const img = new window.Image()
-          img.src = getFramePath(i)
-          const handleLoad = () => {
-            if (!isActive) return
-            loadedImages[i - 1] = img
-            loadedCount++
+      // Preload remaining frames immediately
+      for (let i = 2; i <= TOTAL_FRAMES; i++) {
+        const img = new window.Image()
+        img.src = getFramePath(i)
+        const handleLoad = () => {
+          if (!isActive) return
+          loadedImages[i - 1] = img
+          loadedCount++
 
-            if (loadedCount >= TOTAL_FRAMES - 1) {
-              setIsLoaded(true)
-              setImages(loadedImages.filter(Boolean))
-            }
+          if (loadedCount >= TOTAL_FRAMES - 1) {
+            setIsLoaded(true)
+            setImages(loadedImages.filter(Boolean))
           }
-          img.onload = handleLoad
-          img.onerror = handleLoad
         }
-      }
-
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(() => preloadRest(), { timeout: 1500 })
-      } else {
-        setTimeout(preloadRest, 200)
+        img.onload = handleLoad
+        img.onerror = handleLoad
       }
     }
 
