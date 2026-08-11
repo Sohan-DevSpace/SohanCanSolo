@@ -804,10 +804,10 @@ export function DesignStudio() {
       }]
 
       // 1. Try launching Razorpay Checkout if key is available
-      const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+      const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_TOOEkheg0OiebM'
       const scriptLoaded = await loadRazorpayScript()
 
-      if (razorpayKey && scriptLoaded && (window as any).Razorpay) {
+      if (scriptLoaded && (window as any).Razorpay) {
         const orderRes = await fetch('/api/razorpay/create-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -839,6 +839,12 @@ export function DesignStudio() {
                 toast.error(err?.message || 'Failed to save order. Please contact support.')
               }
             },
+            modal: {
+              ondismiss: () => {
+                setIsProcessing(false)
+                toast('Payment cancelled.')
+              }
+            },
             prefill: {
               email: currentUser.email || '',
             },
@@ -846,7 +852,6 @@ export function DesignStudio() {
           }
           const rzp = new (window as any).Razorpay(options)
           rzp.open()
-          setIsProcessing(false)
           return
         }
       }
