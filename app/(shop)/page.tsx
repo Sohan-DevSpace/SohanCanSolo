@@ -14,7 +14,6 @@ import { JsonLd } from '@/components/shared/JsonLd'
 import { SITE_NAME, SITE_URL } from '@/constants/config'
 import dynamic from 'next/dynamic'
 
-const ScrollStory = dynamic(() => import('@/components/home/ScrollStory').then((mod) => mod.ScrollStory))
 const Testimonials = dynamic(() => import('@/components/home/Testimonials').then((mod) => mod.Testimonials))
 const FAQPreview = dynamic(() => import('@/components/home/FAQPreview').then((mod) => mod.FAQPreview))
 const NewsletterCommunity = dynamic(() => import('@/components/home/NewsletterCommunity').then((mod) => mod.NewsletterCommunity))
@@ -179,10 +178,6 @@ export default async function HomePage() {
 
       <SafeBoundary name="LimitedTimeOffer">
         <LimitedTimeOffer />
-      </SafeBoundary>
-
-      <SafeBoundary name="ScrollStory">
-        <ScrollStory />
       </SafeBoundary>
 
       <SafeBoundary name="Testimonials">
