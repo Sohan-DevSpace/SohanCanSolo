@@ -46,9 +46,9 @@ At its core sits the **Alpona AI Copilot** — a server-side intelligence suite 
 
 ---
 
-## 🤖 Alpona AI Copilot Suite
+## 🤖 Alpona 10-in-1 AI Copilot Suite
 
-All AI features execute securely via server-side API routes using **Google Gemini 2.5 Flash** with multi-provider failover chain (`gemini-2.5-flash` → `hcnsec.cn` (`auto`) → `openrouter`). API keys are **never** exposed to the client.
+All AI features execute securely via server-side API routes using **Google Gemini 2.5 Flash** with multi-provider failover (`gemini-2.5-flash` → `hcnsec.cn` (`auto`) → `openrouter`). API keys are **never** exposed to the client.
 
 ```
                   ┌──────────────────────────────────────────────┐
@@ -61,32 +61,37 @@ All AI features execute securely via server-side API routes using **Google Gemin
 ┌─────────┐ ┌──────────┐ ┌────────────┐ ┌───────────────┐ ┌──────────┐ ┌────────────┐
 │Shopping │ │  Smart   │ │   Fraud    │ │   Dynamic    │ │ Product  │ │ Inventory  │
 │Copilot  │ │  Recs    │ │  Scoring   │ │   Pricing    │ │ OCR &    │ │ Forecast & │
-│(Chat)   │ │(PDP/Home)│ │(Admin)     │ │(Admin)       │ │Describe  │ │ 12 More    │
+│(10-in-1)│ │(PDP/Home)│ │(Admin)     │ │(Admin)       │ │Describe  │ │ 12 More    │
 └─────────┘ └──────────┘ └────────────┘ └───────────────┘ └──────────┘ └────────────┘
 ```
 
-### 🛒 Customer-Facing AI
+### 🛒 10-in-1 Customer-Facing AI Concierge
 
-| Feature | Description |
+| Feature Module | Capabilities |
 | :--- | :--- |
-| **Shopping Copilot** | Floating chat widget on every page — natural language concierge delivering style advice, sizing guidance, and interactive product cards inside conversations |
-| **Smart Recommendations** | Contextual product pairings on Homepage and PDP with personalized rationale badges and category-similarity fallback |
-| **Size Recommendation** | AI-driven body-fit matching based on garment measurements and user preferences |
-| **Visual Search** | Image-based product discovery powered by Gemini vision capabilities |
-| **Smart Search** | Natural language product search with intent understanding |
+| **💃 AI Style Assistant** | Personalized streetwear outfit styling, aesthetic pairings, and drop-shoulder apparel recommendations |
+| **🔍 AI Product Search** | Natural language catalog search with budget/color/tag constraints (e.g. *"graphic tees under ₹800"*) |
+| **🎁 AI Gift Finder** | Thoughtful gift recommendations tailored to occasion (birthday, festival, anniversary) and budget |
+| **📏 Size & Fit Calculator** | Body-fit calculation based on height, weight, and fit preference (Regular vs Boxy Oversized drape) |
+| **📦 Live Order Assistant** | Real-time order tracking, shipping stage updates, and delivery timelines via Order ID (e.g. `ALP-1002`) |
+| **💬 AI Customer Support** | Instant queries on nationwide SLAs (3-5 days via Delhivery), return policies, fabric GSM, and DTF vs Embroidery |
+| **🗣️ Multilingual Assistant** | Native fluency in English, Bengali (বাংলা), Hindi (हिन्दी), Hinglish, and Banglish |
+| **📷 Visual Search** | Multimodal vision image analysis — upload or paste image URLs to match closest store apparel |
+| **🏷️ Promo & Offer Concierge** | Active discount code guidance (`FIRST10` for 10% off, `STREETWEAR200` for ₹200 off on ₹1,499+, Free Shipping over ₹999) |
+| **🎯 Personalized Shopping** | Dynamic catalog hydration from live Supabase DB (`status = 'active'`) with Cloudinary previews |
 
-### 🛡️ Admin-Facing AI
+### 🛡️ Admin-Facing AI Suite
 
-| Feature | Description |
+| Feature Module | Capabilities |
 | :--- | :--- |
-| **Fraud Risk Scoring** | Multi-factor risk badges (Low/Medium/High, 0–100 score) evaluating order value anomalies, account age, rapid velocity, and high-ticket first purchases |
-| **Dynamic Pricing** | AI-powered pricing suggestions with Gemini 2.5 Flash vision analysis of product images for OCR text detection (e.g., Bengali typography recognition) |
-| **Product Auto-Describe** | Multimodal vision OCR — reads garment text, fabric details, and design elements from product photos to generate accurate titles and descriptions |
+| **Fraud Risk Scoring** | Multi-factor risk badges (Low/Medium/High, 0–100 score) evaluating order value anomalies, account age, and velocity |
+| **Dynamic Pricing** | AI-powered pricing suggestions with Gemini 2.5 Flash vision analysis of product images for typography recognition |
+| **Product Auto-Describe** | Multimodal vision OCR — reads garment text, fabric details, and design elements from product photos to generate copy |
 | **Inventory Forecasting** | Demand prediction and re-order alerts based on sales velocity analysis |
 | **Customer Segmentation** | AI-powered customer cohort analysis for targeted marketing |
 | **Return Risk Analysis** | Predictive return probability scoring per order |
 | **Review Summarization** | Automated sentiment aggregation across customer reviews |
-| **Business Insights** | Executive strategic intelligence synthesizing revenue trends, order velocity, top categories, and cancellation rates |
+| **Business Insights** | Executive strategic intelligence synthesizing revenue trends, order velocity, and top categories |
 | **Auto-Tagging** | Automatic product tag generation from images and descriptions |
 
 ---
@@ -328,8 +333,12 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_your_key_id
 RAZORPAY_KEY_SECRET=your_razorpay_key_secret
 
-# ── Google Gemini AI ──
+# ── Google Gemini & Multi-Provider AI ──
 GEMINI_API_KEY=your_gemini_api_key
+HCNSEC_API_KEY=sk-fzqGh7pu2myGOQfHGDpVcFrD7yFFLOJAEzOgClfN1fyMsX9y
+HCNSEC_API_URL=https://api.hcnsec.cn/v1/chat/completions
+HCNSEC_MODEL=auto
+OPENROUTER_API_KEY=your_openrouter_api_key
 
 # ── Cloudinary ──
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
