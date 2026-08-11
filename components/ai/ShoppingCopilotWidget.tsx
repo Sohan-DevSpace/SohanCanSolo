@@ -39,7 +39,7 @@ export function ShoppingCopilotWidget() {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: "Welcome to Alpona! I'm your AI Fashion & Sizing Concierge. Ask me about custom printing, fabric specs (240GSM cotton), sizing tips, or discount coupons!",
+      text: "Welcome to Alpona Studio! I'm your personal fashion stylist & concierge. Looking for drop-shoulder tees, fabric specs (240 GSM combed cotton), sizing tips, or custom print advice?",
     }
   ])
 

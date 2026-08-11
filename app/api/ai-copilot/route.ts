@@ -29,60 +29,69 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Message cannot be empty' }, { status: 400 })
       }
 
-      // Fetch active catalog slice from Supabase safely
+      // Fetch active catalog items from Supabase
       let products: any[] = []
       try {
         const prodRes = await supabaseAdmin
           .from('products')
-          .select('id, name, slug, base_price, description, is_active, category_id, image_url')
-          .eq('is_active', true)
-          .limit(20)
-        if (prodRes.data) {
-          products = prodRes.data
+          .select('id, name, slug, selling_price, images, description, status')
+          .eq('status', 'active')
+          .limit(30)
+
+        if (prodRes.data && prodRes.data.length > 0) {
+          products = prodRes.data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            price: Number(p.selling_price) || 449,
+            image_url: Array.isArray(p.images) && p.images.length > 0 
+              ? p.images[0] 
+              : (typeof p.images === 'string' ? p.images : ''),
+            description: p.description || ''
+          }))
         }
       } catch (dbErr) {
         console.warn('[AI COPILOT] Supabase fetch fallback warning:', dbErr)
       }
 
       const catalogSummary = (products || []).map(p => 
-        `ID: ${p.id} | Name: ${p.name} | Price: ₹${p.base_price} | Image: ${p.image_url || 'N/A'} | Desc: ${p.description?.slice(0, 100) || 'N/A'}`
+        `[ID: ${p.id}] "${p.name}" | Price: ₹${p.price} | Desc: ${p.description?.slice(0, 100) || 'N/A'}`
       ).join('\n')
 
       const promptText = `
-Available Catalog Slice:
+Available Store Catalog (Real Products):
 ${catalogSummary}
 
-User Request: "${userMessage}"
+User Query: "${userMessage}"
 Recent Conversation Context: ${JSON.stringify(history || [])}
 
-Provide your recommendation text and select up to 3 matching product IDs from the catalog above.
+Provide your warm, human stylist response text and select up to 3 matching product IDs from the store catalog above.
 `
 
       const aiResponse = await generateTextWithFailover({
         systemPrompt: SHOPPING_ASSISTANT_SYSTEM_PROMPT,
         prompt: promptText,
         maxTokens: 500,
-        temperature: 0.7
+        temperature: 0.75
       })
 
       if (!aiResponse.success || !aiResponse.text) {
-        // Fallback response if AI is unavailable
         const defaultProduct = products?.[0]
         return NextResponse.json({
           success: true,
-          text: "I'm having a quick connection moment! Based on our catalog, check out our featured top-quality apparel below.",
+          text: "I'd love to help you find the perfect piece! Take a look at our current featured streetwear pieces below.",
           products: defaultProduct ? [{
             id: defaultProduct.id,
             name: defaultProduct.name,
             slug: defaultProduct.slug,
-            price: defaultProduct.base_price,
+            price: defaultProduct.price,
             image_url: defaultProduct.image_url
           }] : []
         })
       }
 
       const parsed = parseAIJsonResponse(aiResponse.text, {
-        text: "Here are some top picks from Alpona that match your style preferences!",
+        text: "Here are a few pieces from our collection that I think you'll really appreciate!",
         recommendedProductIds: []
       })
 
@@ -99,12 +108,12 @@ Provide your recommendation text and select up to 3 matching product IDs from th
 
       return NextResponse.json({
         success: true,
-        text: parsed.text || "Here are some top recommendations from Alpona!",
+        text: parsed.text || "Here are a few signature pieces from our collection that match your style!",
         products: recommendedProducts.map(p => ({
           id: p.id,
           name: p.name,
           slug: p.slug,
-          price: p.base_price,
+          price: p.price,
           image_url: p.image_url
         }))
       })
