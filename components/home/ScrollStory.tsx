@@ -182,33 +182,33 @@ export function ScrollStory() {
       tl.fromTo(textRef1.current,
         { opacity: 0, y: 40 },
         { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out' },
-        0.08
+        0.05
       )
       tl.to(textRef1.current,
         { opacity: 0, y: -40, duration: 0.12, ease: 'power2.in' },
-        0.25
+        0.28
       )
 
       // Slide 2: Quality
       tl.fromTo(textRef2.current,
         { opacity: 0, y: 40 },
         { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out' },
-        0.40
+        0.35
       )
       tl.to(textRef2.current,
         { opacity: 0, y: -40, duration: 0.12, ease: 'power2.in' },
-        0.57
+        0.58
       )
 
       // Slide 3: Eco
       tl.fromTo(textRef3.current,
         { opacity: 0, y: 40 },
         { opacity: 1, y: 0, duration: 0.12, ease: 'power2.out' },
-        0.72
+        0.65
       )
       tl.to(textRef3.current,
         { opacity: 0, y: -40, duration: 0.12, ease: 'power2.in' },
-        0.88
+        0.95
       )
 
     }, containerRef)
@@ -222,7 +222,7 @@ export function ScrollStory() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[350vh] bg-[#FAF7F4]"
+      className="relative w-full h-[200vh] bg-[#FAF7F4]"
     >
       {/* Background Wrapper driven by GSAP */}
       <div
