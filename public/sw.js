@@ -1,15 +1,17 @@
-const CACHE_NAME = 'alpona-v1'
+const CACHE_NAME = 'alpona-v2'
 const ASSETS_TO_CACHE = [
   '/',
-  '/offline',
   '/manifest.json',
-  '/images/icons/logo.png',
+  '/logo.png',
+  '/favicon.ico',
 ]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE)
+      return Promise.allSettled(
+        ASSETS_TO_CACHE.map((url) => cache.add(url).catch(() => {}))
+      )
     })
   )
   self.skipWaiting()
@@ -34,11 +36,11 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return
   const url = new URL(event.request.url)
   
-  // Ignore Next.js internal assets, API routes, hot-reloading, and chrome extensions
+  // Ignore Next.js internal assets, API routes, hot-reloading, and non-http protocols
   if (
     url.pathname.startsWith('/_next') ||
     url.pathname.startsWith('/api') ||
-    url.protocol !== 'http:' && url.protocol !== 'https:'
+    (url.protocol !== 'http:' && url.protocol !== 'https:')
   ) {
     return
   }

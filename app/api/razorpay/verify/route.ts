@@ -12,7 +12,7 @@ const isValidUUID = (id: string | undefined | null): boolean => {
 
 export const POST = createApiHandler({
   schema: razorpayVerifySchema,
-  auth: 'required',
+  auth: 'optional',
   handler: async ({ body }) => {
     const { 
       razorpay_order_id, 

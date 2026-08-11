@@ -542,7 +542,13 @@ export default function CheckoutPage() {
 
     } catch (error: any) {
       console.error('Checkout error:', error)
-      toast.error(error.response?.data?.error || 'We could not complete your checkout. Please verify payment details or connection.')
+      const errorMessage =
+        typeof error.response?.data?.error === 'string'
+          ? error.response?.data?.error
+          : error.response?.data?.error?.message ||
+            error.message ||
+            'We could not complete your checkout. Please verify payment details or connection.'
+      toast.error(errorMessage)
       setIsProcessing(false)
     }
   }
