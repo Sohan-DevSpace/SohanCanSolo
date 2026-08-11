@@ -192,33 +192,34 @@ export function Footer() {
             </div>
           </motion.div>
 
-          {/* ── 2. SHOP LINKS ── */}
-          <motion.nav variants={fadeUpVariant} aria-label="Shop Navigation">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-white mb-3">
-              Shop
-            </h3>
-            <ul className="flex flex-col gap-2">
-              {shopLinks.map((link) => (
-                <li key={link.href + link.label}>
-                  <FooterLink href={link.href}>{link.label}</FooterLink>
-                </li>
-              ))}
-            </ul>
-          </motion.nav>
+          {/* ── 2 & 3. SHOP & SUPPORT LINKS (Side-by-Side 2-Column Grid on Mobile) ── */}
+          <div className="grid grid-cols-2 gap-6 lg:contents">
+            <motion.nav variants={fadeUpVariant} aria-label="Shop Navigation">
+              <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-white mb-3">
+                Shop
+              </h3>
+              <ul className="flex flex-col gap-2">
+                {shopLinks.map((link) => (
+                  <li key={link.href + link.label}>
+                    <FooterLink href={link.href}>{link.label}</FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </motion.nav>
 
-          {/* ── 3. SUPPORT LINKS ── */}
-          <motion.nav variants={fadeUpVariant} aria-label="Support Navigation">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-white mb-3">
-              Support
-            </h3>
-            <ul className="flex flex-col gap-2">
-              {supportLinks.map((link) => (
-                <li key={link.href + link.label}>
-                  <FooterLink href={link.href}>{link.label}</FooterLink>
-                </li>
-              ))}
-            </ul>
-          </motion.nav>
+            <motion.nav variants={fadeUpVariant} aria-label="Support Navigation">
+              <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-white mb-3">
+                Support
+              </h3>
+              <ul className="flex flex-col gap-2">
+                {supportLinks.map((link) => (
+                  <li key={link.href + link.label}>
+                    <FooterLink href={link.href}>{link.label}</FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </motion.nav>
+          </div>
 
           {/* ── 4. INSTAGRAM & COMMUNITY CARD ── */}
           <motion.div variants={fadeUpVariant} className="flex flex-col">

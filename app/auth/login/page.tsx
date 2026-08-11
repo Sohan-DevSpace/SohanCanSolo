@@ -26,7 +26,7 @@ type LoginFormValues = z.infer<typeof loginSchema>
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const returnUrl = searchParams.get('returnUrl') || '/account'
+  const returnUrl = searchParams.get('redirectTo') || searchParams.get('returnUrl') || '/account'
   
   const [error, setError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
@@ -59,8 +59,7 @@ function LoginForm() {
         return
       }
 
-      router.push(returnUrl)
-      router.refresh()
+      window.location.href = returnUrl
     } catch {
       setError('An unexpected network error occurred. Please try again.')
     }

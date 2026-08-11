@@ -146,7 +146,9 @@ export function ScrollStory() {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.5, // Faster scrub interpolation
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.5, // Smooth scrub interpolation
         }
       })
 
@@ -241,7 +243,7 @@ export function ScrollStory() {
         <img
           src={getFramePath(1)}
           alt="Alpona Story"
-          className="absolute w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center transition-opacity duration-1000"
+          className="absolute w-full h-full object-cover object-center transition-opacity duration-1000"
           style={{ 
             opacity: isLoaded ? 0 : 1, 
             pointerEvents: 'none',
@@ -252,7 +254,7 @@ export function ScrollStory() {
         {/* Canvas for High-Performance Frame Rendering */}
         <canvas
           ref={canvasRef}
-          className="w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center pointer-events-none"
+          className="w-full h-full object-cover object-center pointer-events-none"
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1)',
