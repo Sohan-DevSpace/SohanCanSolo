@@ -9,11 +9,32 @@ export const revalidate = 60 // Revalidate product page at most every 60 seconds
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+  const cleanSlug = decodeURIComponent(slug || '').trim()
   const supabase = createPublicClient()
-  const { data } = await supabase.from('products').select('name, description, images, selling_price, mrp').eq('slug', slug).single()
-  
-  if (!data) return { title: 'Product Not Found | Alpona' }
-  const product = data as any
+
+  let product: any = null
+
+  // 1. Exact match query
+  const { data: exactMatch } = await supabase
+    .from('products')
+    .select('name, description, images, selling_price, mrp')
+    .eq('slug', cleanSlug)
+    .maybeSingle()
+
+  if (exactMatch) {
+    product = exactMatch
+  } else {
+    // 2. Case-insensitive or partial fallback query
+    const { data: fallbackMatch } = await supabase
+      .from('products')
+      .select('name, description, images, selling_price, mrp')
+      .ilike('slug', cleanSlug)
+      .maybeSingle()
+
+    product = fallbackMatch
+  }
+
+  if (!product) return { title: `Apparel | ${SITE_NAME}` }
   
   const images = product?.images && Array.isArray(product.images) && product.images.length > 0 
     ? [product.images[0]] 
@@ -23,12 +44,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${product.name} | ${SITE_NAME}`,
     description: product.description || `Buy ${product.name} online at Alpona. Custom streetwear apparel with premium combed cotton.`,
     alternates: {
-      canonical: `${SITE_URL}/shop/${slug}`,
+      canonical: `${SITE_URL}/shop/${cleanSlug}`,
     },
     openGraph: {
       title: `${product.name} | ${SITE_NAME}`,
       description: product.description || `Buy ${product.name} online at Alpona. Custom streetwear apparel.`,
-      url: `${SITE_URL}/shop/${slug}`,
+      url: `${SITE_URL}/shop/${cleanSlug}`,
       siteName: SITE_NAME,
       images: images.map((img: string) => ({
         url: img.startsWith('http') ? img : `${SITE_URL}${img}`,
@@ -51,10 +72,11 @@ export default async function ProductDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
+  const cleanSlug = decodeURIComponent(slug || '').trim()
 
   const supabase = createPublicClient()
 
-  const { data: productData } = await supabase
+  let { data: productData } = await supabase
     .from('products')
     .select(`
       *,
@@ -66,8 +88,28 @@ export default async function ProductDetailPage({
         designs (*)
       )
     `)
-    .eq('slug', slug)
-    .single()
+    .eq('slug', cleanSlug)
+    .maybeSingle()
+
+  if (!productData) {
+    // Fallback ilike query if slug has case mismatch
+    const { data: fallbackData } = await supabase
+      .from('products')
+      .select(`
+        *,
+        categories (
+          id, name, slug, description, image_url, is_active, created_at
+        ),
+        product_variants (*),
+        product_designs (
+          designs (*)
+        )
+      `)
+      .ilike('slug', cleanSlug)
+      .maybeSingle()
+
+    productData = fallbackData
+  }
 
   if (!productData) {
     notFound()
