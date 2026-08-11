@@ -146,7 +146,9 @@ export function ScrollStory() {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.5, // Faster scrub interpolation
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.5,
         }
       })
 
@@ -225,7 +227,7 @@ export function ScrollStory() {
       {/* Background Wrapper driven by GSAP */}
       <div
         ref={bgRef}
-        className="absolute inset-0 bg-[#806d5f] pointer-events-none opacity-0"
+        className="absolute inset-0 bg-[#FAF7F4] pointer-events-none opacity-0"
       />
 
       {/* Sticky Content Wrapper */}
@@ -234,14 +236,14 @@ export function ScrollStory() {
         className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center"
       >
         {/* Ambient Top and Bottom Fades for Seamless Layout Integration */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent opacity-100 z-10 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent opacity-100 z-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#FAF7F4] to-transparent z-10 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FAF7F4] to-transparent z-10 pointer-events-none" />
 
         {/* Static Placeholder (renders immediately while preloading in background) */}
         <img
           src={getFramePath(1)}
           alt="Alpona Story"
-          className="absolute w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center transition-opacity duration-1000"
+          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700"
           style={{ 
             opacity: isLoaded ? 0 : 1, 
             pointerEvents: 'none',
@@ -252,10 +254,9 @@ export function ScrollStory() {
         {/* Canvas for High-Performance Frame Rendering */}
         <canvas
           ref={canvasRef}
-          className="w-full h-[50vh] sm:h-[60vh] lg:h-full object-cover object-center pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
           style={{
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1)',
+            opacity: 1,
             zIndex: 10
           }}
         />
